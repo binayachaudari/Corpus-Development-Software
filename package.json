@@ -1,0 +1,30 @@
+{
+  "name": "corpus-development-software",
+  "version": "1.0.0",
+  "description": "Corpus Development Software is a web-based application designed with the objectives of creating a platform for developing a parallel corpus.",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "Machine",
+    "Translation",
+    "Corpus",
+    "Development",
+    "Software"
+  ],
+  "author": "Binaya Kumar Chaudhary",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.2.6",
+    "express": "^4.17.1",
+    "express-validator": "^6.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.2"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.1"
+  }
+}
