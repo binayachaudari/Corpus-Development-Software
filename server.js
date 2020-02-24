@@ -23,6 +23,11 @@ app.use(express.json());
  */
 app.use(morgan("dev"));
 
+/**
+ * Routing Middleware
+ */
+app.use('/api', require('./routes/api'));
+
 
 /**
  * Application Middleware
