@@ -15,9 +15,13 @@ let saveToDatabase = (user, res, next) => {
     }
 
     generateToken(payload)
-      .then(token => res.json({ token }))
+      .then(() => res.json({ success: 'User has been added', user: payload.user }))
       .catch(err => next({ status: 400, message: err }));
-  });
+  }).catch(error => next({
+    status: 400,
+    message: error.errors.role.message
+  })
+  );
 
 }
 
