@@ -17,7 +17,10 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['Admin', 'Developer', 'Linguist', 'Reviewer'],
+    enum: {
+      values: ['Admin', 'Developer', 'Linguist', 'Reviewer'],
+      message: 'Invalid Role, valid roles include [Admin, Developer, Linguist, Reviewer]'
+    },
     required: true
   },
   activated: {
