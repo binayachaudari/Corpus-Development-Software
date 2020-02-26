@@ -30,7 +30,7 @@ module.exports = async (req, res, next) => {
     const decoded = await jwt.verify(token, jwtSecret);
 
     //Check if user exists
-    const userID = await User.findById(req.user.id);
+    const userID = await User.findById(decoded.user.id);
     if (!userID)
       return next({
         status: 401,
