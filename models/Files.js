@@ -4,6 +4,11 @@ const mongoose = require('mongoose');
 const FilesSchema = mongoose.Schema({
   filename: {
     type: String,
+    required: true,
+    unique: true
+  },
+  source_filename: {
+    type: String,
     required: true
   },
   start_index: {
@@ -14,11 +19,11 @@ const FilesSchema = mongoose.Schema({
     type: Number,
     required: true
   },
-  translated: {
+  is_translated: {
     type: Boolean,
     default: false
   },
-  reviewed: {
+  is_reviewed: {
     type: Boolean,
     default: false
   }

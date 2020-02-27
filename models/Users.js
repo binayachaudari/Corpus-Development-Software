@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     defalut: Date.now
   },
-  password_change_at: {
+  password_changed_at: {
     type: Date,
     defalut: null
   }
