@@ -49,7 +49,7 @@ module.exports = async (req, res, next) => {
     });
 
     const newTranslationTask = new Translation({
-      filename: newFile.filename,
+      file_details: newFile._id,
       assigned_to,
       assigned_by,
       deadline

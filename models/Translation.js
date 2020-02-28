@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const TranslationSchema = mongoose.Schema({
-  filename: {
-    type: mongoose.Schema.Types.String,
+  file_details: {
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'files'
   },
   status: {
