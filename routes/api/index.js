@@ -9,11 +9,19 @@ router.use('/auth', require('./auth'));
 
 
 /**
- * @route  /api/profile
- * @desc   Middleware for /api/profile
+ * @route  /api/translation
+ * @desc   Middleware for /api/translation
  * @access Protected
  */
-router.use('/profile', require('./profile'));
+router.use('/translation', require('./translation'));
+
+
+/**
+ * @route  /api/review
+ * @desc   Middleware for /api/review
+ * @access Protected
+ */
+router.use('/review', require('./review'));
 
 
 /**

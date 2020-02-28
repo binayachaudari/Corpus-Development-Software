@@ -16,15 +16,12 @@ router.route('/add-user')
     check('name', 'Name is required').not().isEmpty(),
     check('email', 'Invalid Email').isEmail(),
     check('password', 'Password must be atleast 8 characters').isLength({ min: 8 }),
-    check('role', 'Please provide user-role').not().isEmpty()
+    check('role', 'Please provide user-role').not().isEmpty(),
+    check('password_changed_at', 'Specify password changed date').optional().toDate()
   ], validation, authenticateToken, checkRole.restrictTo('Admin', 'Developer'), checkUserExists, addUser);
 
 
 router.route('/all-users')
   .get(authenticateToken, checkRole.restrictTo('Admin', 'Developer'), allUsers);
-
-router.get('/', (req, res) => {
-  res.send('<h1>User Route</h1>')
-})
 
 module.exports = router;
