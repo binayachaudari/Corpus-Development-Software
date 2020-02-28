@@ -9,6 +9,8 @@ module.exports = async (req, res, next) => {
   try {
     const { source_filename, start_index, end_index, assigned_to, assigned_by, deadline } = req.body;
 
+    const numOfSentences = end_index - start_index + 1;
+
     if (start_index > end_index) {
       return next({
         status: 400,
@@ -17,8 +19,8 @@ module.exports = async (req, res, next) => {
     }
 
     const newFile = new File({
-      filename: `${source_filename}-${start_index}-${end_index}.txt`,
-      source_filename,
+      filename: `${source_filename}-Nep__${start_index}-to-${end_index}__${numOfSentences}sentences.txt`,
+      source_filename: source_filename,
       start_index,
       end_index,
     });
@@ -31,6 +33,9 @@ module.exports = async (req, res, next) => {
     let buffer = '';
     readableStream.on('data', (dataChunk) => {
       buffer += dataChunk;
+
+      if (buffer.split('\n').length >= numOfSentences)
+        readableStream.emit("end");
     });
 
     readableStream.on('end', () => {
@@ -51,7 +56,7 @@ module.exports = async (req, res, next) => {
     });
 
     newTranslationTask.save();
-    res.send('ACCEPTED!');
+    res.json({ task_assigned: newTranslationTask });
   } catch (error) {
     next({
       error: 400,
