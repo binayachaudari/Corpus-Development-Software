@@ -7,6 +7,7 @@ const checkRole = require('../../middleware/checkRole');
 const isValidAssignment = require('../../middleware/isValidAssignment');
 
 const addTranslationTask = require('../../controller/translation/addTranslationTask');
+const getFileDetails = require('../../controller/translation/fileDetails');
 
 router.route('/assign-task')
   .post([
@@ -16,6 +17,9 @@ router.route('/assign-task')
     check('status', 'Specify status of the file').optional().isString(),
     check('assigned_to', 'assigned_to, specify user ID').not().isEmpty(),
     check('deadline', 'Please specify the deadline').toDate().isISO8601(),
-  ], validation, authenticateToken, checkRole.restrictTo('Admin', 'Developer'), isValidAssignment, addTranslationTask)
+  ], validation, authenticateToken, checkRole.restrictTo('Admin', 'Developer'), isValidAssignment, addTranslationTask);
+
+router.route('/all-files')
+  .get(authenticateToken, checkRole.restrictTo('Admin', 'Developer'), getFileDetails.getAllFiles);
 
 module.exports = router;
