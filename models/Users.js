@@ -30,24 +30,7 @@ const UserSchema = new mongoose.Schema({
   date: {
     type: Date,
     defalut: Date.now
-  },
-  password_changed_at: {
-    type: Date,
-    defalut: null
   }
 });
-
-
-UserSchema.methods.changedPasswordAfter = (jwtTimestamp) => {
-  if (this.password_change_at) {
-    const changedTimestamp = parseInt(this.password_change_at.getTime() / 1000, 10);
-
-    return jwtTimestamp < changedTimestamp;
-  }
-
-  //Not changed
-  return false;
-}
-
 
 module.exports = Users = mongoose.model('users', UserSchema)

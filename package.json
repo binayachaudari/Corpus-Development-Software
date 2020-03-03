@@ -2,7 +2,7 @@
   "name": "corpus-development-software",
   "version": "1.0.0",
   "description": "Corpus Development Software is a web-based application designed with the objectives of creating a platform for developing a parallel corpus.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "server": "nodemon server.js",
     "start": "node server.js"
