@@ -26,6 +26,14 @@ module.exports = async (req, res, next) => {
   }
 
   try {
+    if (token.startsWith('Bearer'))
+      token = token.split(' ')[1];
+    else
+      return next({
+        status: 403,
+        message: "No access token, Access Denied!"
+      });
+
     const decoded = await jwt.verify(token, jwtSecret);
     req.user = decoded.user;
 
