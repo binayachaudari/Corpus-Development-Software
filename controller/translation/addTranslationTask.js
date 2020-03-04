@@ -28,7 +28,7 @@ module.exports = async (req, res, next) => {
     await newFile.save();
 
     let readableStream = fs.createReadStream(path.join(__dirname, '../../Datastore/Sourcefiles', source_filename), { encoding: 'utf8' });
-    let writableStream = fs.createWriteStream(path.join(__dirname, '../../Datastore/Nepali', newFile.filename), { flags: 'w' });
+    let writableStream = fs.createWriteStream(path.join(__dirname, '../../Datastore/AssignedFiles', newFile.filename), { flags: 'w' });
 
     let buffer = '';
     readableStream.on('data', (dataChunk) => {
