@@ -22,4 +22,15 @@ router.route('/assign-task')
 router.route('/all-files')
   .get(authenticateToken, checkRole.restrictTo('Admin', 'Developer'), getFileDetails.getAllFiles);
 
+router.route('/assignments')
+  .get(authenticateToken, checkRole.restrictTo('Linguist'), getFileDetails.getMyFiles);
+
+router.route('/assignments/:file_id')
+  .get(authenticateToken, checkRole.restrictTo('Linguist'), getFileDetails.translationText)
+  .post(authenticateToken, checkRole.restrictTo('Linguist'), getFileDetails.addTranslationText);
+
+router.route('/assignments/:file_id/:index')
+  .get(authenticateToken, checkRole.restrictTo('Linguist'), (req, res, next) => {
+    res.send('/assignments/:file_id/:index')
+  });
 module.exports = router;
