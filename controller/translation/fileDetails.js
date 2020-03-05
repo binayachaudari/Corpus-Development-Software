@@ -26,6 +26,19 @@ let getNepaliText = (filename) => {
   });
 }
 
+let appendTranslation = (filename, nepali_text, tamang_text) => {
+  fs.appendFileSync(path.join(__dirname, '../../Datastore/Translated/Nepali', `NEPALI${filename}`), nepali_text + '\n');
+  fs.appendFileSync(path.join(__dirname, '../../Datastore/Translated/Tamang', `TAMANG${filename}`), tamang_text + '\n');
+}
+
+let editAssignedFiles = (filename) => {
+  let readData = fs.readFileSync(path.join(__dirname, '../../Datastore/AssignedFiles', filename), 'utf-8');
+
+  let writeData = readData.split('\n').slice(1).join('\n');
+  fs.writeFileSync(path.join(__dirname, '../../Datastore/AssignedFiles', filename), writeData);
+}
+
+
 let getAllFiles = async (req, res, next) => {
   try {
     const allFiles = await Translation.find().populate('assigned_to assigned_by', ['name', 'email', 'role']).populate('file_details', ['filename', 'start_index', 'end_index', 'is_translated', 'is_reviewed']);
@@ -65,6 +78,12 @@ let translationText = async (req, res, next) => {
   try {
     let translationFile = await Translation.findById(req.params.file_id).populate('assigned_to assigned_by', ['name', 'email', 'role']).populate('file_details', ['-source_filename']);
 
+    if (!translationFile)
+      return next({
+        status: 404,
+        message: 'Error!! Such file does not exists!'
+      });
+
     if (translationFile.status == 'assigned') {
       translationFile.status = 'under_translation'
       await translationFile.save();
@@ -91,9 +110,26 @@ let addTranslationText = async (req, res, next) => {
 
     let translationFile = await Translation.findById(req.params.file_id).populate('file_details', ['-source_filename']);
 
-    let nepali_text = await getNepaliText(translationFile.file_details.filename);
+    if (!translationFile)
+      return next({
+        status: 404,
+        message: 'Error!! Such file does not exists!'
+      });
 
-    res.send('wtf')
+    const { filename, start_index, end_index } = translationFile.file_details;
+    const numOfSentences = end_index - start_index + 1;
+
+    let translated_filename = `__${start_index}-to-${end_index}__${numOfSentences}-sentences.txt`
+    let nepali_text = await getNepaliText(filename);
+
+    appendTranslation(translated_filename, nepali_text, tamang_text);
+    editAssignedFiles(filename);
+
+    res.json({
+      status: 'success',
+      nepali_text,
+      tamang_text
+    });
   } catch (error) {
     next({
       status: 404,
