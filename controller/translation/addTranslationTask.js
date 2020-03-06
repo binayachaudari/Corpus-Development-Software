@@ -2,12 +2,21 @@ const fs = require('fs'),
   path = require('path');
 const File = require('../../models/Files');
 const Translation = require('../../models/Translation');
+const Users = require('../../models/Users');
+
 
 
 module.exports = async (req, res, next) => {
   //is_translated, is_reviewed, status ignored
   try {
     const { source_filename, start_index, end_index, assigned_to, assigned_by, deadline } = req.body;
+
+    let userDetails = await Users.findById(assigned_to);
+    if (userDetails.role !== 'Linguist')
+      return next({
+        status: 400,
+        message: `Must assign Translation task to only Linguist, invalid assignment to ${userDetails.role}`
+      });
 
     const numOfSentences = end_index - start_index + 1;
 
