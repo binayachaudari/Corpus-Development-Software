@@ -24,6 +24,13 @@ const TranslationSchema = mongoose.Schema({
   deadline: {
     type: Date,
     required: true
+  },
+  submitted_on: {
+    type: Date
+  },
+  is_overdue: {
+    type: Boolean,
+    default: false
   }
 });
 
