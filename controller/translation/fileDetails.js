@@ -170,7 +170,12 @@ let addTranslationText = async (req, res, next) => {
 
     if (translationFile.status == 'under_translation' && editAssignedFiles(filename)) {
       translationFile.status = 'translation_complete';
-      let files = await Files.findByIdAndUpdate(translationFile.file_details._id, { $set: { is_translated: true } });
+
+      if (Date.now() > Date.parse(translationFile.deadline))
+        translationFile.is_overdue = true;
+
+      translationFile.submitted_on = Date.now();
+      await Files.findByIdAndUpdate(translationFile.file_details._id, { $set: { is_translated: true } });
       await translationFile.save();
     }
 
