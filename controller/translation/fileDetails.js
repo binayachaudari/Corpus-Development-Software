@@ -17,7 +17,7 @@ let getNepaliText = (filename) => {
     readableStream.on('data', dataChunk => {
       buffer += dataChunk;
       if (buffer.split('\n').length >= 2)
-        readableStream.emit("end");
+        readableStream.emit('end');
     });
 
     // Throw Error
@@ -132,7 +132,7 @@ let translationText = async (req, res, next) => {
       });
 
     if (translationFile.status == 'assigned') {
-      translationFile.status = 'under_translation'
+      translationFile.status = 'under_translation';
       await translationFile.save();
     }
 
@@ -196,7 +196,7 @@ let addTranslationText = async (req, res, next) => {
     });
   } catch (error) {
     next({
-      status: 404,
+      status: error.errno === -2 ? 200 : 404,
       message: error.errno === -2 ? 'Translation Complete' : error.message
     });
   }
