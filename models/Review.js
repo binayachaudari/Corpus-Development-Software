@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const ReviewSchema = mongoose.Schema({
-  filename: {
+  file_details: {
     type: mongoose.Schema.Types.String,
     ref: 'files'
   },
@@ -24,6 +24,13 @@ const ReviewSchema = mongoose.Schema({
   deadline: {
     type: Date,
     required: true
+  },
+  submitted_on: {
+    type: Date
+  },
+  is_overdue: {
+    type: Boolean,
+    default: false
   }
 });
 
