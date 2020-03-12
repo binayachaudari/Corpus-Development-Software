@@ -6,7 +6,7 @@ const Users = require('../../models/Users');
 
 
 
-module.exports = async (req, res, next) => {
+exports.addTranslationTask = async (req, res, next) => {
   //is_translated, is_reviewed, status ignored
   try {
     const { source_filename, start_index, end_index, assigned_to, assigned_by, deadline } = req.body;
@@ -73,4 +73,16 @@ module.exports = async (req, res, next) => {
     });
   }
 
+}
+
+exports.getLastTranslationIndex = async (req, res, next) => {
+  try {
+    let fileDetails = await File.find().sort({ _id: -1 }).limit(1);
+    res.json({ fileDetails });
+  } catch (error) {
+    next({
+      error: 400,
+      message: error.message
+    });
+  }
 }
