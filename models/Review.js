@@ -1,9 +1,16 @@
 const mongoose = require('mongoose');
 
 const ReviewSchema = mongoose.Schema({
+  tamang_filename: {
+    type: String
+  },
+  nepali_filename: {
+    type: String
+  },
   file_details: {
-    type: mongoose.Schema.Types.String,
-    ref: 'files'
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'files',
+    unique: true
   },
   status: {
     type: String,
