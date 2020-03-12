@@ -30,7 +30,5 @@ router.route('/assignments/:file_id')
   .post(authenticateToken, checkRole.restrictTo('Linguist'), getFileDetails.addTranslationText);
 
 router.route('/assignments/:file_id/:index')
-  .get(authenticateToken, checkRole.restrictTo('Linguist'), (req, res, next) => {
-    res.send('/assignments/:file_id/:index')
-  });
+  .get(authenticateToken, checkRole.restrictTo('Linguist'), getFileDetails.getTextAtIndex);
 module.exports = router;
