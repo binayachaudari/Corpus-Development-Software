@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const Review = require('../../models/Review');
 const Files = require('../../models/Files');
-const Users = require('../../models/Users');
 
 
 exports.getAllFiles = async (req, res, next) => {
@@ -18,7 +17,7 @@ exports.getAllFiles = async (req, res, next) => {
     next({
       status: 400,
       message: error.message
-    })
+    });
   }
 }
 
@@ -202,4 +201,22 @@ function updateAssignedFiles(filename, language) {
   }
 
   return false;
+}
+
+exports.detailsOfFileID = async (req, res, next) => {
+  try {
+    const { file_id } = req.params;
+    const file_details = await Review.findById(file_id)
+      .populate('assigned_to assigned_by', ['name', 'email', 'role'])
+      .populate('file_details', ['filename', 'start_index', 'end_index', 'is_translated', 'is_reviewed']);
+
+    res.json({
+      file_details
+    });
+  } catch (error) {
+    next({
+      status: 404,
+      message: 'Such file does not exist!'
+    });
+  }
 }

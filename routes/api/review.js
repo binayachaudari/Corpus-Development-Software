@@ -24,6 +24,9 @@ router.route('/all-files')
 router.route('/assignments')
   .get(authenticateToken, checkRole.restrictTo('Reviewer'), getFileDetails.getMyFiles);
 
+router.route('/assignments/file-details/:file_id')
+  .get(authenticateToken, checkRole.restrictTo('Admin', 'Developer', 'Reviewer'), getFileDetails.detailsOfFileID)
+
 router.route('/assignments/:file_id')
   .get(authenticateToken, checkRole.restrictTo('Reviewer'), getFileDetails.getTranslatedText)
   .post(authenticateToken, checkRole.restrictTo('Reviewer'), getFileDetails.updateTranslation);

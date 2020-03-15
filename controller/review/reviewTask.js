@@ -3,7 +3,7 @@ const path = require('path');
 const Review = require('../../models/Review');
 const Files = require('../../models/Files');
 const Users = require('../../models/Users');
-
+const notifyUser = require('../../utils/createPDF');
 
 exports.addReviewTask = async (req, res, next) => {
   try {
@@ -32,6 +32,24 @@ exports.addReviewTask = async (req, res, next) => {
       deadline
     });
     await newReviewFile.save();
+
+    let assignedByDetails = await Users.findById(assigned_by);
+    const pdfPayload = {
+      assignment_type: `Review`,
+      assigned_to_email: userDetails.email,
+      assigned_to: userDetails.name,
+      assigned_to_role: userDetails.role,
+      filename: `${newReviewFile.tamang_filename} & ${newReviewFile.nepali_filename}`,
+      file_id: newReviewFile._id,
+      num_of_sentences: numOfSentences,
+      assigned_by_email: assignedByDetails.email,
+      assigned_by: assignedByDetails.name,
+      start_index,
+      end_index,
+      deadline
+    }
+
+    await notifyUser(pdfPayload);
 
     await copyFileForReview(filenameStructure, 'Nepali');
     await copyFileForReview(filenameStructure, 'Tamang');
