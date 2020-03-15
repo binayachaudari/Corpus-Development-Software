@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 
 const TranslationSchema = mongoose.Schema({
+  tamang_filename: {
+    type: String
+  },
+  nepali_filename: {
+    type: String
+  },
   file_details: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'files'
@@ -24,6 +30,13 @@ const TranslationSchema = mongoose.Schema({
   deadline: {
     type: Date,
     required: true
+  },
+  submitted_on: {
+    type: Date
+  },
+  is_overdue: {
+    type: Boolean,
+    default: false
   }
 });
 
