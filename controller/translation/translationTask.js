@@ -5,7 +5,6 @@ const Translation = require('../../models/Translation');
 const Users = require('../../models/Users');
 
 
-
 exports.addTranslationTask = async (req, res, next) => {
   //is_translated, is_reviewed, status ignored
   try {

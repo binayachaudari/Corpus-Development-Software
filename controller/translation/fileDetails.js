@@ -185,6 +185,8 @@ let addTranslationText = async (req, res, next) => {
         translationFile.is_overdue = true;
 
       translationFile.submitted_on = Date.now();
+      translationFile.tamang_filename = `TAMANG${translated_filename}`;
+      translationFile.nepali_filename = `NEPALI${translated_filename}`;
       await Files.findByIdAndUpdate(translationFile.file_details._id, { $set: { is_translated: true } });
       await translationFile.save();
     }
