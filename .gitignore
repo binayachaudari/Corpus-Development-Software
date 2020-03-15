@@ -3,6 +3,7 @@ node_modules/
 
 # files
 Datastore/
+Reports/
 
 # production
 client/build
