@@ -3,6 +3,7 @@ const fs = require('fs'),
 const Files = require('../../models/Files');
 const Translation = require('../../models/Translation');
 const Users = require('../../models/Users');
+const notifyUser = require('../../utils/createPDF');
 
 
 exports.addTranslationTask = async (req, res, next) => {
@@ -33,7 +34,7 @@ exports.addTranslationTask = async (req, res, next) => {
       end_index,
     });
 
-    await newFile.save();
+    // await newFile.save();
 
     let readableStream = fs.createReadStream(path.join(__dirname, '../../Datastore/Sourcefiles', source_filename), { encoding: 'utf8' });
     let writableStream = fs.createWriteStream(path.join(__dirname, '../../Datastore/AssignedFiles', newFile.filename), { flags: 'w' });
@@ -63,8 +64,27 @@ exports.addTranslationTask = async (req, res, next) => {
       deadline
     });
 
-    await newTranslationTask.save();
-    res.json({ task_assigned: newTranslationTask });
+    // await newTranslationTask.save();
+
+    let assignedByDetails = await Users.findById(assigned_by);
+    const pdfPayload = {
+      assignment_type: `Translate`,
+      assigned_to_email: userDetails.email,
+      assigned_to: userDetails.name,
+      assigned_to_role: userDetails.role,
+      filename: newFile.filename,
+      file_id: newTranslationTask._id,
+      num_of_sentences: numOfSentences,
+      assigned_by_email: assignedByDetails.email,
+      assigned_by: assignedByDetails.name,
+      start_index,
+      end_index,
+      deadline
+    }
+
+    await notifyUser(pdfPayload);
+
+    res.json({ task_assigned: newTranslationTask, pdfPayload });
   } catch (error) {
     next({
       error: 400,
