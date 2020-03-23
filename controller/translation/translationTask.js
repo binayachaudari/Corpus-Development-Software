@@ -84,7 +84,7 @@ exports.addTranslationTask = async (req, res, next) => {
 
     await notifyUser(pdfPayload);
 
-    res.json({ task_assigned: newTranslationTask, pdfPayload });
+    res.json({ task_assigned: newTranslationTask });
   } catch (error) {
     next({
       error: 400,

@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const Translation = require('../../models/Translation');
 const Files = require('../../models/Files');
+const Users = require('../../models/Users');
+const notifyUser = require('../../utils/createPDF.submit');
 
 /**
  * Get each line of Nepali Text
@@ -170,6 +172,8 @@ let addTranslationText = async (req, res, next) => {
         message: 'Error!! Such file does not exists!'
       });
 
+    const { assigned_by } = translationFile;
+
     const { filename, start_index, end_index } = translationFile.file_details;
     const numOfSentences = end_index - start_index + 1;
 
@@ -189,6 +193,27 @@ let addTranslationText = async (req, res, next) => {
       translationFile.nepali_filename = `NEPALI${translated_filename}`;
       await Files.findByIdAndUpdate(translationFile.file_details._id, { $set: { is_translated: true } });
       await translationFile.save();
+
+      let submittingUserDetails = await Users.findById(req.user.id);
+      let assignedByDetails = await Users.findById(assigned_by);
+
+      const pdfPayload = {
+        assignment_type: `Translate`,
+        submitted_by_email: submittingUserDetails.email,
+        submitted_by: submittingUserDetails.name,
+        filename: `${translationFile.tamang_filename} & ${translationFile.nepali_filename}`,
+        file_id: translationFile._id,
+        num_of_sentences: numOfSentences,
+        submitted_to_email: assignedByDetails.email,
+        submitted_to: assignedByDetails.name,
+        submitted_to_role: assignedByDetails.role,
+        start_index,
+        end_index,
+        deadline: translationFile.deadline,
+        is_overdue: translationFile.is_overdue
+      }
+
+      await notifyUser(pdfPayload);
     }
 
     res.json({
