@@ -48,7 +48,7 @@ exports.getMyFiles = async (req, res, next) => {
 
 exports.getTranslatedFiles = async (req, res, next) => {
   try {
-    const translatedFiles = await Files.find({ is_translated: true });
+    const translatedFiles = await Files.find({ is_translated: true }).select('id');
 
     if (!translatedFiles.length > 0) {
       return next({
