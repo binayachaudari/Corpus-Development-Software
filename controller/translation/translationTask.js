@@ -3,7 +3,7 @@ const fs = require('fs'),
 const Files = require('../../models/Files');
 const Translation = require('../../models/Translation');
 const Users = require('../../models/Users');
-const notifyUser = require('../../utils/createPDF');
+const notifyUser = require('../../utils/createPDF.assign');
 
 
 exports.addTranslationTask = async (req, res, next) => {
@@ -34,7 +34,7 @@ exports.addTranslationTask = async (req, res, next) => {
       end_index,
     });
 
-    // await newFile.save();
+    await newFile.save();
 
     let readableStream = fs.createReadStream(path.join(__dirname, '../../Datastore/Sourcefiles', source_filename), { encoding: 'utf8' });
     let writableStream = fs.createWriteStream(path.join(__dirname, '../../Datastore/AssignedFiles', newFile.filename), { flags: 'w' });
@@ -64,7 +64,7 @@ exports.addTranslationTask = async (req, res, next) => {
       deadline
     });
 
-    // await newTranslationTask.save();
+    await newTranslationTask.save();
 
     let assignedByDetails = await Users.findById(assigned_by);
     const pdfPayload = {

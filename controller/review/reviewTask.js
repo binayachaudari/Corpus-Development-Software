@@ -3,7 +3,7 @@ const path = require('path');
 const Review = require('../../models/Review');
 const Files = require('../../models/Files');
 const Users = require('../../models/Users');
-const notifyUser = require('../../utils/createPDF');
+const notifyUser = require('../../utils/createPDF.assign');
 
 exports.addReviewTask = async (req, res, next) => {
   try {
@@ -46,7 +46,7 @@ exports.addReviewTask = async (req, res, next) => {
       assigned_by: assignedByDetails.name,
       start_index,
       end_index,
-      deadline
+      deadline,
     }
 
     await notifyUser(pdfPayload);

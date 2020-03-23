@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const Review = require('../../models/Review');
 const Files = require('../../models/Files');
+const Users = require('../../models/Users');
+const notifyUser = require('../../utils/createPDF.submit');
 
 
 exports.getAllFiles = async (req, res, next) => {
@@ -139,7 +141,7 @@ exports.updateTranslation = async (req, res, next) => {
         message: 'Error!! Such file does not exists!'
       });
 
-    const { nepali_filename, tamang_filename } = reviewFile;
+    const { nepali_filename, tamang_filename, assigned_by } = reviewFile;
     const { start_index, end_index } = reviewFile.file_details;
     const numOfSentences = end_index - start_index + 1;
 
@@ -154,7 +156,7 @@ exports.updateTranslation = async (req, res, next) => {
       updateAssignedFiles(tamang_filename, 'Tamang')) {
       reviewFile.status = 'review_complete';
 
-      if (Date.now > Date.parse(reviewFile.deadline))
+      if (Date.now() > Date.parse(reviewFile.deadline))
         reviewFile.is_overdue = true;
 
       reviewFile.submitted_on = Date.now();
@@ -162,8 +164,28 @@ exports.updateTranslation = async (req, res, next) => {
       reviewFile.tamang_filename = `${reviewed_filename}.taj`;
       await Files.findByIdAndUpdate(reviewFile.file_details._id, { $set: { is_reviewed: true } });
       await reviewFile.save();
-    }
 
+      let submittingUserDetails = await Users.findById(req.user.id);
+      let assignedByDetails = await Users.findById(assigned_by);
+
+      const pdfPayload = {
+        assignment_type: `Review`,
+        submitted_by_email: submittingUserDetails.email,
+        submitted_by: submittingUserDetails.name,
+        filename: `${reviewFile.tamang_filename} & ${reviewFile.nepali_filename}`,
+        file_id: reviewFile._id,
+        num_of_sentences: numOfSentences,
+        submitted_to_email: assignedByDetails.email,
+        submitted_to: assignedByDetails.name,
+        submitted_to_role: assignedByDetails.role,
+        start_index,
+        end_index,
+        deadline: reviewFile.deadline,
+        is_overdue: reviewFile.is_overdue
+      }
+
+      await notifyUser(pdfPayload);
+    }
 
     res.json({
       status: 'success',
