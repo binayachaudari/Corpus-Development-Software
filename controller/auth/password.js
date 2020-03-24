@@ -60,8 +60,7 @@ exports.resetPassword = async (req, res, next) => {
       })
     }
 
-    const salt = await bcrypt.genSalt(10);
-    userDetails.password = await bcrypt.hash(req.body.password, salt)
+    userDetails.password = await encryptPassword(req.body.password);
 
     userDetails.password_reset_token = undefined;
     userDetails.password_reset_expires = undefined;
@@ -83,4 +82,36 @@ exports.resetPassword = async (req, res, next) => {
       message: 'Invalid token or has expired!'
     });
   }
+}
+
+exports.changePassword = async (req, res, next) => {
+  try {
+    const { old_password, new_password } = req.body;
+    const user = await User.findById(req.user.id).select('password');
+
+    const isMatched = await bcrypt.compare(old_password, user.password);
+    if (!isMatched) {
+      return next({
+        status: 400,
+        message: 'Invalid password!'
+      });
+    }
+
+    user.password = await encryptPassword(new_password);
+    user.activated = true
+
+    await user.save();
+
+    res.json({ status: 200, message: 'Password has been changed' });
+  } catch (error) {
+    next({
+      status: 500,
+      message: error.message
+    });
+  }
+}
+
+async function encryptPassword(password) {
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(password, salt);
 }

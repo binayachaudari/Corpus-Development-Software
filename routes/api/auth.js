@@ -17,6 +17,6 @@ router.route('/forget-password')
   ], validation, password.forgotPassword);
 
 router.route('/reset-password/:token')
-  .patch(password.resetPassword)
+  .patch(password.resetPassword);
 
 module.exports = router;
