@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const connectDB = require('./config/db');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const compression = require('compression');
 
 const PORT = process.env.PORT || 5000;
 
@@ -21,7 +24,10 @@ app.use(express.json());
 /**
  * Third-Party Middleware
  */
+app.use(helmet());
 app.use(morgan("dev"));
+app.use(mongoSanitize());
+app.use(compression());
 
 /**
  * Routing Middleware
