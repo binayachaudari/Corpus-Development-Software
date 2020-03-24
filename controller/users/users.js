@@ -1,8 +1,8 @@
-const user = require('../../models/Users');
+const User = require('../../models/Users');
 
 let allUsers = async (req, res, next) => {
   try {
-    const listOfUsers = await user.find();
+    const listOfUsers = await User.find();
 
     //Check if query string Exists
     if (Object.keys(req.query).length !== 0) {
