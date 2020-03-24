@@ -48,7 +48,13 @@ exports.getMyFiles = async (req, res, next) => {
 
 exports.getTranslatedFiles = async (req, res, next) => {
   try {
-    const translatedFiles = await Files.find({ is_translated: true }).select('id');
+    const assignedReviewFiles = await Review.find().select('file_details');
+    let arrOfAssignedReviewFiles = [];
+    assignedReviewFiles.map(item => {
+      arrOfAssignedReviewFiles.push(item.file_details);
+    });
+
+    const translatedFiles = await Files.find({ is_translated: true, _id: { $nin: arrOfAssignedReviewFiles } }).select('id');
 
     if (!translatedFiles.length > 0) {
       return next({
