@@ -1,6 +1,8 @@
 const crypto = require('crypto');
 const User = require('../../models/Users');
+const bcrypt = require('bcryptjs');
 const notify = require('../../utils/emailTemplate/passwordReset.mail');
+const generateToken = require('../../middleware/generateToken');
 
 exports.forgotPassword = async (req, res, next) => {
   try {
@@ -37,10 +39,48 @@ exports.forgotPassword = async (req, res, next) => {
     next({
       status: 500,
       message: 'There was an error sending the email. Try again later!'
-    })
+    });
   }
 }
 
 exports.resetPassword = async (req, res, next) => {
+  try {
+    const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+    const userDetails = await User.findOne({
+      password_reset_token: hashedToken,
+      password_reset_expires: {
+        $gt: Date.now()
+      }
+    });
 
+    if (!userDetails) {
+      return next({
+        status: 500,
+        message: `Invalid token or has expired!`
+      })
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    userDetails.password = await bcrypt.hash(req.body.password, salt)
+
+    userDetails.password_reset_token = undefined;
+    userDetails.password_reset_expires = undefined;
+    await userDetails.save();
+
+    const payload = {
+      user: {
+        id: userDetails.id,
+        name: userDetails.name,
+        role: userDetails.role
+      }
+    };
+    //Return JWT Token
+    const token = await generateToken(payload);
+    res.json({ token })
+  } catch (error) {
+    next({
+      status: 500,
+      message: 'Invalid token or has expired!'
+    });
+  }
 }
