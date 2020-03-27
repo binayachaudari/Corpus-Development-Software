@@ -17,6 +17,8 @@ router.route('/forget-password')
   ], validation, password.forgotPassword);
 
 router.route('/reset-password/:token')
-  .patch(password.resetPassword);
+  .patch([
+    check('password', 'Password must be atleast 8 characters').isLength({ min: 8 })
+  ], password.resetPassword);
 
 module.exports = router;
