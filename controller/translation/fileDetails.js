@@ -23,7 +23,7 @@ let getNepaliText = (filename) => {
     });
 
     // Throw Error
-    readableStream.on('error', error => reject(error));
+    readableStream.on('error', error => error.errno === -2 ? reject({ status: 200, message: 'Translation Complete' }) : reject(error));
 
     //Returns line
     readableStream.on('end', () => {
@@ -146,8 +146,8 @@ let translationText = async (req, res, next) => {
     });
   } catch (error) {
     next({
-      status: 404,
-      message: 'Error!! Such file does not exists!'
+      status: error.status || 404,
+      message: error.message
     });
   }
 }

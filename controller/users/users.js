@@ -26,6 +26,19 @@ let allUsers = async (req, res, next) => {
   }
 }
 
+let getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
+  } catch (error) {
+    next({
+      status: 500,
+      message: 'Authentication Error'
+    });
+  }
+}
+
 module.exports = {
-  allUsers
+  allUsers,
+  getUser
 }

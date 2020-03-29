@@ -1,16 +1,12 @@
 const router = require('express').Router();
-
 const { check } = require('express-validator');
-
 const validation = require('../../middleware/validation');
 const authenticateToken = require('../../middleware/validateToken');
 const checkRole = require('../../middleware/checkRole');
 const checkUserExists = require('../../controller/users/checkUserExists');
 const addUser = require('../../controller/users/addUser');
 const password = require('../../controller/auth/password');
-
 const { allUsers } = require('../../controller/users/users');
-
 
 router.route('/add-user')
   .post([
