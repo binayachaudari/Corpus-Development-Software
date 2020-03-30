@@ -14,31 +14,22 @@ const ToastComponent = ({ toast, dispatch }) => {
 
   return (
     <div
-      aria-live="polite"
-      aria-atomic="true"
       style={{
+        position: 'absolute',
         top: '1em',
-        right: '2em',
-        position: 'relative',
-        minHeight: '200px',
+        right: '1em',
+        zIndex: '10'
       }}
     >
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-        }}
-      >
-        {toast !== null && toast.length > 0 && toast.map(item => (
-          <Toast key={item.id} show={true} delay={3000} onClose={handleClose.bind(this, item.id)} autohide>
-            <Toast.Header>
-              <strong className={`mr-auto text-${item.toastType}`}>{item.title}</strong>
-            </Toast.Header>
-            <Toast.Body className={`text-${item.toastType}`}>{item.message}</Toast.Body>
-          </Toast>
-        ))}
-      </div>
+      {toast !== null && toast.length > 0 && toast.map(item => (
+        <Toast className={`border border-${item.toastType}`} style={{ width: "250px" }}
+          key={item.id} show={true} delay={3000} onClose={handleClose.bind(this, item.id)} autohide={false}>
+          <Toast.Header>
+            <strong className={`mr-auto text-${item.toastType}`}>{item.title}</strong>
+          </Toast.Header>
+          <Toast.Body className={`text-${item.toastType}`}>{item.message}</Toast.Body>
+        </Toast>
+      ))}
     </div>
   )
 }

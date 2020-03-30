@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ToastComponent from '../alerts/ToastComponent'
+import NavBar from './NavBar'
 
 const Dashboard = (props) => {
   return (
-    <div>
+    <>
       <ToastComponent></ToastComponent>
-    </div>
+      <NavBar></NavBar>
+    </>
   )
 }
 
