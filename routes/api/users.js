@@ -5,7 +5,6 @@ const authenticateToken = require('../../middleware/validateToken');
 const checkRole = require('../../middleware/checkRole');
 const checkUserExists = require('../../controller/users/checkUserExists');
 const addUser = require('../../controller/users/addUser');
-const password = require('../../controller/auth/password');
 const { allUsers } = require('../../controller/users/users');
 
 router.route('/add-user')
@@ -21,7 +20,5 @@ router.route('/add-user')
 router.route('/all-users')
   .get(authenticateToken, checkRole.restrictTo('Admin', 'Developer'), allUsers);
 
-router.route('/change-password')
-  .post(authenticateToken, password.changePassword);
 
 module.exports = router;

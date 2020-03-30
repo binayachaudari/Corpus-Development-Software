@@ -4,6 +4,8 @@ const validation = require('../../middleware/validation');
 const login = require('../../controller/auth/login');
 const password = require('../../controller/auth/password');
 const rateLimit = require('express-rate-limit');
+const authenticateToken = require('../../middleware/validateToken');
+
 
 const authLimiter = rateLimit({
   skipSuccessfulRequests: true,
@@ -40,9 +42,20 @@ router.route('/forget-password')
     check('email', 'Invalid Email').isEmail()
   ], validation, forgetLimiter, password.forgotPassword);
 
+router.route('/reset-default-password')
+  .patch([
+    check('new_password', 'Password must be at least 8 characters').isLength({ min: 8 })
+  ], validation, authenticateToken, password.resetDefaultPassword);
+
 router.route('/reset-password/:token')
   .patch([
     check('password', 'Password must be atleast 8 characters').isLength({ min: 8 })
   ], password.resetPassword);
+
+router.route('/change-password')
+  .post([
+    check('current_password', 'Please enter your current password').notEmpty(),
+    check('new_password', 'New password must be atleast 8 character').isLength({ min: 8 })
+  ], validation, authenticateToken, password.changePassword);
 
 module.exports = router;

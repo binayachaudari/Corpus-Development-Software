@@ -43,6 +43,24 @@ exports.forgotPassword = async (req, res, next) => {
   }
 }
 
+exports.resetDefaultPassword = async (req, res, next) => {
+  try {
+    const { new_password } = req.body
+    const user = await User.findById(req.user.id);
+
+    user.password = await encryptPassword(new_password);
+    user.activated = true
+
+    await user.save();
+    res.json({ status: 200, message: 'Password has been changed' });
+  } catch (error) {
+    next({
+      status: 500,
+      message: error.message
+    });
+  }
+}
+
 exports.resetPassword = async (req, res, next) => {
   try {
     const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
@@ -86,10 +104,10 @@ exports.resetPassword = async (req, res, next) => {
 
 exports.changePassword = async (req, res, next) => {
   try {
-    const { old_password, new_password } = req.body;
+    const { current_password, new_password } = req.body;
     const user = await User.findById(req.user.id).select('password');
 
-    const isMatched = await bcrypt.compare(old_password, user.password);
+    const isMatched = await bcrypt.compare(current_password, user.password);
     if (!isMatched) {
       return next({
         status: 400,
@@ -98,7 +116,6 @@ exports.changePassword = async (req, res, next) => {
     }
 
     user.password = await encryptPassword(new_password);
-    user.activated = true
 
     await user.save();
 
