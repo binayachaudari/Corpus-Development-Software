@@ -27,6 +27,10 @@ const Login = ({ login, isAuthenticated, user }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setAlertState({
+      ...alertState,
+      message: null
+    });
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
       e.stopPropagation();
@@ -37,7 +41,7 @@ const Login = ({ login, isAuthenticated, user }) => {
       return setAlertState({
         ...alertState,
         message: null
-      })
+      });
 
     if (!Array.isArray(error.message))
       setAlertState({
@@ -95,7 +99,7 @@ const Login = ({ login, isAuthenticated, user }) => {
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object
 }
 
 const mapStateToProps = state => ({

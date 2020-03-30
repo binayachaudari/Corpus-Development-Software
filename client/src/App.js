@@ -11,10 +11,14 @@ import Store from './store';
 import Login from './components/auth/Login';
 import ForgotPassword from './components/auth/ForgotPassword';
 import ChangePassword from './components/auth/ChangePassword';
+import Dashboard from './components/dashboard/Dashboard';
 
 //authenticate user
 import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
+
+//Routing
+import PrivateRoute from './components/routing/PrivateRoute';
 
 if (localStorage.corpus_development_software)
   setAuthToken(localStorage.corpus_development_software);
@@ -30,7 +34,8 @@ const App = () => {
         <Route exact path="/" component={Login}></Route>
         <Switch>
           <Route exact path="/forgot-password" component={ForgotPassword}></Route>
-          <Route exact path="/change-password" component={ChangePassword}></Route>
+          <PrivateRoute exact path="/change-password" component={ChangePassword}></PrivateRoute>
+          <PrivateRoute exact path="/dashboard" component={Dashboard}></PrivateRoute>
         </Switch>
       </Router>
     </Provider>

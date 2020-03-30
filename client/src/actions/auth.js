@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { LOGIN_SUCCESS, AUTH_ERROR, USER_LOADED } from './constants';
+import { LOGIN_SUCCESS, AUTH_ERROR, USER_LOADED, PASSWORD_CHANGED } from './constants';
 import setAuthToken from '../utils/setAuthToken';
 
 /**
@@ -42,6 +42,31 @@ export const loadUser = () => async dispatch => {
       payload: res.data
     });
   } catch (error) {
+    dispatch({
+      type: AUTH_ERROR
+    });
+  }
+}
+
+export const resetDefaultPassword = ({ new_password }) => async dispatch => {
+  console.log(new_password);
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  const body = JSON.stringify({ new_password });
+  try {
+    const res = await Axios.patch('/api/auth/reset-default-password', body, config);
+    dispatch({
+      type: PASSWORD_CHANGED,
+      payload: res.data
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error)
     dispatch({
       type: AUTH_ERROR
     });
