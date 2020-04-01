@@ -5,3 +5,7 @@
   margin: auto;
   min-height: 100vh;
 }
+
+.nav-pills .nav-link:focus{
+  outline: none;
+}

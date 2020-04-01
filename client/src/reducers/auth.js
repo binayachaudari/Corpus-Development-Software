@@ -1,7 +1,8 @@
 import { LOGIN_SUCCESS, AUTH_ERROR, USER_LOADED } from '../actions/constants';
 
+const errorToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`
+
 const initialState = {
-  token: localStorage.getItem('corpus_development_software'),
   isAuthenticated: false,
   user: null,
   loading: true
@@ -15,7 +16,6 @@ export default (state = initialState, action) => {
       localStorage.setItem('corpus_development_software', payload.token)
       return {
         ...state,
-        ...payload,
         isAuthenticated: true,
         loading: false
       };
@@ -29,10 +29,9 @@ export default (state = initialState, action) => {
       }
 
     case AUTH_ERROR:
-      localStorage.removeItem('corpus_development_software');
+      localStorage.setItem('corpus_development_software', errorToken);
       return {
         ...state,
-        token: null,
         isAuthenticated: false,
         user: null,
         loading: false
