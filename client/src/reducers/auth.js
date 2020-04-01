@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, AUTH_ERROR, USER_LOADED } from '../actions/constants';
+import { LOGIN_SUCCESS, AUTH_ERROR, USER_LOADED, LOG_OUT } from '../actions/constants';
 
 const errorToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`
 
@@ -29,6 +29,7 @@ export default (state = initialState, action) => {
       }
 
     case AUTH_ERROR:
+    case LOG_OUT:
       localStorage.setItem('corpus_development_software', errorToken);
       return {
         ...state,

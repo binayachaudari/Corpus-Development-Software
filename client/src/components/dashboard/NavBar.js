@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { logout } from '../../actions/auth'
 
 const adminLinks = (pathname) => (
   <Nav className="mr-auto">
@@ -26,10 +27,10 @@ const reviewerLinks = (pathname) => (
   </Nav >
 )
 
-const NavBar = ({ history: { location: { pathname } }, auth: { user } }) => {
+const NavBar = ({ history: { location: { pathname } }, auth: { user }, logout }) => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-      <Container>
+      <Container fluid>
         <Navbar.Brand>
           <Navbar.Text className="text-white">
             {user.role}
@@ -44,10 +45,12 @@ const NavBar = ({ history: { location: { pathname } }, auth: { user } }) => {
             <Navbar.Brand className="d-none d-lg-block">Corpus Development Software</Navbar.Brand>
           </Nav>
           <Nav>
-            <NavDropdown title={<span className="text-success" >{user.name}</span>} id="collasible-nav-dropdown">
+            <NavDropdown alignRight
+              title={<span className="text-warning">{user.name}</span>}
+              id="collasible-nav-dropdown">
               <NavDropdown.Item href="/change-password" active={pathname === '/change-password'}>Change Password</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item className="text-primary" href="#logout">Log Out</NavDropdown.Item>
+              <NavDropdown.Item className="text-primary" href="#logout" onClick={logout}>Log Out</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
@@ -58,11 +61,12 @@ const NavBar = ({ history: { location: { pathname } }, auth: { user } }) => {
 
 NavBar.propTypes = {
   history: PropTypes.object.isRequired,
-  user: PropTypes.object
+  user: PropTypes.object,
+  logout: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default withRouter(connect(mapStateToProps)(NavBar))
+export default withRouter(connect(mapStateToProps, { logout })(NavBar))

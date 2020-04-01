@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { LOGIN_SUCCESS, AUTH_ERROR, USER_LOADED, PASSWORD_CHANGED } from './constants';
+import { LOGIN_SUCCESS, AUTH_ERROR, USER_LOADED, PASSWORD_CHANGED, LOG_OUT } from './constants';
 import setAuthToken from '../utils/setAuthToken';
 
 /**
@@ -71,4 +71,10 @@ export const resetDefaultPassword = ({ new_password }) => async dispatch => {
       type: AUTH_ERROR
     });
   }
+}
+
+export const logout = () => async dispatch => {
+  dispatch({
+    type: LOG_OUT
+  })
 }
