@@ -23,7 +23,7 @@ const ToastComponent = ({ toast, dispatch }) => {
     >
       {toast !== null && toast.length > 0 && toast.map(item => (
         <Toast className={`border border-${item.toastType}`} style={{ width: "250px" }}
-          key={item.id} show={true} delay={3000} onClose={handleClose.bind(this, item.id)} autohide={false}>
+          key={item.id} show={true} delay={3000} onClose={handleClose.bind(this, item.id)} autohide>
           <Toast.Header>
             <strong className={`mr-auto text-${item.toastType}`}>{item.title}</strong>
           </Toast.Header>
