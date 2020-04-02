@@ -6,6 +6,6 @@
   min-height: 100vh;
 }
 
-.nav-pills .nav-link:focus{
+.nav-pills .nav-link:focus,.nav-tabs .nav-link:focus{
   outline: none;
 }
