@@ -97,7 +97,7 @@ exports.addTranslationTask = async (req, res, next) => {
 exports.getLastTranslationIndex = async (req, res, next) => {
   try {
     let fileDetails = await Files.find().sort({ _id: -1 }).limit(1);
-    res.json({ fileDetails });
+    res.json({ end_index: fileDetails[0].end_index });
   } catch (error) {
     next({
       error: 400,
