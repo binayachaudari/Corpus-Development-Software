@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Tab, Col, Row, Nav } from 'react-bootstrap'
 import FileStatusComponent from './FileStatusComponent'
@@ -22,10 +22,11 @@ reviewCompleteHead[4] = 'Reviewed Filenames';
 
 
 const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
-  const currentPill = localStorage.__currentPill || 'translation_assigned_files';
+  const currentPill = localStorage.__currentPill__DASH || 'translation_assigned_files';
   const onSelect = (pill) => {
-    localStorage.setItem('__currentPill', pill);
+    localStorage.setItem('__currentPill__DASH', pill);
   }
+
   return (
     <Tab.Container id="left-tabs-example" unmountOnExit={true} onSelect={onSelect} defaultActiveKey={currentPill}>
       <Row className="mt-5">
@@ -34,24 +35,18 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
             <Nav.Item>
               <Nav.Link eventKey="translation_assigned_files" >Translation Assigned</Nav.Link>
             </Nav.Item>
-
             <Nav.Item>
               <Nav.Link eventKey="review_assigned_files">Review Assigned</Nav.Link>
             </Nav.Item>
-
-
             <Nav.Item>
               <Nav.Link eventKey="under_translation">Under Translation</Nav.Link>
             </Nav.Item>
-
             <Nav.Item>
               <Nav.Link eventKey="under_review">Under Review</Nav.Link>
             </Nav.Item>
-
             <Nav.Item>
               <Nav.Link eventKey="translated">Translated</Nav.Link>
             </Nav.Item>
-
             <Nav.Item>
               <Nav.Link eventKey="reviewed">Reviewed</Nav.Link>
             </Nav.Item>
