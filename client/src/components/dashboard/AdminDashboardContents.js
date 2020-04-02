@@ -75,7 +75,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
             <Tab.Pane eventKey="under_translation">
               <FileStatusComponent loadData={getTranslationFiles}
                 headProps={assignedTranslationHead}
-                tableCaption="Files that are under translation"
+                tableCaption="List of files Under-Translation"
                 dataFiles={files.translationFiles.filter(file => file.status === 'under_translation')}
                 loading={files.loading}
                 showTab="under_translation"
@@ -84,7 +84,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
             <Tab.Pane eventKey="under_review">
               <FileStatusComponent loadData={getReviewFiles}
                 headProps={assignedReviewHead}
-                tableCaption="Files that are under Review"
+                tableCaption="List of files Under-Review"
                 dataFiles={files.reviewFiles.filter(file => file.status === 'under_review')}
                 loading={files.loading}
                 showTab="under_review"
@@ -93,7 +93,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
             <Tab.Pane eventKey="translated">
               <FileStatusComponent loadData={getTranslationFiles}
                 headProps={translationCompleteHead}
-                tableCaption="Files that Translated"
+                tableCaption="List of Translated Files"
                 dataFiles={files.translationFiles.filter(file => file.status === 'translation_complete')}
                 loading={files.loading}
                 showTab="translated"
@@ -102,7 +102,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
             <Tab.Pane eventKey="reviewed">
               <FileStatusComponent loadData={getReviewFiles}
                 headProps={reviewCompleteHead}
-                tableCaption="Files that Reviewed"
+                tableCaption="List of Reviewed Files"
                 dataFiles={files.reviewFiles.filter(file => file.status === 'review_complete')}
                 loading={files.loading}
                 showTab="reviewed"

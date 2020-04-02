@@ -105,7 +105,7 @@ const FileStatusComponent = ({ headProps, tableCaption, loadData, dataFiles, loa
             <span className="sr-only">Loading...</span>
           </Spinner>
         </div> :
-        <Table className="text-center bg-light" responsive>
+        <Table className="text-center bg-light" responsive bordered>
           <caption className="font-weight-lighter font-italic">{tableCaption}</caption>
           <thead className="table-dark" >
             <tr>
