@@ -17,9 +17,9 @@ export const diffForHumans = (time) => {
   delta -= minutes * 60;
   // what's left is seconds
 
-  let remainTime = `${days > 0 ? days : ''} ${days === 1 ? 'day, ' : 'days, '}
-  ${hours > 0 ? hours : ''} ${hours === 1 ? 'hour, ' : 'hours, '} 
-  ${minutes > 0 ? minutes : ''} ${minutes === 1 ? 'minute' : 'minutes'}`
+  let remainTime = `${days > 0 ? days : ''} ${days === 0 ? '' : days === 1 ? 'day, ' : 'days, '}
+  ${hours > 0 ? hours : ''} ${hours === 0 ? '' : hours == 1 ? 'hour, ' : 'hours, '} 
+  ${minutes > 0 ? minutes : ''} ${minutes === 0 ? '' : minutes === 1 ? 'minute' : 'minutes'}`
 
   return ((unixTime > d.getTime()) ? remainTime : 'Overdue')
 }
