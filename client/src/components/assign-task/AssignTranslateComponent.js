@@ -12,23 +12,15 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
   const [startIndex, setStartIndex] = useState(-1);
   const today = new Date();
   const dateToday = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-  const [dateTime, setDateTime] = useState({
-    date: dateToday,
-    time: today.toLocaleString('en', { hour: '2-digit', minute: '2-digit', hour12: false })
-  })
 
   const [formData, setFormData] = useState({
     source_filename: `sourceFile.txt`,
     start_index: null,
     end_index: null,
     assigned_to: null,
-    deadline: `${dateTime.date} ${dateTime.time}`
+    date: dateToday,
+    time: today.toLocaleString('en', { hour: '2-digit', minute: '2-digit', hour12: false }),
   });
-
-  const changeDateTime = e => {
-    setDateTime({ ...dateTime, [e.target.id]: e.target.value });
-    setFormData({ ...formData, deadline: `${dateTime.date} ${dateTime.time}` });
-  }
 
   const getFormData = e => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -63,6 +55,7 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
         message: `Choose name to assign task`,
         alertType: 'danger',
       });
+
     assignTranslationTask(formData);
   }
 
@@ -128,14 +121,14 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
               <Form.Label>Deadline</Form.Label>
               <Form.Row>
                 <Form.Group as={Col} md="4" controlId="date">
-                  <Form.Control type="date" value={dateTime.date} min={dateToday}
-                    onChange={changeDateTime} required />
+                  <Form.Control type="date" value={formData.date} min={dateToday}
+                    onChange={getFormData} required />
                   <Form.Text className="text-muted">
                     Date is required.*
                   </Form.Text>
                 </Form.Group>
                 <Form.Group as={Col} md="4" controlId="time">
-                  <Form.Control type="time" value={dateTime.time} onChange={changeDateTime} required />
+                  <Form.Control type="time" value={formData.time} onChange={getFormData} required />
                   <Form.Text className="text-muted">
                     Time is required.*
                   </Form.Text>

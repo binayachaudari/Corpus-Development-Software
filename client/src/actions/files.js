@@ -40,7 +40,7 @@ export const getLastAssignedEndIndex = () => async dispatch => {
       payload: {
         id: `end_index_failed_${id++}`,
         title: `Cannot get End Index`,
-        message: error.response.message,
+        message: `Unable to get End-Index--using default index 0 as starting index. If problem persists contact the developer.`,
         toastType: `danger`
       }
     });
@@ -57,6 +57,60 @@ export const getTranslatedFiles = () => async dispatch => {
   } catch (error) {
     dispatch({
       type: FILE_ERROR
+    });
+  }
+}
+
+
+export const assignTranslationTask = ({ source_filename, start_index, end_index, assigned_to, date, time }) => async dispatch => {
+  const body = { source_filename, start_index, end_index, assigned_to, deadline: `${date} ${time}` };
+  try {
+    const res = await Axios.post('/api/translation/assign-task', body);
+    dispatch({
+      type: ADD_TOAST,
+      payload: {
+        id: `task_assign_successful_${id++}`,
+        title: `Task has been Assigned`,
+        message: `Assigned task with File ID: ${res.data.task_assigned._id}`,
+        toastType: `success`
+      }
+    });
+  } catch (error) {
+    dispatch({
+      type: ADD_TOAST,
+      payload: {
+        id: `translation_assign_task_fail_${id++}`,
+        title: `Failed to assign task (Translation)`,
+        message: `Task assign Fail, Something went wrong; Refresh page and try again`,
+        toastType: `danger`
+      }
+    });
+  }
+}
+
+
+export const assignReviewTask = ({ file_id, assigned_to, date, time }) => async dispatch => {
+  const body = { file_id, assigned_to, deadline: `${date} ${time}` };
+  try {
+    const res = await Axios.post('/api/review/assign-task', body);
+    dispatch({
+      type: ADD_TOAST,
+      payload: {
+        id: `task_assign_successful_${id++}`,
+        title: `Task has been Assigned`,
+        message: `Assigned task with File ID: ${res.data.task_assigned._id}`,
+        toastType: `success`
+      }
+    })
+  } catch (error) {
+    dispatch({
+      type: ADD_TOAST,
+      payload: {
+        id: `review_assign_task_fail_${id++}`,
+        title: `Failed to assign task (Review)`,
+        message: `Task assign Fail, Something went wrong; Refresh page and try again`,
+        toastType: `danger`
+      }
     });
   }
 }
