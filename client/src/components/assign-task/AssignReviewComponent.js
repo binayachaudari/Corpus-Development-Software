@@ -5,8 +5,11 @@ import { connect } from 'react-redux'
 import { getTranslatedFiles } from '../../actions/files'
 import { getAllUsers } from '../../actions/users';
 import Alert from '../alerts/AlertComponent'
+import { assignReviewTask } from '../../actions/files'
 
-const AssignReviewComponent = ({ users: { loading, all_users }, translatedFiles, getTranslatedFiles, getAllUsers }) => {
+const AssignReviewComponent = ({ users: { loading, all_users },
+  translatedFiles, getTranslatedFiles, getAllUsers, assignReviewTask }) => {
+
   useEffect(() => {
     getAllUsers();
     getTranslatedFiles();
@@ -51,6 +54,8 @@ const AssignReviewComponent = ({ users: { loading, all_users }, translatedFiles,
         message: `Name and File name are required to assign task`,
         alertType: 'danger',
       });
+
+    assignReviewTask(formData);
   }
 
   return (
@@ -73,6 +78,9 @@ const AssignReviewComponent = ({ users: { loading, all_users }, translatedFiles,
                     <option key={index} value={reviewer._id}>{reviewer.name}</option>
                   ))}
                 </Form.Control>
+                <Form.Text className="text-muted">
+                  Name is required.*
+              </Form.Text>
               </Form.Group>
 
               <Form.Group as={Col} md="4" controlId="email">
@@ -94,10 +102,13 @@ const AssignReviewComponent = ({ users: { loading, all_users }, translatedFiles,
                 <Form.Label>Filename</Form.Label>
                 <Form.Control as="select" onChange={getFormData} required>
                   {!formData.file_id ? (<option value={null}>Choose Filename</option>) : ''}
-                  {translatedFiles.map((file, index) => (
+                  {translatedFiles && translatedFiles.map((file, index) => (
                     <option key={index} value={file._id}>{file.filename}</option>
                   ))}
                 </Form.Control>
+                <Form.Text className="text-muted">
+                  Select filename to assign, required.*
+              </Form.Text>
               </Form.Group>
               <Form.Group as={Col} md="4" controlId="filename_id">
                 <Form.Label>File ID</Form.Label>
@@ -108,7 +119,7 @@ const AssignReviewComponent = ({ users: { loading, all_users }, translatedFiles,
             <Form.Row>
               <Form.Group as={Col} md="2" controlId="start_index">
                 <Form.Label>Start Index</Form.Label>
-                <Form.Control type="number" value={translatedFiles
+                <Form.Control type="number" value={translatedFiles && translatedFiles
                   .find(obj => obj._id === formData.file_id) ?
                   translatedFiles
                     .find(obj => obj._id === formData.file_id).start_index : 0} readOnly />
@@ -116,7 +127,7 @@ const AssignReviewComponent = ({ users: { loading, all_users }, translatedFiles,
 
               <Form.Group as={Col} md="2" controlId="end_index">
                 <Form.Label>End Index</Form.Label>
-                <Form.Control type="number" value={translatedFiles
+                <Form.Control type="number" value={translatedFiles && translatedFiles
                   .find(obj => obj._id === formData.file_id) ?
                   translatedFiles
                     .find(obj => obj._id === formData.file_id).end_index : 0} readOnly />
@@ -128,15 +139,21 @@ const AssignReviewComponent = ({ users: { loading, all_users }, translatedFiles,
                   <Form.Group as={Col} md="4" controlId="date">
                     <Form.Control type="date" value={dateTime.date} min={dateToday}
                       onChange={changeDateTime} required />
+                    <Form.Text className="text-muted">
+                      Date is required.*
+                    </Form.Text>
                   </Form.Group>
                   <Form.Group as={Col} md="4" controlId="time">
                     <Form.Control type="time" value={dateTime.time} onChange={changeDateTime} required />
+                    <Form.Text className="text-muted">
+                      Time is required.*
+                    </Form.Text>
                   </Form.Group>
                 </Form.Row>
               </Form.Group>
             </Form.Row>
             <Button variant="primary" type="submit">
-              Assign Task
+              Assign Review Task
         </Button>
           </Form>
         </>
@@ -149,7 +166,8 @@ AssignReviewComponent.propTypes = {
   users: PropTypes.object.isRequired,
   translatedFiles: PropTypes.array.isRequired,
   getTranslatedFiles: PropTypes.func.isRequired,
-  getAllUsers: PropTypes.func.isRequired
+  getAllUsers: PropTypes.func.isRequired,
+  assignReviewTask: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -157,6 +175,6 @@ const mapStateToProps = state => ({
   translatedFiles: state.files.translatedFiles
 })
 
-export default connect(mapStateToProps, { getTranslatedFiles, getAllUsers })(AssignReviewComponent)
+export default connect(mapStateToProps, { getTranslatedFiles, getAllUsers, assignReviewTask })(AssignReviewComponent)
 
 

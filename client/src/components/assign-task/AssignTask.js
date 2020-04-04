@@ -4,6 +4,7 @@ import { Container, Tab, Nav, Spinner } from 'react-bootstrap'
 import NavBar from '../dashboard/NavBar'
 import AssignTranslateComponent from './AssignTranslateComponent'
 import AssignReviewComponent from './AssignReviewComponent'
+import Toast from '../alerts/ToastComponent'
 
 const AssignTask = props => {
   const currentPill = localStorage.task_assign || 'translate';
@@ -14,6 +15,7 @@ const AssignTask = props => {
   return (
     <div>
       <NavBar />
+      <Toast />
       <Container className="mt-3">
         <h1 className="display-4">Assign Task</h1>
         <Tab.Container id="left-tabs-example" unmountOnExit={true} onSelect={onSelect} defaultActiveKey={currentPill}>

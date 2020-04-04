@@ -3,11 +3,13 @@ import PropTypes from 'prop-types'
 import { Form, Spinner, Col, Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { getAllUsers } from '../../actions/users';
-import { getLastAssignedEndIndex } from '../../actions/files'
+import { getLastAssignedEndIndex, assignTranslationTask } from '../../actions/files'
 import Alert from '../alerts/AlertComponent'
 
-const AssignTranslateComponent = ({ users: { loading, all_users }, getAllUsers, getLastAssignedEndIndex }) => {
-  const [startIndex, setStartIndex] = useState(0);
+const AssignTranslateComponent = ({ users: { loading, all_users },
+  getAllUsers, getLastAssignedEndIndex, assignTranslationTask }) => {
+
+  const [startIndex, setStartIndex] = useState(-1);
   const today = new Date();
   const dateToday = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   const [dateTime, setDateTime] = useState({
@@ -37,6 +39,8 @@ const AssignTranslateComponent = ({ users: { loading, all_users }, getAllUsers, 
     const result = await getLastAssignedEndIndex();
     setStartIndex(result);
     setFormData({ ...formData, start_index: result + 1, end_index: result + 10 })
+    if (!result)
+      return setFormData({ ...formData, start_index: startIndex + 1, end_index: startIndex + 10 })
   };
 
   useEffect(() => {
@@ -59,6 +63,7 @@ const AssignTranslateComponent = ({ users: { loading, all_users }, getAllUsers, 
         message: `Choose name to assign task`,
         alertType: 'danger',
       });
+    assignTranslationTask(formData);
   }
 
   return (
@@ -80,6 +85,9 @@ const AssignTranslateComponent = ({ users: { loading, all_users }, getAllUsers, 
                   <option key={index} value={linguist._id}>{linguist.name}</option>
                 ))}
               </Form.Control>
+              <Form.Text className="text-muted">
+                Name is required.*
+              </Form.Text>
             </Form.Group>
 
             <Form.Group as={Col} md="4" controlId="email">
@@ -110,7 +118,10 @@ const AssignTranslateComponent = ({ users: { loading, all_users }, getAllUsers, 
 
             <Form.Group as={Col} md="2" controlId="end_index">
               <Form.Label>End Index</Form.Label>
-              <Form.Control type="number" value={startIndex + 10} onChange={getFormData} required />
+              <Form.Control type="number" value={formData.end_index || 0} onChange={getFormData} required />
+              <Form.Text className="text-muted">
+                End index must be greater than Start Index
+              </Form.Text>
             </Form.Group>
 
             <Form.Group as={Col} md="8">
@@ -119,15 +130,21 @@ const AssignTranslateComponent = ({ users: { loading, all_users }, getAllUsers, 
                 <Form.Group as={Col} md="4" controlId="date">
                   <Form.Control type="date" value={dateTime.date} min={dateToday}
                     onChange={changeDateTime} required />
+                  <Form.Text className="text-muted">
+                    Date is required.*
+                  </Form.Text>
                 </Form.Group>
                 <Form.Group as={Col} md="4" controlId="time">
                   <Form.Control type="time" value={dateTime.time} onChange={changeDateTime} required />
+                  <Form.Text className="text-muted">
+                    Time is required.*
+                  </Form.Text>
                 </Form.Group>
               </Form.Row>
             </Form.Group>
           </Form.Row>
           <Button variant="success" type="submit">
-            Assign Task
+            Assign Translation Task
             </Button>
         </Form>
       </>
@@ -140,10 +157,11 @@ AssignTranslateComponent.propTypes = {
   users: PropTypes.object.isRequired,
   getAllUsers: PropTypes.func.isRequired,
   getLastAssignedEndIndex: PropTypes.func.isRequired,
+  assignTranslationTask: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
   users: state.users
 })
 
-export default connect(mapStateToProps, { getAllUsers, getLastAssignedEndIndex })(AssignTranslateComponent)
+export default connect(mapStateToProps, { getAllUsers, getLastAssignedEndIndex, assignTranslationTask })(AssignTranslateComponent)
