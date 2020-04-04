@@ -31,7 +31,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
     <Tab.Container id="left-tabs-example" unmountOnExit={true} onSelect={onSelect} defaultActiveKey={currentPill}>
       <Row className="mt-5">
         <Col sm={2}>
-          <Nav variant="pills" className="flex-column">
+          <Nav variant="pills" className="flex-column position-fixed">
             <Nav.Item>
               <Nav.Link eventKey="translation_assigned_files" >Translation Assigned</Nav.Link>
             </Nav.Item>
