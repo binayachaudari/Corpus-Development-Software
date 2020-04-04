@@ -11,11 +11,11 @@ const UsersComponent = ({ users, getAllUsers }) => {
   useEffect(() => {
     getAllUsers();
   }, []);
+
   const currentPill = localStorage.__currentPill_user || 'all';
   const onSelect = (pill) => {
     localStorage.setItem('__currentPill_user', pill);
   }
-  console.log(users)
 
   return (
     <Tab.Container id="left-tabs-example" unmountOnExit={true} onSelect={onSelect} defaultActiveKey={currentPill}>
@@ -30,11 +30,12 @@ const UsersComponent = ({ users, getAllUsers }) => {
           <Nav.Link eventKey="reviewer">Reviewer</Nav.Link>
         </Nav.Item>
       </Nav>
-      {users.loading ? <div className="d-flex justify-content-center">
-        <Spinner animation="grow" role="status">
-          <span className="sr-only">Loading...</span>
-        </Spinner>
-      </div> :
+      {users.loading ?
+        <div className="mt-3 d-flex justify-content-center">
+          <Spinner animation="grow" role="status">
+            <span className="sr-only">Loading...</span>
+          </Spinner>
+        </div> :
         <Tab.Content className="mt-3">
           <Tab.Pane eventKey="all">
             <UserRoleComponent
