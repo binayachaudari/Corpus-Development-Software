@@ -49,8 +49,6 @@ export const loadUser = () => async dispatch => {
 }
 
 export const resetDefaultPassword = ({ new_password }) => async dispatch => {
-  console.log(new_password);
-
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -66,10 +64,23 @@ export const resetDefaultPassword = ({ new_password }) => async dispatch => {
     });
     return res.data;
   } catch (error) {
-    console.log(error)
     dispatch({
       type: AUTH_ERROR
     });
+  }
+}
+
+export const changePassword = ({ current_password, new_password }) => async dispatch => {
+  const body = { current_password, new_password };
+  try {
+    const res = await Axios.post('/api/auth/change-password', body);
+    return res.data;
+  } catch (error) {
+    const { status, message } = error.response.data;
+    return {
+      status,
+      message
+    };
   }
 }
 

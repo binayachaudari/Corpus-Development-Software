@@ -6,7 +6,7 @@ export const ResetPasswordComponent = ({ onChange, data: { new_password, retype_
     <>
       <Form.Group controlId="new_password">
         <Form.Label>New Password</Form.Label>
-        <Form.Control type="password" placeholder="New password" value={new_password} onChange={onChange} required required minLength="8" />
+        <Form.Control type="password" placeholder="New password" value={new_password} onChange={onChange} required minLength="8" />
         <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
         <Form.Control.Feedback type="invalid">
           Please provide your new password.
@@ -18,7 +18,7 @@ export const ResetPasswordComponent = ({ onChange, data: { new_password, retype_
 
       <Form.Group controlId="retype_new_password">
         <Form.Label>Retype Password</Form.Label>
-        <Form.Control type="password" placeholder="Retype new password" value={retype_new_password} onChange={onChange} required required minLength="8" />
+        <Form.Control type="password" placeholder="Retype new password" value={retype_new_password} onChange={onChange} required minLength="8" />
         <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
         <Form.Control.Feedback type="invalid">
           Retype your new password.

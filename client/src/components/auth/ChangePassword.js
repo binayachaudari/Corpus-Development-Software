@@ -5,10 +5,10 @@ import Alert from '../../components/alerts/AlertComponent';
 import ResetPasswordComponent from './ResetPasswordComponent';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { resetDefaultPassword } from '../../actions/auth';
+import { resetDefaultPassword, changePassword } from '../../actions/auth';
 import { setToast } from '../../actions/toast';
 
-const ChangePassword = ({ auth: { user, loading }, history, resetDefaultPassword, setToast }) => {
+const ChangePassword = ({ auth: { user, loading }, history, resetDefaultPassword, setToast, changePassword }) => {
   const [formData, setFormData] = useState({
     current_password: '',
     new_password: '',
@@ -43,10 +43,26 @@ const ChangePassword = ({ auth: { user, loading }, history, resetDefaultPassword
         alertType: 'danger'
       });
     }
-    const res = await resetDefaultPassword({ new_password });
-    setToast('Password', res.message, 'success');
-    if (res)
-      history.push('/dashboard');
+    if (!loading && !user.activated) {
+      const res = await resetDefaultPassword({ new_password });
+      if (res.status === 200) {
+        setToast('Password', res.message, 'success');
+        return history.push('/dashboard');
+      }
+    }
+
+    if (!loading && user.activated) {
+      const res = await changePassword({ current_password, new_password });
+      if (res.status === 400) {
+        return setAlertState({
+          ...alertState,
+          message: 'Incorrect current password.',
+          alertType: 'danger'
+        });
+      }
+      setToast('Password', res.message, 'success');
+      return history.push('/dashboard');
+    }
   }
 
   return (
@@ -82,11 +98,12 @@ const ChangePassword = ({ auth: { user, loading }, history, resetDefaultPassword
 ChangePassword.propTypes = {
   resetDefaultPassword: PropTypes.func.isRequired,
   setToast: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  changePassword: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default withRouter(connect(mapStateToProps, { resetDefaultPassword, setToast })(ChangePassword))
+export default withRouter(connect(mapStateToProps, { resetDefaultPassword, setToast, changePassword })(ChangePassword))
