@@ -5,7 +5,7 @@ export const setToast = (title, message, toastType) => dispatch => {
   dispatch({
     type: ADD_TOAST,
     payload: {
-      id: id++,
+      id: ++id,
       title,
       message,
       toastType
@@ -14,7 +14,8 @@ export const setToast = (title, message, toastType) => dispatch => {
 
   setTimeout(() => {
     dispatch({
-      type: REMOVE_TOAST
+      type: REMOVE_TOAST,
+      payload: id
     })
   }, 10000);
 }
