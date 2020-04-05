@@ -105,8 +105,8 @@ exports.getTranslatedText = async (req, res, next) => {
 
   } catch (error) {
     next({
-      status: 404,
-      message: 'Error!! Such file does not exists!'
+      status: error.status || 404,
+      message: error.message
     });
   }
 }
@@ -124,7 +124,8 @@ function readLineZero(filename, language) {
     });
 
     //Throw Error
-    readableStream.on('error', error => reject(error));
+    readableStream.on('error', error => error.errno === -2 ? reject({ status: 200, message: 'Translation Complete' }) : reject(error));
+
 
     //Return line
     readableStream.on('end', () => {
