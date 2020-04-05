@@ -17,14 +17,14 @@ const adminLinks = (pathname) => (
 const linguistLinks = (pathname) => (
   < Nav className="mr-auto" >
     <Nav.Link href="/dashboard" active={pathname === '/dashboard'}>Dashboard</Nav.Link>
-    <Nav.Link href="translate/assignments" active={pathname === 'translate/assignments'}>Assignments</Nav.Link>
+    <Nav.Link href="/translate/assignments" active={pathname === '/translate/assignments'}>Assignments</Nav.Link>
   </Nav >
 )
 
 const reviewerLinks = (pathname) => (
   < Nav className="mr-auto" >
     <Nav.Link href="/dashboard" active={pathname === '/dashboard'}>Dashboard</Nav.Link>
-    <Nav.Link href="review/assignments" active={pathname === 'review/assignments'}>Assignments</Nav.Link>
+    <Nav.Link href="/review/assignments" active={pathname === '/review/assignments'}>Assignments</Nav.Link>
   </Nav >
 )
 
