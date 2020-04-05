@@ -9,6 +9,7 @@ const adminLinks = (pathname) => (
   <Nav className="mr-auto">
     <Nav.Link href="/dashboard" active={pathname === '/dashboard'}>Dashboard</Nav.Link>
     <Nav.Link href="/assign-task" active={pathname === '/assign-task'}>Assign Task</Nav.Link>
+    <Nav.Link href="/add-user" active={pathname === '/add-user'}>Add User</Nav.Link>
     <Nav.Link href="/users" active={pathname === '/users'}>Users</Nav.Link>
   </Nav>
 )

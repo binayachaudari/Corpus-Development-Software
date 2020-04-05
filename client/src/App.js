@@ -14,6 +14,7 @@ import ChangePassword from './components/auth/ChangePassword';
 import Dashboard from './components/dashboard/Dashboard';
 import AssignTask from './components/assign-task/AssignTask';
 import Users from './components/users/Users';
+import AddUser from './components/add-user/AddUser'
 
 //authenticate user
 import { loadUser } from './actions/auth';
@@ -39,6 +40,7 @@ const App = () => {
           <PrivateRoute exact path="/change-password" component={ChangePassword}></PrivateRoute>
           <PrivateRoute exact path="/dashboard" component={Dashboard}></PrivateRoute>
           <PrivateRoute exact path="/assign-task" component={AssignTask}></PrivateRoute>
+          <PrivateRoute exact path="/add-user" component={AddUser}></PrivateRoute>
           <PrivateRoute exact path="/users" component={Users}></PrivateRoute>
         </Switch>
       </Router>
