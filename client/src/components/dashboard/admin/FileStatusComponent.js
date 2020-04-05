@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Table, Spinner, Tooltip, OverlayTrigger } from 'react-bootstrap'
-import { diffForHumans, convertDate, timeSince } from '../../utils/diffForHuman'
+import { diffForHumans, convertDate, timeSince } from '../../../utils/diffForHuman'
 
 const renderTooltip = props => (
   <Tooltip id="button-tooltip">
@@ -9,7 +9,7 @@ const renderTooltip = props => (
   </Tooltip>
 )
 
-const assignedTranslateFiles = (dataFiles) => (
+export const assignedTranslateFiles = (dataFiles) => (
   dataFiles.map((item, index) => (
     <tr key={index}>
       <td className="align-middle">{item._id}</td>
@@ -26,7 +26,7 @@ const assignedTranslateFiles = (dataFiles) => (
   ))
 )
 
-const assignedReviewFiles = (dataFiles) => (
+export const assignedReviewFiles = (dataFiles) => (
   dataFiles.map((item, index) => (
     <tr key={index}>
       <td className="align-middle py-0">{item._id}</td>
@@ -59,7 +59,7 @@ const assignedReviewFiles = (dataFiles) => (
   ))
 )
 
-const completedTranslationReview = (dataFiles, taskType) => (
+export const completedTranslationReview = (dataFiles, taskType) => (
   dataFiles.map((item, index) => (
     <tr key={index}>
       <td className="align-middle py-0">{item._id}</td>
@@ -95,7 +95,7 @@ const completedTranslationReview = (dataFiles, taskType) => (
 const FileStatusComponent = ({ headProps, tableCaption, loadData, dataFiles, loading, showTab }) => {
   useEffect(() => {
     loadData();
-  }, [])
+  }, []);
 
   return (
     <>

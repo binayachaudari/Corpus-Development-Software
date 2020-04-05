@@ -1,17 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux';
 import { Container } from 'react-bootstrap';
 import ToastComponent from '../alerts/ToastComponent'
 import NavBar from './NavBar'
-import AdminDashboardContents from './AdminDashboardContents';
+import AdminDashboardContents from './admin/AdminDashboardContents';
+import ReviewerDashboardContents from './reviewer/ReviewerDashBoardContents';
 
-const Dashboard = (props) => {
+const Dashboard = ({ auth: { user } }) => {
   return (
     <>
       <ToastComponent></ToastComponent>
       <NavBar></NavBar>
       <Container fluid>
-        <AdminDashboardContents />
+        {user.role === 'Admin' || user.role === 'Developer' ? <AdminDashboardContents /> : <ReviewerDashboardContents />}
       </Container>
     </>
   )
@@ -21,5 +23,9 @@ Dashboard.propTypes = {
 
 }
 
-export default Dashboard
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps)(Dashboard)
 

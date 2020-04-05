@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Tab, Col, Row, Nav } from 'react-bootstrap'
 import FileStatusComponent from './FileStatusComponent'
-import { getTranslationFiles, getReviewFiles } from '../../actions/files'
+import { getTranslationFiles, getReviewFiles } from '../../../actions/files'
 import { connect } from 'react-redux'
 
 
