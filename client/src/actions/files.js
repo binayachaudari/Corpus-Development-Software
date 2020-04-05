@@ -52,7 +52,7 @@ export const getTranslatedFiles = () => async dispatch => {
     const res = await Axios.get('/api/review/assign-task');
     dispatch({
       type: LOAD_TRANSLATED_FILES,
-      payload: res.data.translatedFiles
+      payload: res.data.translatedFiles || [{}]
     });
   } catch (error) {
     dispatch({

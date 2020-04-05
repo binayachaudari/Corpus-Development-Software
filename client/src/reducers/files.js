@@ -13,14 +13,14 @@ export default (state = initialState, action) => {
     case LOAD_TRANSLATION_FILES:
       return {
         ...state,
-        translationFiles: payload.allFiles,
+        translationFiles: payload.allFiles || [{}],
         loading: false
       };
 
     case LOAD_REVIEW_FILES:
       return {
         ...state,
-        reviewFiles: payload.allFiles,
+        reviewFiles: payload.allFiles || [{}],
         loading: false
       };
 
