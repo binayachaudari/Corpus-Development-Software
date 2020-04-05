@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Table, Spinner, Tooltip, OverlayTrigger } from 'react-bootstrap'
+import { Table, Spinner } from 'react-bootstrap'
 import { assignedReviewFiles, completedTranslationReview } from '../admin/FileStatusComponent'
 
 const FileStatusComponent = ({ headProps, tableCaption, loadData, dataFiles, loading, showTab }) => {
@@ -28,7 +28,7 @@ const FileStatusComponent = ({ headProps, tableCaption, loadData, dataFiles, loa
           <tbody>
             {showTab === 'review_assigned_files' && assignedReviewFiles(dataFiles)}
             {showTab === 'under_review' && assignedReviewFiles(dataFiles)}
-            {showTab === 'reviewed' && completedTranslationReview(dataFiles, 'Reviewed')}
+            {showTab === 'reviewed' && completedTranslationReview(dataFiles, '')}
           </tbody>
         </Table>
       }

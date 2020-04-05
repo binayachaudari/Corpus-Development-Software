@@ -61,7 +61,7 @@ const ReviewerDashBoardContents = ({ user_files: { loading, my_files }, reviewGe
                 tableCaption="List of Reviewed Files"
                 dataFiles={my_files.filter(file => file.status === 'review_complete')}
                 loading={loading}
-                showTab="review_complete"
+                showTab="reviewed"
               />
             </Tab.Pane>
           </Tab.Content>
