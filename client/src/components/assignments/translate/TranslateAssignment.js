@@ -8,7 +8,8 @@ import { diffForHumans, convertDate, timeSince } from '../../../utils/diffForHum
 import Toast from '../../alerts/ToastComponent'
 
 export const getColorType = (status) => {
-  return status === 'assigned' ? 'primary' : status === 'under_translation' ? 'secondary' : 'success'
+  return status === 'assigned' ? 'primary' :
+    status === 'under_translation' || status === 'under_review' ? 'secondary' : 'success'
 }
 
 const TranslateAssignments = ({ user_files: { loading, my_files }, translationGetMyFiles }) => {
@@ -30,38 +31,35 @@ const TranslateAssignments = ({ user_files: { loading, my_files }, translationGe
             </Spinner>
           </div> :
           <CardColumns>
-            {my_files.map((
-              { status, _id, nepali_filename, tamang_filename, assigned_date, deadline, submitted_on,
-                file_details: {
-                  start_index, end_index, filename
-                }
-              }, index) => (
-                <Card key={index} border={getColorType(status)} >
-                  <Card.Link href={`/translate/assignments/${_id}`}>
-                    <Card.Header className={`text-${getColorType(status)}`}>{_id}</Card.Header>
-                  </Card.Link>
-                  <Card.Body>
-                    <Card.Title>Details</Card.Title>
-                    <Card.Text>
-                      <b>Status:</b> {status}<br />
-                      {tamang_filename && <><b>Tamang Filename:</b> {tamang_filename}<br /></>}
-                      {nepali_filename && <> <b>Nepali Filename:</b> {nepali_filename}<br /></>}
-                      {!tamang_filename && !nepali_filename ? <> <b>Source File</b> {filename}<br /></> : ''}
-                      <b># of Sentences:</b> {end_index - start_index + 1}<br />
-                      <b>Assigned on:</b> {convertDate(assigned_date)}<br />
-                      <b>Deadline:</b> {convertDate(deadline)}<br />
-                      <b>{diffForHumans(deadline) === 'Overdue' ? 'Remarks:' : 'Remaining Time:'}</b> {diffForHumans(deadline)}<br />
+            {my_files.map((item, index) => (
+              item &&
+              <Card key={index} border={getColorType(item.status)} >
+                <Card.Link href={`/translate/assignments/${item._id}`}>
+                  <Card.Header className={`text-${getColorType(item.status)}`}>{item._id}</Card.Header>
+                </Card.Link>
+                <Card.Body>
+                  <Card.Title>Details</Card.Title>
+                  <Card.Text>
+                    <b>ID:</b> {item._id}<br />
+                    <b>Status:</b> {item.status}<br />
+                    {item.tamang_filename && <><b>Tamang Filename:</b> {item.tamang_filename}<br /></>}
+                    {item.nepali_filename && <> <b>Nepali Filename:</b> {item.nepali_filename}<br /></>}
+                    {!item.tamang_filename && !item.nepali_filename ? <> <b>Source File</b> {item.filename}<br /></> : ''}
+                    <b># of Sentences:</b> {item.end_index - item.start_index + 1}<br />
+                    <b>Assigned on:</b> {convertDate(item.assigned_date)}<br />
+                    <b>Deadline:</b> {convertDate(item.deadline)}<br />
+                    <b>{diffForHumans(item.deadline) === 'Overdue' ? 'Remarks:' : 'Remaining Time:'}</b> {diffForHumans(item.deadline)}<br />
 
-                    </Card.Text>
-                    {submitted_on && <Card.Text>
-                      <small className="text-muted">Submitted: {timeSince(submitted_on)}</small>
-                    </Card.Text>}
-                    {!submitted_on && <Card.Text>
-                      <small className="text-muted">Assigned: {timeSince(assigned_date)}</small>
-                    </Card.Text>}
-                  </Card.Body>
-                </Card>
-              ))}
+                  </Card.Text>
+                  {item.submitted_on && <Card.Text>
+                    <small className="text-muted">Submitted: {timeSince(item.submitted_on)}</small>
+                  </Card.Text>}
+                  {!item.submitted_on && <Card.Text>
+                    <small className="text-muted">Assigned: {timeSince(item.assigned_date)}</small>
+                  </Card.Text>}
+                </Card.Body>
+              </Card>
+            ))}
           </CardColumns>
         }
       </Container>
