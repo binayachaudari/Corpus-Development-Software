@@ -223,8 +223,8 @@ let addTranslationText = async (req, res, next) => {
     });
   } catch (error) {
     next({
-      status: error.errno === -2 ? 200 : 404,
-      message: error.errno === -2 ? 'Translation Complete' : error.message
+      status: error.status || 404,
+      message: error.message
     });
   }
 }

@@ -14,3 +14,17 @@ export const reviewGetMyFiles = () => async dispatch => {
     });
   }
 }
+
+export const translationGetMyFiles = () => async dispatch => {
+  try {
+    const res = await Axios.get('/api/translation/assignments');
+    dispatch({
+      type: LOAD_USER_FILES,
+      payload: res.data.myFiles || [{}]
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR_LOADING_USER_FILES
+    });
+  }
+}

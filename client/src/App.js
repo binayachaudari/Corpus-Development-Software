@@ -15,6 +15,10 @@ import Dashboard from './components/dashboard/Dashboard';
 import AssignTask from './components/assign-task/AssignTask';
 import Users from './components/users/Users';
 import AddUser from './components/add-user/AddUser'
+import TranslationAssignment from './components/assignments/translate/TranslateAssignment'
+import TranslateText from './components/assignments/translate/TranslateText'
+import ReviewAssignment from './components/assignments/review/ReviewAssignment'
+import ReviewText from './components/assignments/review/ReviewText'
 
 //authenticate user
 import { loadUser } from './actions/auth';
@@ -42,6 +46,10 @@ const App = () => {
           <PrivateRoute exact path="/assign-task" component={AssignTask}></PrivateRoute>
           <PrivateRoute exact path="/add-user" component={AddUser}></PrivateRoute>
           <PrivateRoute exact path="/users" component={Users}></PrivateRoute>
+          <PrivateRoute exact path="/review/assignments" component={ReviewAssignment}></PrivateRoute>
+          <PrivateRoute exact path="/review/assignments/:id" component={ReviewText}></PrivateRoute>
+          <PrivateRoute exact path="/translate/assignments" component={TranslationAssignment}></PrivateRoute>
+          <PrivateRoute exact path="/translate/assignments/:id" component={TranslateText}></PrivateRoute>
         </Switch>
       </Router>
     </Provider>

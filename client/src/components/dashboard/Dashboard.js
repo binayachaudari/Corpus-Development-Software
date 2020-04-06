@@ -5,7 +5,8 @@ import { Container } from 'react-bootstrap';
 import ToastComponent from '../alerts/ToastComponent'
 import NavBar from './NavBar'
 import AdminDashboardContents from './admin/AdminDashboardContents';
-import ReviewerDashboardContents from './reviewer/ReviewerDashBoardContents';
+import ReviewerDashboardContents from './reviewer/ReviewerDashboardContents';
+import LinguistDashboardContents from './linguist/LinguistDashboardContents';
 
 const Dashboard = ({ auth: { user } }) => {
   return (
@@ -13,7 +14,9 @@ const Dashboard = ({ auth: { user } }) => {
       <ToastComponent></ToastComponent>
       <NavBar></NavBar>
       <Container fluid>
-        {user.role === 'Admin' || user.role === 'Developer' ? <AdminDashboardContents /> : <ReviewerDashboardContents />}
+        {user.role === 'Admin' || user.role === 'Developer' ? <AdminDashboardContents /> :
+          user.role === 'Reviewer' ? <ReviewerDashboardContents /> :
+            user.role === 'Linguist' ? <LinguistDashboardContents /> : <h1>{user.role}</h1>}
       </Container>
     </>
   )

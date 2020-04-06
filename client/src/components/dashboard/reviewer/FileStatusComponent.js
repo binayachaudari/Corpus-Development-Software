@@ -28,7 +28,7 @@ const FileStatusComponent = ({ headProps, tableCaption, loadData, dataFiles, loa
           <tbody>
             {showTab === 'review_assigned_files' && assignedReviewFiles(dataFiles)}
             {showTab === 'under_review' && assignedReviewFiles(dataFiles)}
-            {showTab === 'reviewed' && completedTranslationReview(dataFiles, '')}
+            {showTab === 'reviewed' && completedTranslationReview(dataFiles, 'Reviewed')}
           </tbody>
         </Table>
       }

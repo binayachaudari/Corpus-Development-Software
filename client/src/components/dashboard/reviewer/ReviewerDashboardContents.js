@@ -12,7 +12,7 @@ const assignedReviewHead = ['File ID', 'No. of Sentences', 'Assigned To',
 const reviewCompleteHead = [...assignedReviewHead];
 reviewCompleteHead[4] = 'Reviewed Filenames';
 
-const ReviewerDashBoardContents = ({ user_files: { loading, my_files }, reviewGetMyFiles }) => {
+const ReviewerDashboardContents = ({ user_files: { loading, my_files }, reviewGetMyFiles }) => {
 
   const currentPill = localStorage.__currentRevPill__DASH || 'review_assigned_files';
   const onSelect = (pill) => {
@@ -71,7 +71,7 @@ const ReviewerDashBoardContents = ({ user_files: { loading, my_files }, reviewGe
   )
 }
 
-ReviewerDashBoardContents.propTypes = {
+ReviewerDashboardContents.propTypes = {
   user_files: PropTypes.object.isRequired,
   reviewGetMyFiles: PropTypes.func.isRequired
 }
@@ -80,4 +80,4 @@ const mapStateToProps = state => ({
   user_files: state.user_files
 })
 
-export default connect(mapStateToProps, { reviewGetMyFiles })(ReviewerDashBoardContents)
+export default connect(mapStateToProps, { reviewGetMyFiles })(ReviewerDashboardContents)
