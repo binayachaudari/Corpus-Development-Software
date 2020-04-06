@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import NavBar from '../../dashboard/NavBar'
 import { translationGetMyFiles } from '../../../actions/user_files'
 import { diffForHumans, convertDate, timeSince } from '../../../utils/diffForHuman'
+import Toast from '../../alerts/ToastComponent'
 
 export const getColorType = (status) => {
   return status === 'assigned' ? 'primary' : status === 'under_translation' ? 'secondary' : 'success'
@@ -18,6 +19,7 @@ const TranslateAssignments = ({ user_files: { loading, my_files }, translationGe
   return (
     <>
       <NavBar />
+      <Toast />
       <Container className="mt-3">
         <h1 className="display-4">My Assignments</h1>
         <hr />
@@ -31,7 +33,7 @@ const TranslateAssignments = ({ user_files: { loading, my_files }, translationGe
             {my_files.map((
               { status, _id, nepali_filename, tamang_filename, assigned_date, deadline, submitted_on,
                 file_details: {
-                  start_index, end_index
+                  start_index, end_index, filename
                 }
               }, index) => (
                 <Card key={index} border={getColorType(status)} >
@@ -44,6 +46,7 @@ const TranslateAssignments = ({ user_files: { loading, my_files }, translationGe
                       <b>Status:</b> {status}<br />
                       {tamang_filename && <><b>Tamang Filename:</b> {tamang_filename}<br /></>}
                       {nepali_filename && <> <b>Nepali Filename:</b> {nepali_filename}<br /></>}
+                      {!tamang_filename && !nepali_filename ? <> <b>Source File</b> {filename}<br /></> : ''}
                       <b># of Sentences:</b> {end_index - start_index + 1}<br />
                       <b>Assigned on:</b> {convertDate(assigned_date)}<br />
                       <b>Deadline:</b> {convertDate(deadline)}<br />
