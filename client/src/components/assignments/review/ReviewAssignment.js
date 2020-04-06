@@ -6,6 +6,7 @@ import NavBar from '../../dashboard/NavBar'
 import { reviewGetMyFiles } from '../../../actions/user_files'
 import { diffForHumans, convertDate, timeSince } from '../../../utils/diffForHuman'
 import { getColorType } from '../translate/TranslateAssignment'
+import Toast from '../../alerts/ToastComponent'
 
 const ReviewAssignment = ({ user_files: { loading, my_files }, reviewGetMyFiles }) => {
   useEffect(() => {
@@ -15,6 +16,7 @@ const ReviewAssignment = ({ user_files: { loading, my_files }, reviewGetMyFiles 
   return (
     <>
       <NavBar />
+      <Toast />
       <Container className="mt-3">
         <h1 className="display-4">My Assignments</h1>
         <hr />
@@ -25,36 +27,32 @@ const ReviewAssignment = ({ user_files: { loading, my_files }, reviewGetMyFiles 
             </Spinner>
           </div> :
           <CardColumns>
-            {my_files.map(({
-              status, _id, nepali_filename, tamang_filename, assigned_date, deadline, submitted_on,
-              file_details: {
-                start_index, end_index
-              }
-            }, index) => (
-                <Card border={getColorType(status)} >
-                  <Card.Link href={`/review/assignments/${_id}`}>
-                    <Card.Header className={`text-${getColorType(status)}`}>{_id}</Card.Header>
-                  </Card.Link>
-                  <Card.Body>
-                    <Card.Title>Details</Card.Title>
-                    <Card.Text>
-                      <b>Status:</b> {status}<br />
-                      <b>Tamang Filename:</b> {tamang_filename}<br />
-                      <b>Nepali Filename:</b> {nepali_filename}<br />
-                      <b># of Sentences:</b> {end_index - start_index + 1}<br />
-                      <b>Assigned on:</b> {convertDate(assigned_date)}<br />
-                      <b>Deadline:</b> {convertDate(deadline)}<br />
-                      <b>{diffForHumans(deadline) === 'Overdue' ? 'Remarks:' : 'Remaining Time:'}</b> {diffForHumans(deadline)}<br />
-                    </Card.Text>
-                    {submitted_on && <Card.Text>
-                      <small className="text-muted">Submitted: {timeSince(submitted_on)}</small>
-                    </Card.Text>}
-                    {!submitted_on && <Card.Text>
-                      <small className="text-muted">Assigned: {timeSince(assigned_date)}</small>
-                    </Card.Text>}
-                  </Card.Body>
-                </Card>
-              ))}
+            {my_files.map((item, index) => (
+              item._id && <Card key={index} border={getColorType(item.status)} >
+                <Card.Link href={`/review/assignments/${item._id}`}>
+                  <Card.Header className={`text-${getColorType(item.status)}`}>{item._id}</Card.Header>
+                </Card.Link>
+                <Card.Body>
+                  <Card.Title>Details</Card.Title>
+                  <Card.Text>
+                    <b>ID:</b> {item._id}<br />
+                    <b>Status:</b> {item.status}<br />
+                    <b>Tamang Filename:</b> {item.tamang_filename}<br />
+                    <b>Nepali Filename:</b> {item.nepali_filename}<br />
+                    <b># of Sentences:</b> {item.end_index - item.start_index + 1}<br />
+                    <b>Assigned on:</b> {convertDate(item.assigned_date)}<br />
+                    <b>Deadline:</b> {convertDate(item.deadline)}<br />
+                    <b>{diffForHumans(item.deadline) === 'Overdue' ? 'Remarks:' : 'Remaining Time:'}</b> {diffForHumans(item.deadline)}<br />
+                  </Card.Text>
+                  {item.submitted_on && <Card.Text>
+                    <small className="text-muted">Submitted: {timeSince(item.submitted_on)}</small>
+                  </Card.Text>}
+                  {!item.submitted_on && <Card.Text>
+                    <small className="text-muted">Assigned: {timeSince(item.assigned_date)}</small>
+                  </Card.Text>}
+                </Card.Body>
+              </Card>
+            ))}
           </CardColumns>
         }
       </Container>
