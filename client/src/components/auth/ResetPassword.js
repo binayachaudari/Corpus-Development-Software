@@ -76,7 +76,7 @@ const ResetPassword = ({ match: { params: { token } }, setToast, history }) => {
           <hr />
           <ResetPasswordComponent data={formData} onChange={onChange} />
           <Button variant="primary btn-block mt-4" type="submit" >
-            Rest Password
+            Reset Password
           </Button>
         </Form>
       </Container>
