@@ -8,7 +8,7 @@ export const NotFound = () => {
         <h1 className="display-1 text-danger">404!</h1>
         <h3 className="display-3 text-secondary">Page Not Found</h3>
         <br />
-        <Link to="/"><button type="button" class="btn btn-lg btn-warning">Return Home</button></Link>
+        <Link to="/"><button type="button" className="btn btn-lg btn-warning">Return Home</button></Link>
       </div>
     </>
   )

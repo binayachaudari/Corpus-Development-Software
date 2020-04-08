@@ -35,23 +35,27 @@ if (localStorage.corpus_development_software)
 const App = () => {
   useEffect(() => {
     Store.dispatch(loadUser());
-  }, [])
+  }, []);
 
+  const Admin = ['Admin', 'Developer'];
+  const Linguist = ['Linguist'];
+  const Reviewer = ['Reviewer'];
+  const All = [...Admin, ...Linguist, ...Reviewer];
   return (
     <Provider store={Store}>
       <Router>
         <Route exact path="/" component={Login}></Route>
         <Switch>
           <Route exact path="/forgot-password" component={ForgotPassword}></Route>
-          <PrivateRoute exact path="/change-password" component={ChangePassword}></PrivateRoute>
-          <PrivateRoute exact path="/dashboard" component={Dashboard}></PrivateRoute>
-          <PrivateRoute exact path="/assign-task" component={AssignTask}></PrivateRoute>
-          <PrivateRoute exact path="/add-user" component={AddUser}></PrivateRoute>
-          <PrivateRoute exact path="/users" component={Users}></PrivateRoute>
-          <PrivateRoute exact path="/review/assignments" component={ReviewAssignment}></PrivateRoute>
-          <PrivateRoute exact path="/review/assignments/:id" component={ReviewText}></PrivateRoute>
-          <PrivateRoute exact path="/translate/assignments" component={TranslationAssignment}></PrivateRoute>
-          <PrivateRoute exact path="/translate/assignments/:id" component={TranslateText}></PrivateRoute>
+          <PrivateRoute exact path="/change-password" restrictTo={All} component={ChangePassword}></PrivateRoute>
+          <PrivateRoute exact path="/dashboard" restrictTo={All} component={Dashboard}></PrivateRoute>
+          <PrivateRoute exact path="/assign-task" restrictTo={Admin} component={AssignTask}></PrivateRoute>
+          <PrivateRoute exact path="/add-user" restrictTo={Admin} component={AddUser}></PrivateRoute>
+          <PrivateRoute exact path="/users" restrictTo={Admin} component={Users}></PrivateRoute>
+          <PrivateRoute exact path="/review/assignments" restrictTo={Reviewer} component={ReviewAssignment}></PrivateRoute>
+          <PrivateRoute exact path="/review/assignments/:id" restrictTo={Reviewer} component={ReviewText}></PrivateRoute>
+          <PrivateRoute exact path="/translate/assignments" restrictTo={Linguist} component={TranslationAssignment}></PrivateRoute>
+          <PrivateRoute exact path="/translate/assignments/:id" restrictTo={Linguist} component={TranslateText}></PrivateRoute>
           <Route exact path="/reset-password/:token" component={ResetPasswordForgot}></Route>
           <Route component={NotFound}></Route>
         </Switch>

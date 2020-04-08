@@ -3,11 +3,18 @@ import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-const PrivateRoute = ({ component: Component, auth: { isAuthenticated }, ...rest }) => (
-  <Route {...rest} render={props =>
-    !isAuthenticated ? (<Redirect to="/"></Redirect>) : (<Component {...props}></Component>)}>
-  </Route>
-)
+const PrivateRoute = ({ component: Component, auth: { isAuthenticated, user }, restrictTo, ...rest }) => {
+  const checkAccess = (role) => (
+    restrictTo.includes(role)
+  )
+
+  return (
+    <Route {...rest} render={props =>
+      !isAuthenticated ? (<Redirect to="/"></Redirect>) :
+        checkAccess(user.role) ? (<Component {...props}></Component>) : (<Redirect to="/dashboard"></Redirect>)}>
+    </Route>
+  )
+}
 
 PrivateRoute.propTypes = {
   auth: PropTypes.object.isRequired,
