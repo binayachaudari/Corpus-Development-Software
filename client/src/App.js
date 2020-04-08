@@ -19,6 +19,7 @@ import TranslationAssignment from './components/assignments/translate/TranslateA
 import TranslateText from './components/assignments/translate/TranslateText'
 import ReviewAssignment from './components/assignments/review/ReviewAssignment'
 import ReviewText from './components/assignments/review/ReviewText'
+import ResetPasswordForgot from './components/auth/ResetPassword'
 
 //authenticate user
 import { loadUser } from './actions/auth';
@@ -50,6 +51,7 @@ const App = () => {
           <PrivateRoute exact path="/review/assignments/:id" component={ReviewText}></PrivateRoute>
           <PrivateRoute exact path="/translate/assignments" component={TranslationAssignment}></PrivateRoute>
           <PrivateRoute exact path="/translate/assignments/:id" component={TranslateText}></PrivateRoute>
+          <Route exact path="/reset-password/:token" component={ResetPasswordForgot}></Route>
         </Switch>
       </Router>
     </Provider>

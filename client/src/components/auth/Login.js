@@ -5,6 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux'
 import Alert from '../alerts/AlertComponent';
 import { login } from '../../actions/auth';
+import Toast from '../alerts/ToastComponent'
 
 const Login = ({ login, isAuthenticated, user }) => {
   const [formData, setFormData] = useState({
@@ -59,6 +60,7 @@ const Login = ({ login, isAuthenticated, user }) => {
 
   return (
     <div className="bg-light">
+      <Toast />
       <Container>
         <Form className="form-signin d-flex flex-column justify-content-center" noValidate validated={validated} onSubmit={handleSubmit}>
           <h1 className="text-center font-weight-bold">Sign in</h1>
