@@ -106,7 +106,7 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
           <Form.Row>
             <Form.Group as={Col} md="2" controlId="start_index">
               <Form.Label>Start Index</Form.Label>
-              <Form.Control type="number" value={startIndex + 1} readOnly />
+              <Form.Control type="number" value={formData.start_index} readOnly />
             </Form.Group>
 
             <Form.Group as={Col} md="2" controlId="end_index">

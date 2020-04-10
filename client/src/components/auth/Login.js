@@ -6,8 +6,9 @@ import { connect } from 'react-redux'
 import Alert from '../alerts/AlertComponent';
 import { login } from '../../actions/auth';
 import Toast from '../alerts/ToastComponent'
+import { setToast } from '../../actions/toast'
 
-const Login = ({ login, isAuthenticated, user }) => {
+const Login = ({ login, isAuthenticated, user, setToast }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -51,6 +52,10 @@ const Login = ({ login, isAuthenticated, user }) => {
         alertType: 'danger',
         dismissible: error.status !== 429 ? true : false
       });
+
+    return error.message.map((item, index) => {
+      setToast('Credentials', `${item.msg}`, 'danger');
+    });
   }
 
 
@@ -109,4 +114,4 @@ const mapStateToProps = state => ({
   user: state.auth.user
 })
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { login, setToast })(Login);
