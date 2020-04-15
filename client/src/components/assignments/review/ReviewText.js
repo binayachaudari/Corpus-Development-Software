@@ -69,6 +69,12 @@ const ReviewText = ({ match: { params: { id } }, history, setToast }) => {
     setReview({ ...review, [e.target.id]: e.target.value })
   }
 
+  const handleKey = e => {
+    if (e.keyCode === 13)
+      e.preventDefault();
+  }
+
+
   const handleSubmit = async e => {
     e.preventDefault();
     await postReview(id, tamang_text);
@@ -100,7 +106,7 @@ const ReviewText = ({ match: { params: { id } }, history, setToast }) => {
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="tamang_text">
                 <Form.Control as="textarea" rows="4" style={{ fontSize: '1.5rem' }}
-                  value={tamang_text} onChange={handleChange} readOnly={!edit_tamang_text} />
+                  value={tamang_text} onChange={handleChange} onKeyDown={handleKey} readOnly={!edit_tamang_text} />
               </Form.Group>
               <Form.Check
                 type="checkbox"

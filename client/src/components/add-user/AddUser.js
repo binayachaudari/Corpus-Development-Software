@@ -48,6 +48,15 @@ const AddUser = ({ setToast }) => {
       if (res.status === 200) {
         const { data: { user: { name, role, id } } } = res;
         setToast('User Added', `${name} (${role}) has been added with User ID =: ${id}`, `success`);
+        setFormData({
+          name: '',
+          email: '',
+          password: '%6fYJ==f`&',
+          role: null,
+          show_password: false,
+          change_default: false,
+          validated: false
+        });
       }
     } catch (error) {
       setToast('Add User Failed', `${error.response.data.message} with that email address`, `danger`);
@@ -79,7 +88,7 @@ const AddUser = ({ setToast }) => {
       <NavBar />
       <Toast />
       <Container className="mt-3">
-        <h1 className="display-4">Assign Task</h1>
+        <h1 className="display-4">Add New User</h1>
         <hr />
         <Alert alertProp={alertState} />
         <Form onSubmit={handleSubmit}>

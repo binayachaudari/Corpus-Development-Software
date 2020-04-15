@@ -57,6 +57,11 @@ const TranslateText = ({ match: { params: { id } }, history, setToast }) => {
     setTranslation({ ...translation, [e.target.id]: e.target.value })
   }
 
+  const handleKey = e => {
+    if (e.keyCode === 13)
+      e.preventDefault();
+  }
+
   const handleSubmit = async e => {
     e.preventDefault();
     await postTranslation(id, tamang_text);
@@ -66,7 +71,7 @@ const TranslateText = ({ match: { params: { id } }, history, setToast }) => {
     <>
       <NavBar />
       <Container className="mt-3">
-        <h1 className="text-center">Review Texts</h1>
+        <h1 className="text-center">Translate Texts</h1>
         <div>
           <div className="mb-5">
             <p className="text-center text-uppercase font-weight-bold">Nepali Text:</p>
@@ -87,7 +92,7 @@ const TranslateText = ({ match: { params: { id } }, history, setToast }) => {
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="tamang_text">
                 <Form.Control as="textarea" rows="4" style={{ fontSize: '1.5rem' }}
-                  value={tamang_text} onChange={handleChange} required />
+                  value={tamang_text} onChange={handleChange} onKeyDown={handleKey} required />
               </Form.Group>
               <div className="text-right">
                 <Button type="submit">Save and Continue</Button>

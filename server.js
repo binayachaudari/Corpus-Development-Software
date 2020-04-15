@@ -5,6 +5,7 @@ const connectDB = require('./config/db');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const compression = require('compression');
+const path = require('path');
 
 const PORT = process.env.PORT || 5000;
 
@@ -13,6 +14,10 @@ const PORT = process.env.PORT || 5000;
  */
 connectDB();
 
+if (process.env.NODE_ENV === 'production') {
+  //Static files
+  app.use(express.static('client/build'));
+}
 
 /**
  * Inbuild Middleware

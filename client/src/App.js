@@ -44,8 +44,8 @@ const App = () => {
   return (
     <Provider store={Store}>
       <Router>
-        <Route exact path="/" component={Login}></Route>
         <Switch>
+          <Route exact path="/" component={Login}></Route>
           <Route exact path="/forgot-password" component={ForgotPassword}></Route>
           <PrivateRoute exact path="/change-password" restrictTo={All} component={ChangePassword}></PrivateRoute>
           <PrivateRoute exact path="/dashboard" restrictTo={All} component={Dashboard}></PrivateRoute>
