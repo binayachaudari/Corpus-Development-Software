@@ -65,11 +65,11 @@ exports.addReviewTask = async (req, res, next) => {
 
 
 async function copyFileForReview(filenameStructure, language) {
-  const translatedFilePath = path.join(__dirname, `../../DataStore/Translated/${language}`, `${language.toUpperCase()}${filenameStructure}.txt`);
+  const translatedFilePath = path.join(__dirname, `../../Datastore/Translated/${language}`, `${language.toUpperCase()}${filenameStructure}.txt`);
 
   let fileExt = language === 'Nepali' ? 'nep' : 'taj';
 
-  const reviewFileDestination = path.join(__dirname, `../../DataStore/AssignedFiles/Review/${language}`, `${fileExt}-review${filenameStructure}.txt`)
+  const reviewFileDestination = path.join(__dirname, `../../Datastore/AssignedFiles/Review/${language}`, `${fileExt}-review${filenameStructure}.txt`)
 
   fs.copyFileSync(translatedFilePath, reviewFileDestination)
 

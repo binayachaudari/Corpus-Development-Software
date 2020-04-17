@@ -95,8 +95,8 @@ const AssignReviewComponent = ({ users: { loading, all_users },
                 <Form.Label>Filename</Form.Label>
                 <Form.Control as="select" onChange={getFormData} required>
                   {!formData.file_id ? (<option value={null}>Choose Filename</option>) : ''}
-                  {translatedFiles && translatedFiles.map((file, index) => (
-                    <option key={index} value={file._id}>{file.filename}</option>
+                  {translatedFiles && translatedFiles.map((file, index) => (file._id &&
+                    < option key={index} value={file._id} > {file.filename}</option>
                   ))}
                 </Form.Control>
                 <Form.Text className="text-muted">
