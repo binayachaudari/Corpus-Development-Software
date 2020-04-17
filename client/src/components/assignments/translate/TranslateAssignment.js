@@ -32,7 +32,7 @@ const TranslateAssignments = ({ user_files: { loading, my_files }, translationGe
           </div> :
           <CardColumns>
             {my_files.map((item, index) => (
-              item &&
+              item._id &&
               <Card key={index} border={getColorType(item.status)} >
                 <Card.Link href={`/translate/assignments/${item._id}`}>
                   <Card.Header className={`text-${getColorType(item.status)}`}>{item._id}</Card.Header>
@@ -45,11 +45,10 @@ const TranslateAssignments = ({ user_files: { loading, my_files }, translationGe
                     {item.tamang_filename && <><b>Tamang Filename:</b> {item.tamang_filename}<br /></>}
                     {item.nepali_filename && <> <b>Nepali Filename:</b> {item.nepali_filename}<br /></>}
                     {!item.tamang_filename && !item.nepali_filename ? <> <b>Source File</b> {item.filename}<br /></> : ''}
-                    <b># of Sentences:</b> {item.file_details.end_index - item.file_details.start_index + 1}<br />
+                    <b># of Sentences:</b> {item.file_details && (item.file_details.end_index - item.file_details.start_index + 1)}<br />
                     <b>Assigned on:</b> {convertDate(item.assigned_date)}<br />
                     <b>Deadline:</b> {convertDate(item.deadline)}<br />
                     <b>{diffForHumans(item.deadline) === 'Overdue' ? 'Remarks:' : 'Remaining Time:'}</b> {diffForHumans(item.deadline)}<br />
-
                   </Card.Text>
                   {item.submitted_on && <Card.Text>
                     <small className="text-muted">Submitted: {timeSince(item.submitted_on)}</small>
