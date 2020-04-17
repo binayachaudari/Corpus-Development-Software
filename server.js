@@ -14,11 +14,6 @@ const PORT = process.env.PORT || 5000;
  */
 connectDB();
 
-if (process.env.NODE_ENV === 'production') {
-  //Static files
-  app.use(express.static('client/build'));
-}
-
 /**
  * Inbuild Middleware
  */
@@ -38,6 +33,17 @@ app.use(compression());
  * Routing Middleware
  */
 app.use('/api', require('./routes/api'));
+
+
+/**
+ * Static Files
+ */
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 
 /**
