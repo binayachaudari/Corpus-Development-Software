@@ -44,7 +44,7 @@ const TranslateAssignments = ({ user_files: { loading, my_files }, translationGe
                     <b>Status:</b> {item.status}<br />
                     {item.tamang_filename && <><b>Tamang Filename:</b> {item.tamang_filename}<br /></>}
                     {item.nepali_filename && <> <b>Nepali Filename:</b> {item.nepali_filename}<br /></>}
-                    {!item.tamang_filename && !item.nepali_filename ? <> <b>Source File</b> {item.filename}<br /></> : ''}
+                    {!item.tamang_filename && !item.nepali_filename ? <> <b>Source File</b> {item.file_details.filename}<br /></> : ''}
                     <b># of Sentences:</b> {item.file_details && (item.file_details.end_index - item.file_details.start_index + 1)}<br />
                     <b>Assigned on:</b> {convertDate(item.assigned_date)}<br />
                     <b>Deadline:</b> {convertDate(item.deadline)}<br />
