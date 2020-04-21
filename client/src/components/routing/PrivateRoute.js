@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import NavBar from '../dashboard/NavBar'
 
 const PrivateRoute = ({ component: Component, auth: { isAuthenticated, user }, restrictTo, ...rest }) => {
   const checkAccess = (role) => (
@@ -9,10 +10,13 @@ const PrivateRoute = ({ component: Component, auth: { isAuthenticated, user }, r
   )
 
   return (
-    <Route {...rest} render={props =>
-      !isAuthenticated ? (<Redirect to="/"></Redirect>) :
-        checkAccess(user.role) ? (<Component {...props}></Component>) : (<Redirect to="/dashboard"></Redirect>)}>
-    </Route>
+    <>
+      <NavBar />
+      <Route {...rest} render={props =>
+        !isAuthenticated ? (<Redirect to="/"></Redirect>) :
+          checkAccess(user.role) ? (<Component {...props}></Component>) : (<Redirect to="/dashboard"></Redirect>)}>
+      </Route>
+    </>
   )
 }
 

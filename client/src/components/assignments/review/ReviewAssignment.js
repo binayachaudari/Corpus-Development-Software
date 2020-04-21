@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Container, CardColumns, Card, Spinner } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import NavBar from '../../dashboard/NavBar'
 import { reviewGetMyFiles } from '../../../actions/user_files'
 import { diffForHumans, convertDate, timeSince } from '../../../utils/diffForHuman'
 import { getColorType } from '../translate/TranslateAssignment'
@@ -15,7 +14,6 @@ const ReviewAssignment = ({ user_files: { loading, my_files }, reviewGetMyFiles 
 
   return (
     <>
-      <NavBar />
       <Toast />
       <Container className="mt-3">
         <h1 className="display-4">My Assignments</h1>

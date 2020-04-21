@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Container, Form, Col, Button } from 'react-bootstrap'
 import Axios from 'axios'
-import NavBar from '../dashboard/NavBar'
 import Alert from '../alerts/AlertComponent'
 import Toast from '../alerts/ToastComponent'
 import { setToast } from '../../actions/toast'
@@ -85,7 +84,6 @@ const AddUser = ({ setToast }) => {
   }
   return (
     <>
-      <NavBar />
       <Toast />
       <Container className="mt-3">
         <h1 className="display-4">Add New User</h1>

@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Container, Form, Button, Spinner } from 'react-bootstrap'
 import Axios from 'axios'
-import NavBar from '../../dashboard/NavBar'
 import { setToast } from '../../../actions/toast'
 
 const TranslateText = ({ match: { params: { id } }, history, setToast }) => {
@@ -69,7 +68,6 @@ const TranslateText = ({ match: { params: { id } }, history, setToast }) => {
 
   return (
     <>
-      <NavBar />
       <Container className="mt-3">
         <h1 className="text-center">Translate Texts</h1>
         <div>

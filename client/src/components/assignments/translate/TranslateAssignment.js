@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Container, CardColumns, Card, Spinner } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import NavBar from '../../dashboard/NavBar'
 import { translationGetMyFiles } from '../../../actions/user_files'
 import { diffForHumans, convertDate, timeSince } from '../../../utils/diffForHuman'
 import Toast from '../../alerts/ToastComponent'
@@ -19,7 +18,6 @@ const TranslateAssignments = ({ user_files: { loading, my_files }, translationGe
 
   return (
     <>
-      <NavBar />
       <Toast />
       <Container className="mt-3">
         <h1 className="display-4">My Assignments</h1>
