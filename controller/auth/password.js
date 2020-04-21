@@ -24,7 +24,7 @@ exports.forgotPassword = async (req, res, next) => {
       name: userDetails.name,
       email: userDetails.email,
       role: userDetails.role,
-      resetURL: `${req.protocol}://${req.host}/reset-password/${resetToken}`,
+      resetURL: `${req.protocol}://${req.hostname}:${req.port}/reset-password/${resetToken}`,
       year: today.getFullYear()
     }
     await userDetails.save();
