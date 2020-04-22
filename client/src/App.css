@@ -31,16 +31,22 @@
   animation-duration: 0.45s;
   animation-fill-mode: both;
   animation-timing-function: ease-in-out;
+  -webkit-animation-name: slidein__animation;
+  -webkit-animation-duration: 0.45s;
+  -webkit-animation-fill-mode: both;
+  -webkit-animation-timing-function: ease-in-out;
 }
 
 @keyframes slidein__animation {
   from {
     opacity: 0;
     transform: translateY(20px);
+    -webkit-transform: translateY(20px);
   }
 
   to {
     opacity: 1;
     transform: translateY(0);
+    -webkit-transform: translateY(0);
   }
 }

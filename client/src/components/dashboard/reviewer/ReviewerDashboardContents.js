@@ -37,7 +37,7 @@ const ReviewerDashboardContents = ({ user_files: { loading, my_files }, reviewGe
         </Col>
         <Col className="text-justify" sm={10}>
           <Tab.Content>
-            <Tab.Pane eventKey="review_assigned_files"  {...slideInAnimation(0.3)}>
+            <Tab.Pane eventKey="review_assigned_files" transition={false} {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={reviewGetMyFiles}
                 headProps={assignedReviewHead}
                 tableCaption="List of assigned files (Review)"
@@ -46,7 +46,7 @@ const ReviewerDashboardContents = ({ user_files: { loading, my_files }, reviewGe
                 showTab="review_assigned_files"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="under_review"  {...slideInAnimation(0.3)}>
+            <Tab.Pane eventKey="under_review" transition={false} {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={reviewGetMyFiles}
                 headProps={assignedReviewHead}
                 tableCaption="List of files Under-Review"
@@ -55,7 +55,7 @@ const ReviewerDashboardContents = ({ user_files: { loading, my_files }, reviewGe
                 showTab="under_review"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="reviewed"  {...slideInAnimation(0.3)}>
+            <Tab.Pane eventKey="reviewed" transition={false} {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={reviewGetMyFiles}
                 headProps={reviewCompleteHead}
                 tableCaption="List of Reviewed Files"

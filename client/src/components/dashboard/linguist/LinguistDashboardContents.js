@@ -37,7 +37,7 @@ const LinguistDashboardContents = ({ user_files: { loading, my_files }, translat
         </Col>
         <Col className="text-justify" sm={10}>
           <Tab.Content>
-            <Tab.Pane eventKey="translation_assigned_files" {...slideInAnimation(0.3)}>
+            <Tab.Pane eventKey="translation_assigned_files" transition={false} {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={translationGetMyFiles}
                 headProps={assignedTranslationHead}
                 tableCaption="List of assigned files (Translation)"
@@ -46,7 +46,7 @@ const LinguistDashboardContents = ({ user_files: { loading, my_files }, translat
                 showTab="translation_assigned_files"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="under_translation" {...slideInAnimation(0.3)}>
+            <Tab.Pane eventKey="under_translation" transition={false} {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={translationGetMyFiles}
                 headProps={assignedTranslationHead}
                 tableCaption="List of files Under-Translation"
@@ -55,7 +55,7 @@ const LinguistDashboardContents = ({ user_files: { loading, my_files }, translat
                 showTab="under_translation"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="translated" {...slideInAnimation(0.3)}>
+            <Tab.Pane eventKey="translated" transition={false} {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={translationGetMyFiles}
                 headProps={translationCompleteHead}
                 tableCaption="List of Translated Files"

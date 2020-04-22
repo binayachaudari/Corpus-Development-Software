@@ -54,7 +54,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
         </Col>
         <Col className="text-justify" sm={10}>
           <Tab.Content>
-            <Tab.Pane eventKey="translation_assigned_files" {...slideInAnimation(0.3)}>
+            <Tab.Pane eventKey="translation_assigned_files" transition={false} {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={getTranslationFiles}
                 headProps={assignedTranslationHead}
                 tableCaption="List of assigned files (Translation)"
@@ -63,7 +63,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
                 showTab="translation_assigned_files"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="review_assigned_files" {...slideInAnimation(0.3)}>
+            <Tab.Pane eventKey="review_assigned_files" transition={false} {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={getReviewFiles}
                 headProps={assignedReviewHead}
                 tableCaption="List of assigned files (Review)"
@@ -72,7 +72,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
                 showTab="review_assigned_files"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="under_translation" {...slideInAnimation(0.3)}>
+            <Tab.Pane eventKey="under_translation" transition={false} {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={getTranslationFiles}
                 headProps={assignedTranslationHead}
                 tableCaption="List of files Under-Translation"
@@ -81,7 +81,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
                 showTab="under_translation"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="under_review" {...slideInAnimation(0.3)}>
+            <Tab.Pane eventKey="under_review" transition={false} {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={getReviewFiles}
                 headProps={assignedReviewHead}
                 tableCaption="List of files Under-Review"
@@ -90,7 +90,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
                 showTab="under_review"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="translated" {...slideInAnimation(0.3)}>
+            <Tab.Pane eventKey="translated" transition={false} {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={getTranslationFiles}
                 headProps={translationCompleteHead}
                 tableCaption="List of Translated Files"
@@ -99,7 +99,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
                 showTab="translated"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="reviewed" {...slideInAnimation(0.3)}>
+            <Tab.Pane eventKey="reviewed" transition={false} {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={getReviewFiles}
                 headProps={reviewCompleteHead}
                 tableCaption="List of Reviewed Files"
