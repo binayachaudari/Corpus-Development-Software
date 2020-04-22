@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { resetDefaultPassword, changePassword } from '../../actions/auth';
 import { setToast } from '../../actions/toast';
+import { slideInAnimation } from '../../utils/slideInAnimation'
 
 const ChangePassword = ({ auth: { user, loading }, history, resetDefaultPassword, setToast, changePassword }) => {
   const [formData, setFormData] = useState({
@@ -69,12 +70,12 @@ const ChangePassword = ({ auth: { user, loading }, history, resetDefaultPassword
     <div className="bg-light">
       <Container>
         <Form className="form-signin pt-5" noValidate validated={validated} onSubmit={handleSubmit}>
-          <h1 className="text-center font-weight-bold">Change {!loading && !user.activated && `Your Default`} Password</h1>
-          <p className="text-center lead mb-3">It's a good idea to use a strong password that you're not using elsewhere.</p>
+          <h1 className="text-center font-weight-bold slidein__animation" style={{ animationDelay: '0.2s' }}>Change {!loading && !user.activated && `Your Default`} Password</h1>
+          <p className="text-center lead mb-3 slidein__animation" style={{ animationDelay: '0.3s' }}>It's a good idea to use a strong password that you're not using elsewhere.</p>
           <Alert alertProp={alertState} />
-          <hr />
+          <hr className="slidein__animation" style={{ animationDelay: '0.5s' }} />
           {!loading && user.activated &&
-            < Form.Group controlId="current_password">
+            < Form.Group controlId="current_password" {...slideInAnimation(0.7)}>
               <Form.Label>Current Password</Form.Label>
               <Form.Control type="password" placeholder="Current password" value={current_password} onChange={onChange} required minLength="8" />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -86,7 +87,7 @@ const ChangePassword = ({ auth: { user, loading }, history, resetDefaultPassword
 
           <ResetPasswordComponent data={formData} onChange={onChange}></ResetPasswordComponent>
 
-          <Button variant="primary btn-block mt-4" type="submit" >
+          <Button variant="primary btn-block mt-4" type="submit" {...slideInAnimation(1.3)}>
             Change Password
           </Button>
         </Form>

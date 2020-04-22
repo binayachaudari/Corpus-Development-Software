@@ -2,10 +2,12 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Container, CardColumns, Card, Spinner } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { reviewGetMyFiles } from '../../../actions/user_files'
 import { diffForHumans, convertDate, timeSince } from '../../../utils/diffForHuman'
 import { getColorType } from '../translate/TranslateAssignment'
 import Toast from '../../alerts/ToastComponent'
+import { slideInAnimationWithIndex } from '../../../utils/slideInAnimation'
 
 const ReviewAssignment = ({ user_files: { loading, my_files }, reviewGetMyFiles }) => {
   useEffect(() => {
@@ -16,8 +18,8 @@ const ReviewAssignment = ({ user_files: { loading, my_files }, reviewGetMyFiles 
     <>
       <Toast />
       <Container className="mt-3">
-        <h1 className="display-4">My Assignments</h1>
-        <hr />
+        <h1 className="display-4 slidein__animation" style={{ animationDelay: '0.2s' }}>My Assignments</h1>
+        <hr className="slidein__animation" style={{ animationDelay: '0.3s' }} />
         {loading ?
           <div className="d-flex justify-content-center">
             <Spinner animation="grow" role="status">
@@ -26,8 +28,8 @@ const ReviewAssignment = ({ user_files: { loading, my_files }, reviewGetMyFiles 
           </div> :
           <CardColumns>
             {my_files.map((item, index) => (
-              item._id && <Card key={index} border={getColorType(item.status)} >
-                <Card.Link href={`/review/assignments/${item._id}`}>
+              item._id && <Card key={index} border={getColorType(item.status)} {...slideInAnimationWithIndex(index, 0.4)}>
+                <Card.Link as={Link} to={`/review/assignments/${item._id}`}>
                   <Card.Header className={`text-${getColorType(item.status)}`}>{item._id}</Card.Header>
                 </Card.Link>
                 <Card.Body>

@@ -7,7 +7,7 @@ import Axios from 'axios'
 import { setToast } from '../../actions/toast'
 import ResetPasswordComponent from './ResetPasswordComponent'
 import Alert from '../alerts/AlertComponent'
-
+import { slideInAnimation } from '../../utils/slideInAnimation'
 
 const ResetPassword = ({ match: { params: { token } }, setToast, history }) => {
   const [formData, setFormData] = useState({
@@ -70,12 +70,12 @@ const ResetPassword = ({ match: { params: { token } }, setToast, history }) => {
     <div className="bg-light">
       <Container>
         <Form className="form-signin pt-5" noValidate validated={validated} onSubmit={handleSubmit}>
-          <h1 className="text-center font-weight-bold">Forgot Password</h1>
-          <p className="text-center lead mb-3">Enter Email address associated with your account.</p>
+          <h1 className="text-center font-weight-bold slidein__animation" style={{ animationDelay: '0.2s' }}>Forgot Password</h1>
+          <p className="text-center lead mb-3 slidein__animation" style={{ animationDelay: '0.3s' }}>Enter Email address associated with your account.</p>
           <Alert alertProp={alertState} />
-          <hr />
+          <hr className="slidein__animation" style={{ animationDelay: '0.5s' }} />
           <ResetPasswordComponent data={formData} onChange={onChange} />
-          <Button variant="primary btn-block mt-4" type="submit" >
+          <Button variant="primary btn-block mt-4" type="submit" {...slideInAnimation(1.3)} >
             Reset Password
           </Button>
         </Form>

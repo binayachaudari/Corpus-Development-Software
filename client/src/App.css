@@ -9,3 +9,38 @@
 .nav-pills .nav-link:focus,.nav-tabs .nav-link:focus{
   outline: none;
 }
+
+.navbar__reveal {
+  animation-name: item__transparent;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+}
+
+@keyframes item__transparent {
+  from {
+    background: transparent;
+  }
+  to {
+    background: #343a40;
+  }
+}
+
+.slidein__animation {
+  animation-name: slidein__animation;
+  animation-duration: 0.45s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes slidein__animation {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

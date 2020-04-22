@@ -4,7 +4,7 @@ import { Tab, Col, Row, Nav } from 'react-bootstrap'
 import { connect } from 'react-redux';
 import FileStatusComponent from './FileStatusComponent'
 import { reviewGetMyFiles } from '../../../actions/user_files'
-
+import { slideInAnimation } from '../../../utils/slideInAnimation'
 
 const assignedReviewHead = ['File ID', 'No. of Sentences', 'Assigned To',
   'Assigned By', 'Filenames', 'Assigned Date', 'Deadline', 'Remaining Time'];
@@ -25,19 +25,19 @@ const ReviewerDashboardContents = ({ user_files: { loading, my_files }, reviewGe
         <Col sm={2}>
           <Nav variant="pills" className="flex-column position-fixed">
             <Nav.Item>
-              <Nav.Link eventKey="review_assigned_files">Review Assigned</Nav.Link>
+              <Nav.Link eventKey="review_assigned_files" {...slideInAnimation(0.2)}>Review Assigned</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="under_review">Under Review</Nav.Link>
+              <Nav.Link eventKey="under_review" {...slideInAnimation(0.2)}>Under Review</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="reviewed">Reviewed</Nav.Link>
+              <Nav.Link eventKey="reviewed" {...slideInAnimation(0.2)}>Reviewed</Nav.Link>
             </Nav.Item>
           </Nav>
         </Col>
         <Col className="text-justify" sm={10}>
           <Tab.Content>
-            <Tab.Pane eventKey="review_assigned_files">
+            <Tab.Pane eventKey="review_assigned_files"  {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={reviewGetMyFiles}
                 headProps={assignedReviewHead}
                 tableCaption="List of assigned files (Review)"
@@ -46,7 +46,7 @@ const ReviewerDashboardContents = ({ user_files: { loading, my_files }, reviewGe
                 showTab="review_assigned_files"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="under_review">
+            <Tab.Pane eventKey="under_review"  {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={reviewGetMyFiles}
                 headProps={assignedReviewHead}
                 tableCaption="List of files Under-Review"
@@ -55,7 +55,7 @@ const ReviewerDashboardContents = ({ user_files: { loading, my_files }, reviewGe
                 showTab="under_review"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="reviewed">
+            <Tab.Pane eventKey="reviewed"  {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={reviewGetMyFiles}
                 headProps={reviewCompleteHead}
                 tableCaption="List of Reviewed Files"

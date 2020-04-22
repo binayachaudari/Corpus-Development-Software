@@ -2,9 +2,11 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Container, CardColumns, Card, Spinner } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { translationGetMyFiles } from '../../../actions/user_files'
 import { diffForHumans, convertDate, timeSince } from '../../../utils/diffForHuman'
 import Toast from '../../alerts/ToastComponent'
+import { slideInAnimationWithIndex } from '../../../utils/slideInAnimation'
 
 export const getColorType = (status) => {
   return status === 'assigned' ? 'primary' :
@@ -20,8 +22,8 @@ const TranslateAssignments = ({ user_files: { loading, my_files }, translationGe
     <>
       <Toast />
       <Container className="mt-3">
-        <h1 className="display-4">My Assignments</h1>
-        <hr />
+        <h1 className="display-4 slidein__animation" style={{ animationDelay: '0.2s' }}>My Assignments</h1>
+        <hr className="slidein__animation" style={{ animationDelay: '0.3s' }} />
         {loading ?
           <div className="d-flex justify-content-center">
             <Spinner animation="grow" role="status">
@@ -31,8 +33,8 @@ const TranslateAssignments = ({ user_files: { loading, my_files }, translationGe
           <CardColumns>
             {my_files.map((item, index) => (
               item._id &&
-              <Card key={index} border={getColorType(item.status)} >
-                <Card.Link href={`/translate/assignments/${item._id}`}>
+              <Card key={index} border={getColorType(item.status)} {...slideInAnimationWithIndex(index, 0.4)}>
+                <Card.Link as={Link} to={`/translate/assignments/${item._id}`}>
                   <Card.Header className={`text-${getColorType(item.status)}`}>{item._id}</Card.Header>
                 </Card.Link>
                 <Card.Body>

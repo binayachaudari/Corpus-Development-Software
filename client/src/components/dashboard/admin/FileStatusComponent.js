@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Table, Spinner, Tooltip, OverlayTrigger } from 'react-bootstrap'
 import { diffForHumans, convertDate, timeSince } from '../../../utils/diffForHuman'
+import { slideInAnimationWithIndex } from '../../../utils/slideInAnimation'
 
 const renderTooltip = props => (
   <Tooltip id="button-tooltip">
@@ -11,7 +12,7 @@ const renderTooltip = props => (
 
 export const assignedTranslateFiles = (dataFiles) => (
   dataFiles.map((item, index) => (
-    <tr key={index} {...slideInProps(index, 0.2)}>
+    <tr key={index} {...slideInAnimationWithIndex(index, 0.2)}>
       <td className="align-middle">{item._id}</td>
       <td className="align-middle">{item.file_details.end_index - item.file_details.start_index + 1} <br />
         |<small>{item.file_details.start_index}-{item.file_details.end_index}</small>|
@@ -28,7 +29,7 @@ export const assignedTranslateFiles = (dataFiles) => (
 
 export const assignedReviewFiles = (dataFiles) => (
   dataFiles.map((item, index) => (
-    <tr key={index} {...slideInProps(index, 0.2)}>
+    <tr key={index} {...slideInAnimationWithIndex(index, 0.2)}>
       <td className="align-middle py-0">{item._id}</td>
       <td className="align-middle py-0">{item.file_details.end_index - item.file_details.start_index + 1} <br />
         |<small>{item.file_details.start_index}-{item.file_details.end_index}</small>|
@@ -61,7 +62,7 @@ export const assignedReviewFiles = (dataFiles) => (
 
 export const completedTranslationReview = (dataFiles, taskType) => (
   dataFiles.map((item, index) => (
-    <tr key={index} {...slideInProps(index, 0.2)}>
+    <tr key={index} {...slideInAnimationWithIndex(index, 0.2)}>
       <td className="align-middle py-0">{item._id}</td>
       <td className="align-middle py-0">{item.file_details.end_index - item.file_details.start_index + 1} <br />
         |<small>{item.file_details.start_index}-{item.file_details.end_index}</small>|
@@ -92,13 +93,6 @@ export const completedTranslationReview = (dataFiles, taskType) => (
   ))
 )
 
-const slideInProps = (index, animationDelay) => ({
-  className: `slidein__animation`,
-  style: {
-    animationDelay: `${0.4 + index * animationDelay}s`,
-  },
-});
-
 const FileStatusComponent = ({ headProps, tableCaption, loadData, dataFiles, loading, showTab }) => {
   useEffect(() => {
     loadData();
@@ -113,7 +107,7 @@ const FileStatusComponent = ({ headProps, tableCaption, loadData, dataFiles, loa
           </Spinner>
         </div> :
         <Table className="text-center bg-light" responsive bordered>
-          <caption className="font-weight-lighter font-italic" {...slideInProps(0, 0)}>{tableCaption}</caption>
+          <caption className="font-weight-lighter font-italic" {...slideInAnimationWithIndex(0, 0)}>{tableCaption}</caption>
           <thead className="table-dark" >
             <tr>
               {headProps.map((item, index) => (

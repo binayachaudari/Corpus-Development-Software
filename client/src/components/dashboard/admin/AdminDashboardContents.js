@@ -4,7 +4,7 @@ import { Tab, Col, Row, Nav } from 'react-bootstrap'
 import FileStatusComponent from './FileStatusComponent'
 import { getTranslationFiles, getReviewFiles } from '../../../actions/files'
 import { connect } from 'react-redux'
-
+import { slideInAnimation } from '../../../utils/slideInAnimation'
 
 const assignedTranslationHead = ['File ID', 'No. of Sentences', 'Assigned To',
   'Assigned By', 'Filename', 'Assigned Date', 'Deadline', 'Remaining Time'];
@@ -20,13 +20,6 @@ translationCompleteHead[7] = 'Remarks';
 const reviewCompleteHead = [...translationCompleteHead];
 reviewCompleteHead[4] = 'Reviewed Filenames';
 
-const slideInProps = (animationDelay) => ({
-  className: `slidein__animation`,
-  style: {
-    animationDelay: `${animationDelay}s`,
-  },
-});
-
 
 const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
   const currentPill = localStorage.__currentPill__DASH || 'translation_assigned_files';
@@ -39,29 +32,29 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
       <Row className="mt-5">
         <Col sm={2}>
           <Nav variant="pills" className="flex-column dashboard__pills mb-5 sticky-top">
-            <Nav.Item {...slideInProps(0.2)}>
+            <Nav.Item {...slideInAnimation(0.2)}>
               <Nav.Link eventKey="translation_assigned_files" >Translation Assigned</Nav.Link>
             </Nav.Item>
-            <Nav.Item {...slideInProps(0.4)}>
+            <Nav.Item {...slideInAnimation(0.4)}>
               <Nav.Link eventKey="review_assigned_files">Review Assigned</Nav.Link>
             </Nav.Item>
-            <Nav.Item {...slideInProps(0.6)}>
+            <Nav.Item {...slideInAnimation(0.6)}>
               <Nav.Link eventKey="under_translation">Under Translation</Nav.Link>
             </Nav.Item>
-            <Nav.Item {...slideInProps(0.8)}>
+            <Nav.Item {...slideInAnimation(0.8)}>
               <Nav.Link eventKey="under_review">Under Review</Nav.Link>
             </Nav.Item>
-            <Nav.Item {...slideInProps(1)}>
+            <Nav.Item {...slideInAnimation(1)}>
               <Nav.Link eventKey="translated">Translated</Nav.Link>
             </Nav.Item>
-            <Nav.Item {...slideInProps(1.2)}>
+            <Nav.Item {...slideInAnimation(1.2)}>
               <Nav.Link eventKey="reviewed">Reviewed</Nav.Link>
             </Nav.Item>
           </Nav>
         </Col>
         <Col className="text-justify" sm={10}>
           <Tab.Content>
-            <Tab.Pane eventKey="translation_assigned_files" {...slideInProps(0.3)}>
+            <Tab.Pane eventKey="translation_assigned_files" {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={getTranslationFiles}
                 headProps={assignedTranslationHead}
                 tableCaption="List of assigned files (Translation)"
@@ -70,7 +63,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
                 showTab="translation_assigned_files"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="review_assigned_files" {...slideInProps(0.3)}>
+            <Tab.Pane eventKey="review_assigned_files" {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={getReviewFiles}
                 headProps={assignedReviewHead}
                 tableCaption="List of assigned files (Review)"
@@ -79,7 +72,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
                 showTab="review_assigned_files"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="under_translation" {...slideInProps(0.3)}>
+            <Tab.Pane eventKey="under_translation" {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={getTranslationFiles}
                 headProps={assignedTranslationHead}
                 tableCaption="List of files Under-Translation"
@@ -88,7 +81,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
                 showTab="under_translation"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="under_review" {...slideInProps(0.3)}>
+            <Tab.Pane eventKey="under_review" {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={getReviewFiles}
                 headProps={assignedReviewHead}
                 tableCaption="List of files Under-Review"
@@ -97,7 +90,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
                 showTab="under_review"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="translated" {...slideInProps(0.3)}>
+            <Tab.Pane eventKey="translated" {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={getTranslationFiles}
                 headProps={translationCompleteHead}
                 tableCaption="List of Translated Files"
@@ -106,7 +99,7 @@ const DashboardContents = ({ getTranslationFiles, getReviewFiles, files }) => {
                 showTab="translated"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="reviewed" {...slideInProps(0.3)}>
+            <Tab.Pane eventKey="reviewed" {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={getReviewFiles}
                 headProps={reviewCompleteHead}
                 tableCaption="List of Reviewed Files"

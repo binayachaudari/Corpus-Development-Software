@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { getAllUsers } from '../../actions/users';
 import { getLastAssignedEndIndex, assignTranslationTask } from '../../actions/files'
 import Alert from '../alerts/AlertComponent'
+import { slideInAnimation } from '../../utils/slideInAnimation'
 
 const AssignTranslateComponent = ({ users: { loading, all_users },
   getAllUsers, getLastAssignedEndIndex, assignTranslationTask }) => {
@@ -76,7 +77,7 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
         <Alert alertProp={alertState} />
         <Form noValidate onSubmit={handleSubmit} className="pb-5">
           <Form.Row>
-            <Form.Group as={Col} md="4" controlId="assigned_to">
+            <Form.Group as={Col} md="4" controlId="assigned_to" {...slideInAnimation(0.2)}>
               <Form.Label>Name</Form.Label>
               <Form.Control as="select" onChange={getFormData} required>
                 {!formData.assigned_to ? (<option value={null}>Choose Name</option>) : ''}
@@ -89,7 +90,7 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
               </Form.Text>
             </Form.Group>
 
-            <Form.Group as={Col} md="4" controlId="email">
+            <Form.Group as={Col} md="4" controlId="email"{...slideInAnimation(0.3)}>
               <Form.Label>Email</Form.Label>
               <Form.Control type="email" value={all_users
                 .find(obj => obj._id === formData.assigned_to) ?
@@ -99,23 +100,23 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
           </Form.Row>
 
           <Form.Row>
-            <Form.Group as={Col} md="4" controlId="user_id">
+            <Form.Group as={Col} md="4" controlId="user_id" {...slideInAnimation(0.4)}>
               <Form.Label>User ID</Form.Label>
               <Form.Control type="text" value={formData.assigned_to ? formData.assigned_to : 'User ID'} readOnly />
             </Form.Group>
-            <Form.Group as={Col} md="4" controlId="source_filename">
+            <Form.Group as={Col} md="4" controlId="source_filename" {...slideInAnimation(0.5)}>
               <Form.Label>Source Filename</Form.Label>
               <Form.Control type="text" value={formData.source_filename} readOnly />
             </Form.Group>
           </Form.Row>
 
           <Form.Row>
-            <Form.Group as={Col} md="2" controlId="start_index">
+            <Form.Group as={Col} md="2" controlId="start_index" {...slideInAnimation(0.6)}>
               <Form.Label>Start Index</Form.Label>
               <Form.Control type="number" value={formData.start_index} readOnly />
             </Form.Group>
 
-            <Form.Group as={Col} md="2" controlId="end_index">
+            <Form.Group as={Col} md="2" controlId="end_index" {...slideInAnimation(0.7)}>
               <Form.Label>End Index</Form.Label>
               <Form.Control type="number" value={formData.end_index || 0} min={formData.start_index} onChange={getFormData} required />
               <Form.Text className="text-muted">
@@ -123,7 +124,7 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
               </Form.Text>
             </Form.Group>
 
-            <Form.Group as={Col} md="2" controlId="end_index">
+            <Form.Group as={Col} md="2" controlId="end_index" {...slideInAnimation(0.8)}>
               <Form.Label>Number of lines</Form.Label>
               <Form.Control type="number" value={NumberOfLines} readOnly />
               <Form.Text className="text-muted">
@@ -133,17 +134,17 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
           </Form.Row>
 
           <Form.Row>
-            <Form.Group as={Col} md="8">
-              <Form.Label>Deadline</Form.Label>
+            <Form.Group as={Col} md="8" >
+              <Form.Label {...slideInAnimation(0.9)}>Deadline</Form.Label>
               <Form.Row>
-                <Form.Group as={Col} md="4" controlId="date">
+                <Form.Group as={Col} md="4" controlId="date"{...slideInAnimation(1)}>
                   <Form.Control type="date" value={formData.date} min={dateToday}
                     onChange={getFormData} required />
                   <Form.Text className="text-muted">
                     Date is required.*
                   </Form.Text>
                 </Form.Group>
-                <Form.Group as={Col} md="4" controlId="time">
+                <Form.Group as={Col} md="4" controlId="time" {...slideInAnimation(1.1)}>
                   <Form.Control type="time" value={formData.time} onChange={getFormData} required />
                   <Form.Text className="text-muted">
                     Time is required.*
@@ -152,7 +153,7 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
               </Form.Row>
             </Form.Group>
           </Form.Row>
-          <Button variant="success" type="submit">
+          <Button variant="success" type="submit" {...slideInAnimation(1.4)}>
             Assign Translation Task
             </Button>
         </Form>

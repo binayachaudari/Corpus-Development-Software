@@ -4,6 +4,7 @@ import { Tab, Col, Row, Nav } from 'react-bootstrap'
 import { connect } from 'react-redux';
 import FileStatusComponent from './FileStatusComponent'
 import { translationGetMyFiles } from '../../../actions/user_files'
+import { slideInAnimation } from '../../../utils/slideInAnimation'
 
 const assignedTranslationHead = ['File ID', 'No. of Sentences', 'Assigned To',
   'Assigned By', 'Filename', 'Assigned Date', 'Deadline', 'Remaining Time'];
@@ -24,19 +25,19 @@ const LinguistDashboardContents = ({ user_files: { loading, my_files }, translat
         <Col sm={2}>
           <Nav variant="pills" className="flex-column position-fixed">
             <Nav.Item>
-              <Nav.Link eventKey="translation_assigned_files" >Translation Assigned</Nav.Link>
+              <Nav.Link eventKey="translation_assigned_files" {...slideInAnimation(0.2)} >Translation Assigned</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="under_translation">Under Translation</Nav.Link>
+              <Nav.Link eventKey="under_translation" {...slideInAnimation(0.4)}>Under Translation</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="translated">Translated</Nav.Link>
+              <Nav.Link eventKey="translated" {...slideInAnimation(0.6)}>Translated</Nav.Link>
             </Nav.Item>
           </Nav>
         </Col>
         <Col className="text-justify" sm={10}>
           <Tab.Content>
-            <Tab.Pane eventKey="translation_assigned_files">
+            <Tab.Pane eventKey="translation_assigned_files" {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={translationGetMyFiles}
                 headProps={assignedTranslationHead}
                 tableCaption="List of assigned files (Translation)"
@@ -45,7 +46,7 @@ const LinguistDashboardContents = ({ user_files: { loading, my_files }, translat
                 showTab="translation_assigned_files"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="under_translation">
+            <Tab.Pane eventKey="under_translation" {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={translationGetMyFiles}
                 headProps={assignedTranslationHead}
                 tableCaption="List of files Under-Translation"
@@ -54,7 +55,7 @@ const LinguistDashboardContents = ({ user_files: { loading, my_files }, translat
                 showTab="under_translation"
               />
             </Tab.Pane>
-            <Tab.Pane eventKey="translated">
+            <Tab.Pane eventKey="translated" {...slideInAnimation(0.3)}>
               <FileStatusComponent loadData={translationGetMyFiles}
                 headProps={translationCompleteHead}
                 tableCaption="List of Translated Files"

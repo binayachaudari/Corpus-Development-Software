@@ -15,9 +15,9 @@ const AssignTask = props => {
     <div>
       <Toast />
       <Container className="mt-3">
-        <h1 className="display-4">Assign Task</h1>
+        <h1 className="display-4 slidein__animation" style={{ animationDelay: '0.1s' }}>Assign Task</h1>
         <Tab.Container id="left-tabs-example" unmountOnExit={true} onSelect={onSelect} defaultActiveKey={currentPill}>
-          <Nav variant="tabs" className="mt-5">
+          <Nav variant="tabs" className="mt-5 slidein__animation" style={{ animationDelay: '0.3s' }}>
             <Nav.Item>
               <Nav.Link eventKey="translate">Translate</Nav.Link>
             </Nav.Item>
