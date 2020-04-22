@@ -46,7 +46,7 @@ const Login = ({ login, isAuthenticated, user, setToast }) => {
       });
 
     if (!Array.isArray(error.message))
-      setAlertState({
+      return setAlertState({
         ...alertState,
         message: error.message,
         alertType: 'danger',
