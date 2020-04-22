@@ -11,10 +11,9 @@ const PrivateRoute = ({ component: Component, auth: { isAuthenticated, user }, r
 
   return (
     <>
-      <NavBar />
       <Route {...rest} render={props =>
         !isAuthenticated ? (<Redirect to="/"></Redirect>) :
-          checkAccess(user.role) ? (<Component {...props}></Component>) : (<Redirect to="/dashboard"></Redirect>)}>
+          checkAccess(user.role) ? (<><NavBar /><Component {...props}></Component></>) : (<Redirect to="/dashboard"></Redirect>)}>
       </Route>
     </>
   )
