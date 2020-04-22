@@ -44,15 +44,16 @@ const NavBar = ({ history: { location: { pathname } }, auth: { user }, logout })
             adminLinks(pathname) : user.role === 'Linguist' ?
               linguistLinks(pathname) : user.role === 'Reviewer' ? reviewerLinks(pathname) : ''}
           <Nav className="justify-content-center mr-auto">
-            <Navbar.Brand className="d-none d-lg-block" {...slideInAnimation(0.9)} > Corpus Development Software</Navbar.Brand>
+            <Navbar.Brand className="d-none d-lg-block slidein__animation" style={{ animationDelay: '0.9' }}> Corpus Development Software</Navbar.Brand>
           </Nav>
           <Nav>
-            <NavDropdown alignRight {...slideInAnimation(1)} style={{ zIndex: 10 }}
+            <NavDropdown alignRight
+              className="slidein__animation" style={{ animationDelay: '0.9s', zIndex: '10' }}
               title={<span className="text-warning">{user.name}</span>}
               id="collasible-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/change-password" active={pathname === '/change-password'}>Change Password</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/change-password" active={pathname === '/change-password'} {...slideInAnimation(0.2)}>Change Password</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item className="text-primary" as={Link} to="#logout" onClick={logout}>Log Out</NavDropdown.Item>
+              <NavDropdown.Item className="text-primary" as={Link} to="#logout" onClick={logout} {...slideInAnimation(0.4)}>Log Out</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

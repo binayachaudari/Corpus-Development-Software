@@ -124,7 +124,7 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
               </Form.Text>
             </Form.Group>
 
-            <Form.Group as={Col} md="2" controlId="end_index" {...slideInAnimation(0.8)}>
+            <Form.Group as={Col} md="2" controlId="num_of_sentences" {...slideInAnimation(0.8)}>
               <Form.Label>Number of lines</Form.Label>
               <Form.Control type="number" value={NumberOfLines} readOnly />
               <Form.Text className="text-muted">

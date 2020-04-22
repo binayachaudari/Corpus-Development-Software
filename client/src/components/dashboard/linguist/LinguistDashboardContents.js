@@ -23,7 +23,7 @@ const LinguistDashboardContents = ({ user_files: { loading, my_files }, translat
     <Tab.Container id="left-tabs-example" unmountOnExit={true} onSelect={onSelect} defaultActiveKey={currentPill}>
       <Row className="mt-5">
         <Col sm={2}>
-          <Nav variant="pills" className="flex-column position-fixed">
+          <Nav variant="pills" className="flex-column  mb-5 sticky-top">
             <Nav.Item>
               <Nav.Link eventKey="translation_assigned_files" {...slideInAnimation(0.2)} >Translation Assigned</Nav.Link>
             </Nav.Item>
