@@ -15,24 +15,30 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
 
   const [formData, setFormData] = useState({
     source_filename: `sourceFile.txt`,
-    start_index: null,
-    end_index: null,
+    start_index: 0,
+    end_index: 0,
     assigned_to: null,
     date: dateToday,
     time: today.toLocaleString('en', { hour: '2-digit', minute: '2-digit', hour12: false }),
   });
+
+  const [NumberOfLines, setNumberOfLines] = useState(10)
 
   const getFormData = e => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
     setAlertState({ ...alertState, message: null })
   }
 
+  useEffect(() => {
+    setNumberOfLines(formData.end_index - formData.start_index + 1);
+  }, [formData.end_index])
+
   const fetchData = async () => {
     const result = await getLastAssignedEndIndex();
     setStartIndex(result);
     setFormData({ ...formData, start_index: result + 1, end_index: result + 10 })
     if (!result)
-      return setFormData({ ...formData, start_index: startIndex + 1, end_index: startIndex + 10 })
+      return setFormData({ ...formData, start_index: startIndex + 1, end_index: startIndex + 10 });
   };
 
   useEffect(() => {
@@ -68,7 +74,7 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
       </div> :
       <>
         <Alert alertProp={alertState} />
-        <Form noValidate onSubmit={handleSubmit}>
+        <Form noValidate onSubmit={handleSubmit} className="pb-5">
           <Form.Row>
             <Form.Group as={Col} md="4" controlId="assigned_to">
               <Form.Label>Name</Form.Label>
@@ -111,12 +117,22 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
 
             <Form.Group as={Col} md="2" controlId="end_index">
               <Form.Label>End Index</Form.Label>
-              <Form.Control type="number" value={formData.end_index || 0} onChange={getFormData} required />
+              <Form.Control type="number" value={formData.end_index || 0} min={formData.start_index} onChange={getFormData} required />
               <Form.Text className="text-muted">
                 End index must be greater than Start Index
               </Form.Text>
             </Form.Group>
 
+            <Form.Group as={Col} md="2" controlId="end_index">
+              <Form.Label>Number of lines</Form.Label>
+              <Form.Control type="number" value={NumberOfLines} readOnly />
+              <Form.Text className="text-muted">
+                Total number of lines to be assigned.
+              </Form.Text>
+            </Form.Group>
+          </Form.Row>
+
+          <Form.Row>
             <Form.Group as={Col} md="8">
               <Form.Label>Deadline</Form.Label>
               <Form.Row>
