@@ -4,6 +4,7 @@ const Files = require('../../models/Files');
 const Translation = require('../../models/Translation');
 const Users = require('../../models/Users');
 const notifyUser = require('../../utils/createPDF.assign');
+const fileDetails = require('./fileDetails');
 
 
 exports.addTranslationTask = async (req, res, next) => {
@@ -19,12 +20,20 @@ exports.addTranslationTask = async (req, res, next) => {
       });
 
     const numOfSentences = end_index - start_index + 1;
+    const maxEndIndex = await fileDetails.sourceFileLines();
 
     if (start_index > end_index) {
       return next({
         status: 400,
         message: 'Start_index is greater than End_index'
       });
+    }
+
+    if (end_index > maxEndIndex) {
+      return next({
+        status: 401,
+        message: `End index is greater than num of lines in sourcefile, MAX_END_INDEX: ${maxEndIndex}`
+      })
     }
 
     const newFile = new Files({

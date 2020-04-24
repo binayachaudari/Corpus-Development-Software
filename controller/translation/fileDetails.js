@@ -309,28 +309,41 @@ function readFile(filename, languageDir, index) {
   });
 }
 
-function getNumOfLinesInSourceFile(req, res, next) {
+function sourceFileLines() {
   let readableStream = fs.createReadStream(path.join(__dirname, `../../Datastore/Sourcefiles/`,
     `sourceFile.txt`),
     { encoding: 'utf8' });
 
-  let buffer = '';
+  return new Promise((resolve, reject) => {
+    let buffer = '';
 
-  readableStream.on('data', dataChunk => {
-    buffer += dataChunk;
-  });
+    readableStream.on('data', dataChunk => {
+      buffer += dataChunk;
+    });
 
-  //Throw Error
-  readableStream.on('error', error => next({
-    status: 418,
-    message: error
-  }));
+    //Throw Error
+    readableStream.on('error', error => reject(error));
 
-  //Return number of lines
-  readableStream.on('end', () => {
-    res.json({ num_of_lines: buffer.split('\n').length });
-  });
+    //Return number of lines
+    readableStream.on('end', () => {
+      resolve(buffer.split('\n').length);
+    });
+  })
 }
+
+
+let getNumOfLinesInSourceFile = async (req, res, next) => {
+  try {
+    const num_of_lines = await sourceFileLines();
+    res.json({ num_of_lines })
+  } catch (error) {
+    return next({
+      status: 418,
+      message: error
+    });
+  }
+}
+
 
 module.exports = {
   getAllFiles,
@@ -338,5 +351,6 @@ module.exports = {
   translationText,
   addTranslationText,
   getTextAtIndex,
+  sourceFileLines,
   getNumOfLinesInSourceFile
 }
