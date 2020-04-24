@@ -32,4 +32,8 @@ router.route('/assignments/:file_id')
 
 router.route('/assignments/:file_id/:index')
   .get(authenticateToken, checkRole.restrictTo('Linguist'), getFileDetails.getTextAtIndex);
+
+router.route('/source-file-lines')
+  .get(authenticateToken, checkRole.restrictTo('Admin', 'Developer'), getFileDetails.getNumOfLinesInSourceFile);
+
 module.exports = router;

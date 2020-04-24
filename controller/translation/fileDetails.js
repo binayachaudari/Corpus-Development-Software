@@ -309,10 +309,34 @@ function readFile(filename, languageDir, index) {
   });
 }
 
+function getNumOfLinesInSourceFile(req, res, next) {
+  let readableStream = fs.createReadStream(path.join(__dirname, `../../Datastore/Sourcefiles/`,
+    `sourceFile.txt`),
+    { encoding: 'utf8' });
+
+  let buffer = '';
+
+  readableStream.on('data', dataChunk => {
+    buffer += dataChunk;
+  });
+
+  //Throw Error
+  readableStream.on('error', error => next({
+    status: 418,
+    message: error
+  }));
+
+  //Return number of lines
+  readableStream.on('end', () => {
+    res.json({ num_of_lines: buffer.split('\n').length });
+  });
+}
+
 module.exports = {
   getAllFiles,
   getMyFiles,
   translationText,
   addTranslationText,
-  getTextAtIndex
+  getTextAtIndex,
+  getNumOfLinesInSourceFile
 }

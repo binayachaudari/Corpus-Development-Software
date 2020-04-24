@@ -34,7 +34,7 @@ const ForgotPassword = ({ setToast }) => {
       if (!Array.isArray(error.response.data.message))
         return setAlertState({
           ...alertState,
-          message: `${error.response.data.message}`,
+          message: `${error.response.data.message || 'Something went wrong!'}`,
           alertType: 'danger',
         });
     }
