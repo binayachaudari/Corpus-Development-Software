@@ -61,6 +61,15 @@ export const getTranslatedFiles = () => async dispatch => {
   }
 }
 
+export const getNumOfLines = async () => {
+  try {
+    const res = await Axios.get('/api/translation/source-file-lines');
+    return res.data.num_of_lines;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 export const assignTranslationTask = ({ source_filename, start_index, end_index, assigned_to, date, time }) => async dispatch => {
   const body = { source_filename, start_index, end_index, assigned_to, deadline: `${date} ${time}` };

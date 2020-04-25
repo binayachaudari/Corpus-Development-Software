@@ -3,12 +3,22 @@ import PropTypes from 'prop-types'
 import { Form, Spinner, Col, Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { getAllUsers } from '../../actions/users';
-import { getLastAssignedEndIndex, assignTranslationTask } from '../../actions/files'
+import { getLastAssignedEndIndex, assignTranslationTask, getNumOfLines } from '../../actions/files'
 import Alert from '../alerts/AlertComponent'
 import { slideInAnimation } from '../../utils/slideInAnimation'
 
 const AssignTranslateComponent = ({ users: { loading, all_users },
   getAllUsers, getLastAssignedEndIndex, assignTranslationTask }) => {
+
+  let [maxEndIndex, setMaxEndIndex] = useState(localStorage.__total__lines || '')
+  const getMaxLines = async () => {
+    const lines = await getNumOfLines();
+    localStorage.setItem('__total__lines', lines)
+    setMaxEndIndex(lines);
+  }
+  useEffect(() => {
+    getMaxLines();
+  }, [getNumOfLines])
 
   const [startIndex, setStartIndex] = useState(-1);
   const today = new Date();
@@ -62,6 +72,21 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
         message: `Choose name to assign task`,
         alertType: 'danger',
       });
+
+    if (formData.start_index > formData.end_index)
+      return setAlertState({
+        ...alertState,
+        message: `Start Index is greater than End Index`,
+        alertType: 'danger',
+      });
+
+    if (formData.end_index > maxEndIndex)
+      return setAlertState({
+        ...alertState,
+        message: `Maximum value for End Index is ${maxEndIndex}`,
+        alertType: 'danger',
+      });
+
 
     assignTranslationTask(formData);
   }
@@ -118,9 +143,10 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
 
             <Form.Group as={Col} md="2" controlId="end_index" {...slideInAnimation(0.7)}>
               <Form.Label>End Index</Form.Label>
-              <Form.Control type="number" value={formData.end_index || 0} min={formData.start_index} onChange={getFormData} required />
+              <Form.Control type="number" value={formData.end_index || 0} min={formData.start_index} max={maxEndIndex} onChange={getFormData} required />
               <Form.Text className="text-muted">
-                End index must be greater than Start Index
+                End index must be greater than Start Index.
+              <p className="text-info font-weight-bold"> MAX: {maxEndIndex}</p>
               </Form.Text>
             </Form.Group>
 
