@@ -16,9 +16,10 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
     localStorage.setItem('__total__lines', lines)
     setMaxEndIndex(lines);
   }
+
   useEffect(() => {
     getMaxLines();
-  }, [getNumOfLines])
+  }, [])
 
   const [startIndex, setStartIndex] = useState(-1);
   const today = new Date();
