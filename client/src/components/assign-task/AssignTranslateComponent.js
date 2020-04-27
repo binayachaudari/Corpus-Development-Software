@@ -144,7 +144,7 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
 
             <Form.Group as={Col} md="2" controlId="end_index" {...slideInAnimation(0.7)}>
               <Form.Label>End Index</Form.Label>
-              <Form.Control type="number" value={formData.end_index || 0} min={formData.start_index} max={maxEndIndex} onChange={getFormData} required />
+              <Form.Control type="number" value={Number(formData.end_index) || 0} min={formData.start_index} max={maxEndIndex} onChange={getFormData} required />
               <Form.Text className="text-muted">
                 End index must be greater than Start Index.
               <p className="text-info font-weight-bold"> MAX: {maxEndIndex}</p>
