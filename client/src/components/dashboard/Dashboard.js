@@ -21,7 +21,7 @@ const Dashboard = ({ auth: { user } }) => {
 }
 
 Dashboard.propTypes = {
-
+  auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({

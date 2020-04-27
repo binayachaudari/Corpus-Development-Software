@@ -1,6 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Container, Tab, Nav, Spinner } from 'react-bootstrap'
+import { Container, Tab, Nav } from 'react-bootstrap'
 import AssignTranslateComponent from './AssignTranslateComponent'
 import AssignReviewComponent from './AssignReviewComponent'
 import Toast from '../alerts/ToastComponent'
@@ -37,10 +36,6 @@ const AssignTask = props => {
       </Container>
     </div >
   )
-}
-
-AssignTask.propTypes = {
-
 }
 
 export default AssignTask

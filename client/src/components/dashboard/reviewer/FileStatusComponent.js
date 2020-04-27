@@ -37,7 +37,12 @@ const FileStatusComponent = ({ headProps, tableCaption, loadData, dataFiles, loa
 }
 
 FileStatusComponent.propTypes = {
-
+  headProps: PropTypes.array.isRequired,
+  tableCaption: PropTypes.string.isRequired,
+  loadData: PropTypes.func.isRequired,
+  dataFiles: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+  showTab: PropTypes.string.isRequired
 }
 
 export default FileStatusComponent

@@ -28,7 +28,7 @@ const ForgotPassword = ({ setToast }) => {
 
   const sendPasswordResetLink = async () => {
     try {
-      const res = await Axios.post('/api/auth/forget-password/', { email });
+      await Axios.post('/api/auth/forget-password/', { email });
       setToast('Password Reset Link', `Password reset has been sent to ${email}, check your spam if you did not receive any reset link.`, 'success');
     } catch (error) {
       if (!Array.isArray(error.response.data.message))

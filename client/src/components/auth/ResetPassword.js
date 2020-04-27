@@ -26,7 +26,7 @@ const ResetPassword = ({ match: { params: { token } }, setToast, history }) => {
 
   const forgotPasswordReset = async (password) => {
     try {
-      const res = await Axios.patch(`/api/auth/reset-password/${token}`, { password });
+      await Axios.patch(`/api/auth/reset-password/${token}`, { password });
       setToast('Password Reset', `Password Reset Successful!`, 'success');
       return history.push('/');
     } catch (error) {

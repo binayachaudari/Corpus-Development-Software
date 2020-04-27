@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table, Spinner } from 'react-bootstrap'
+import { Table } from 'react-bootstrap'
 
 const usersRoleHead = ['Name', 'Email', 'Role', 'UserID'];
 

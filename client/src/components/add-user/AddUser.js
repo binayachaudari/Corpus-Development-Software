@@ -33,7 +33,7 @@ const AddUser = ({ setToast }) => {
     setFormData({ ...formData, [e.target.id]: e.target.checked });
   }
 
-  const { name, email, password, role, show_password, change_default, validated } = formData;
+  const { name, email, password, role, show_password, change_default } = formData;
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -141,7 +141,7 @@ const AddUser = ({ setToast }) => {
 }
 
 AddUser.propTypes = {
-
+  setToast: PropTypes.func.isRequired
 }
 
 export default connect(null, { setToast })(AddUser)

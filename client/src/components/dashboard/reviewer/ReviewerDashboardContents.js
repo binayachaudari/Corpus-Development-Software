@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Tab, Col, Row, Nav } from 'react-bootstrap'
 import { connect } from 'react-redux';

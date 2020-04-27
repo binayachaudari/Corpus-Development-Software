@@ -104,7 +104,8 @@ const TranslateText = ({ match: { params: { id } }, history, setToast }) => {
 }
 
 TranslateText.propTypes = {
-
+  history: PropTypes.object.isRequired,
+  setToast: PropTypes.func.isRequired
 }
 
 export default withRouter(connect(null, { setToast })(TranslateText))

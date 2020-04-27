@@ -54,7 +54,7 @@ const Login = ({ login, isAuthenticated, user, setToast }) => {
       });
 
     return error.message.map((item, index) => {
-      setToast('Credentials', `${item.msg}`, 'danger');
+      return setToast('Credentials', `${item.msg}`, 'danger');
     });
   }
 

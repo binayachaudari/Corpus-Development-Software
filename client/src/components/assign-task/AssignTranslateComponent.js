@@ -37,13 +37,13 @@ const AssignTranslateComponent = ({ users: { loading, all_users },
   const [NumberOfLines, setNumberOfLines] = useState(10)
 
   const getFormData = e => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    setFormData({ ...formData, [e.target.id]: e.target.valueAsNumber || e.target.value });
     setAlertState({ ...alertState, message: null })
   }
 
   useEffect(() => {
     setNumberOfLines(formData.end_index - formData.start_index + 1);
-  }, [formData.end_index])
+  }, [formData.end_index, formData.start_index])
 
   const fetchData = async () => {
     const result = await getLastAssignedEndIndex();
