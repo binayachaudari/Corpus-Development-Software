@@ -44,6 +44,7 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
+app.use('/reports', express.static(path.resolve(__dirname, 'Reports')));
 
 
 /**
