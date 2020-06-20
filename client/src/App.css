@@ -1,4 +1,4 @@
-.form-signin{
+.form-signin {
   width: 100%;
   max-width: 400px;
   padding: 15px;
@@ -6,7 +6,8 @@
   min-height: 100vh;
 }
 
-.nav-pills .nav-link:focus,.nav-tabs .nav-link:focus{
+.nav-pills .nav-link:focus,
+.nav-tabs .nav-link:focus {
   outline: none;
 }
 
