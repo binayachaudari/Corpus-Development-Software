@@ -9,9 +9,9 @@ export default (state = initialState, action) => {
       return [...state, payload];
 
     case REMOVE_TOAST:
-      return state.filter(toast => toast.id !== payload);
+      return state.filter((toast) => toast.id !== payload);
 
     default:
       return state;
   }
-}
+};

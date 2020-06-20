@@ -7,7 +7,7 @@ import setAuthToken from '../utils/setAuthToken';
  * @param {String} email email address
  * @param {String} password password
  */
-export const login = ({ email, password }) => async dispatch => {
+export const login = ({ email, password }) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -30,11 +30,10 @@ export const login = ({ email, password }) => async dispatch => {
     });
     return error.response.data;
   }
-}
+};
 
-export const loadUser = () => async dispatch => {
-  if (localStorage.corpus_development_software)
-    setAuthToken(localStorage.corpus_development_software);
+export const loadUser = () => async (dispatch) => {
+  if (localStorage.corpus_development_software) setAuthToken(localStorage.corpus_development_software);
   try {
     const res = await Axios.get('/api/auth');
     dispatch({
@@ -46,9 +45,9 @@ export const loadUser = () => async dispatch => {
       type: AUTH_ERROR
     });
   }
-}
+};
 
-export const resetDefaultPassword = ({ new_password }) => async dispatch => {
+export const resetDefaultPassword = ({ new_password }) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -68,9 +67,9 @@ export const resetDefaultPassword = ({ new_password }) => async dispatch => {
       type: AUTH_ERROR
     });
   }
-}
+};
 
-export const changePassword = ({ current_password, new_password }) => async dispatch => {
+export const changePassword = ({ current_password, new_password }) => async (dispatch) => {
   const body = { current_password, new_password };
   try {
     const res = await Axios.post('/api/auth/change-password', body);
@@ -82,10 +81,10 @@ export const changePassword = ({ current_password, new_password }) => async disp
       message
     };
   }
-}
+};
 
-export const logout = () => async dispatch => {
+export const logout = () => async (dispatch) => {
   dispatch({
     type: LOG_OUT
-  })
-}
+  });
+};

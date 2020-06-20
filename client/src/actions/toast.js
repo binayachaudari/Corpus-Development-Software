@@ -1,7 +1,7 @@
-import { ADD_TOAST, REMOVE_TOAST } from './constants'
+import { ADD_TOAST, REMOVE_TOAST } from './constants';
 let id = 0;
 
-export const setToast = (title, message, toastType) => dispatch => {
+export const setToast = (title, message, toastType) => (dispatch) => {
   dispatch({
     type: ADD_TOAST,
     payload: {
@@ -16,6 +16,6 @@ export const setToast = (title, message, toastType) => dispatch => {
     dispatch({
       type: REMOVE_TOAST,
       payload: id
-    })
+    });
   }, 10000);
-}
+};

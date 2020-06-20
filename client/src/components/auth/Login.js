@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { Container, Form, Button } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import Alert from '../alerts/AlertComponent';
 import { login } from '../../actions/auth';
-import Toast from '../alerts/ToastComponent'
-import { setToast } from '../../actions/toast'
+import Toast from '../alerts/ToastComponent';
+import { setToast } from '../../actions/toast';
 
 const Login = ({ login, isAuthenticated, user, setToast }) => {
   const [formData, setFormData] = useState({
@@ -25,7 +25,7 @@ const Login = ({ login, isAuthenticated, user, setToast }) => {
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,62 +56,69 @@ const Login = ({ login, isAuthenticated, user, setToast }) => {
     return error.message.map((item, index) => {
       return setToast('Credentials', `${item.msg}`, 'danger');
     });
-  }
-
+  };
 
   //Redirect if Logged in
   if (user && isAuthenticated)
-    return user.activated ? <Redirect to='/dashboard' /> : <Redirect to='/change-password' />;
+    return user.activated ? <Redirect to="/dashboard" /> : <Redirect to="/change-password" />;
 
   return (
     <div className="bg-light">
       <Toast />
       <Container>
-        <Form className="form-signin d-flex flex-column justify-content-center" noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form
+          className="form-signin d-flex flex-column justify-content-center"
+          noValidate
+          validated={validated}
+          onSubmit={handleSubmit}
+        >
           <h1 className="text-center font-weight-bold">Sign in</h1>
           <h4 className="text-center lead mb-3">Sign into your account.</h4>
           <Alert alertProp={alertState} />
-          <hr style={{ marginLeft: "0", marginRight: "0" }} />
-          <Form.Group controlId='email'>
+          <hr style={{ marginLeft: '0', marginRight: '0' }} />
+          <Form.Group controlId="email">
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" placeholder="Enter email" value={email} onChange={onChange} required />
             <Form.Control.Feedback>Email address looks good!</Form.Control.Feedback>
-            <Form.Control.Feedback type="invalid">
-              Invalid Email address.
-            </Form.Control.Feedback>
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-              </Form.Text>
+            <Form.Control.Feedback type="invalid">Invalid Email address.</Form.Control.Feedback>
+            <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
           </Form.Group>
 
           <Form.Group controlId="password">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" value={password} onChange={onChange} required minLength="8" />
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={onChange}
+              required
+              minLength="8"
+            />
             <Form.Control.Feedback>Password Looks good!</Form.Control.Feedback>
-            <Form.Control.Feedback type="invalid">
-              Password provide your credentials.
-            </Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">Password provide your credentials.</Form.Control.Feedback>
           </Form.Group>
 
-          <Button variant="primary btn-block" type="submit" >
+          <Button variant="primary btn-block" type="submit">
             Submit
-            </Button>
+          </Button>
 
-          <p className="text-center mt-3 text-primary"><Link to="/forgot-password">Forget Password?</Link></p>
+          <p className="text-center mt-3 text-primary">
+            <Link to="/forgot-password">Forget Password?</Link>
+          </p>
         </Form>
       </Container>
     </div>
   );
-}
+};
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
   user: PropTypes.object
-}
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.auth.user
-})
+});
 
 export default connect(mapStateToProps, { login, setToast })(Login);

@@ -35,11 +35,10 @@ module.exports = async (req, res, next) => {
     const token = await generateToken(payload);
 
     res.json({ token });
-
   } catch (error) {
     next({
       status: 500,
       message: error.message
     });
   }
-}
+};

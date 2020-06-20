@@ -10,29 +10,30 @@ const notifyUser = require('../../utils/createPDF.submit');
  * @param {String} filename - Filename of Assigned File
  */
 let getNepaliText = (filename) => {
-  let readableStream = fs.createReadStream(path.join(__dirname, '../../Datastore/AssignedFiles', filename), { encoding: 'utf8' });
+  let readableStream = fs.createReadStream(path.join(__dirname, '../../Datastore/AssignedFiles', filename), {
+    encoding: 'utf8'
+  });
 
   return new Promise((resolve, reject) => {
-
     let buffer = '';
 
-    readableStream.on('data', dataChunk => {
+    readableStream.on('data', (dataChunk) => {
       buffer += dataChunk;
-      if (buffer.split('\n').length >= 2)
-        readableStream.emit('end');
+      if (buffer.split('\n').length >= 2) readableStream.emit('end');
     });
 
     // Throw Error
-    readableStream.on('error', error => error.errno === -2 ? reject({ status: 200, message: 'Translation Complete' }) : reject(error));
+    readableStream.on('error', (error) =>
+      error.errno === -2 ? reject({ status: 200, message: 'Translation Complete' }) : reject(error)
+    );
 
     //Returns line
     readableStream.on('end', () => {
       let data = buffer.split('\n')[0];
       resolve(data);
     });
-
   });
-}
+};
 
 /**
  * Appends translation text to respective files
@@ -43,8 +44,7 @@ let getNepaliText = (filename) => {
 let appendTranslation = (filename, nepali_text, tamang_text) => {
   fs.appendFileSync(path.join(__dirname, '../../Datastore/Translated/Nepali', `NEPALI${filename}`), nepali_text + '\n');
   fs.appendFileSync(path.join(__dirname, '../../Datastore/Translated/Tamang', `TAMANG${filename}`), tamang_text + '\n');
-}
-
+};
 
 /**
  * Updates assigned file by removing translated text
@@ -55,17 +55,15 @@ let editAssignedFiles = (filename) => {
   let arrayOfData = readData.split('\n');
 
   if (arrayOfData.length === 2) {
-    fs.unlinkSync(path.join(__dirname, '../../Datastore/AssignedFiles', filename))
+    fs.unlinkSync(path.join(__dirname, '../../Datastore/AssignedFiles', filename));
     return true;
-  }
-  else {
+  } else {
     let writeData = arrayOfData.slice(1).join('\n');
     fs.writeFileSync(path.join(__dirname, '../../Datastore/AssignedFiles', filename), writeData);
   }
 
   return false;
-}
-
+};
 
 /**
  * Middleware
@@ -85,8 +83,7 @@ let getAllFiles = async (req, res, next) => {
       message: error.message
     });
   }
-}
-
+};
 
 /**
  * Middleware
@@ -94,8 +91,7 @@ let getAllFiles = async (req, res, next) => {
  */
 let getMyFiles = async (req, res, next) => {
   try {
-    let myFiles = await Translation
-      .find({ assigned_to: req.user.id })
+    let myFiles = await Translation.find({ assigned_to: req.user.id })
       .populate('assigned_to assigned_by', ['name', 'email', 'role'])
       .populate('file_details', ['-source_filename']);
 
@@ -113,8 +109,7 @@ let getMyFiles = async (req, res, next) => {
       message: error.message
     });
   }
-}
-
+};
 
 /**
  * Middleware
@@ -122,8 +117,7 @@ let getMyFiles = async (req, res, next) => {
  */
 let translationText = async (req, res, next) => {
   try {
-    let translationFile = await Translation
-      .findOne({ _id: req.params.file_id, assigned_to: req.user.id })
+    let translationFile = await Translation.findOne({ _id: req.params.file_id, assigned_to: req.user.id })
       .populate('assigned_to assigned_by', ['name', 'email', 'role'])
       .populate('file_details', ['-source_filename']);
 
@@ -150,21 +144,21 @@ let translationText = async (req, res, next) => {
       message: error.message
     });
   }
-}
-
+};
 
 /**
  * Middleware
- * Adds translation text of assigned fileID to respective files 
+ * Adds translation text of assigned fileID to respective files
  * and updates file status
  */
 let addTranslationText = async (req, res, next) => {
   try {
     let { tamang_text } = req.body;
 
-    let translationFile = await Translation
-      .findOne({ _id: req.params.file_id, assigned_to: req.user.id })
-      .populate('file_details', ['-source_filename']);
+    let translationFile = await Translation.findOne({
+      _id: req.params.file_id,
+      assigned_to: req.user.id
+    }).populate('file_details', ['-source_filename']);
 
     if (!translationFile)
       return next({
@@ -177,7 +171,7 @@ let addTranslationText = async (req, res, next) => {
     const { filename, start_index, end_index } = translationFile.file_details;
     const numOfSentences = end_index - start_index + 1;
 
-    let translated_filename = `__${start_index}-to-${end_index}__${numOfSentences}-sentences.txt`
+    let translated_filename = `__${start_index}-to-${end_index}__${numOfSentences}-sentences.txt`;
     let nepali_text = await getNepaliText(filename);
 
     appendTranslation(translated_filename, nepali_text, tamang_text);
@@ -185,8 +179,7 @@ let addTranslationText = async (req, res, next) => {
     if (translationFile.status == 'under_translation' && editAssignedFiles(filename)) {
       translationFile.status = 'translation_complete';
 
-      if (Date.now() > Date.parse(translationFile.deadline))
-        translationFile.is_overdue = true;
+      if (Date.now() > Date.parse(translationFile.deadline)) translationFile.is_overdue = true;
 
       translationFile.submitted_on = Date.now();
       translationFile.tamang_filename = `TAMANG${translated_filename}`;
@@ -211,7 +204,7 @@ let addTranslationText = async (req, res, next) => {
         end_index,
         deadline: translationFile.deadline,
         is_overdue: translationFile.is_overdue
-      }
+      };
 
       await notifyUser(pdfPayload);
     }
@@ -227,20 +220,20 @@ let addTranslationText = async (req, res, next) => {
       message: error.message
     });
   }
-}
-
+};
 
 /**
  * Middleware
- * Gets translation text of assigned fileID to respective index 
+ * Gets translation text of assigned fileID to respective index
  */
 let getTextAtIndex = async (req, res, next) => {
   const { index } = req.params;
 
   try {
-    let translationFile = await Translation
-      .findOne({ _id: req.params.file_id, assigned_to: req.user.id })
-      .populate('file_details', ['-source_filename']);
+    let translationFile = await Translation.findOne({
+      _id: req.params.file_id,
+      assigned_to: req.user.id
+    }).populate('file_details', ['-source_filename']);
 
     if (!translationFile)
       return next({
@@ -251,7 +244,7 @@ let getTextAtIndex = async (req, res, next) => {
     const { filename, start_index, end_index } = translationFile.file_details;
     const numOfSentences = end_index - start_index + 1;
 
-    let translated_filename = `__${start_index}-to-${end_index}__${numOfSentences}-sentences.txt`
+    let translated_filename = `__${start_index}-to-${end_index}__${numOfSentences}-sentences.txt`;
 
     let nepali_text = await readFile(`NEPALI${translated_filename}`, 'Nepali', index);
     let tamang_text = await readFile(`TAMANG${translated_filename}`, 'Tamang', index);
@@ -269,14 +262,13 @@ let getTextAtIndex = async (req, res, next) => {
         tamang_text
       }
     });
-
   } catch (error) {
     next({
       status: 404,
       message: error.errno === -2 ? 'No such file exists.' : error.message
     });
   }
-}
+};
 
 /**
  * Get text on line number provided
@@ -285,65 +277,63 @@ let getTextAtIndex = async (req, res, next) => {
  * @param {Number} index  Line number of the file
  */
 function readFile(filename, languageDir, index) {
-  let readableStream = fs.createReadStream(path.join(__dirname, `../../Datastore/Translated/${languageDir}`,
-    `${filename}`),
-    { encoding: 'utf8' });
+  let readableStream = fs.createReadStream(
+    path.join(__dirname, `../../Datastore/Translated/${languageDir}`, `${filename}`),
+    { encoding: 'utf8' }
+  );
 
   return new Promise((resolve, reject) => {
     let buffer = '';
 
-    readableStream.on('data', dataChunk => {
+    readableStream.on('data', (dataChunk) => {
       buffer += dataChunk;
-      if (buffer.split('\n').length >= index - 1)
-        readableStream.emit("end");
+      if (buffer.split('\n').length >= index - 1) readableStream.emit('end');
     });
 
     // Throw Error
-    readableStream.on('error', error => reject(error));
+    readableStream.on('error', (error) => reject(error));
 
     //Returns line
     readableStream.on('end', () => {
-      let data = (buffer.split('\n').length - 1) >= index ? buffer.split('\n')[index] : null;
+      let data = buffer.split('\n').length - 1 >= index ? buffer.split('\n')[index] : null;
       resolve(data);
     });
   });
 }
 
 function sourceFileLines() {
-  let readableStream = fs.createReadStream(path.join(__dirname, `../../Datastore/Sourcefiles/`,
-    `sourceFile.txt`),
-    { encoding: 'utf8' });
+  let readableStream = fs.createReadStream(path.join(__dirname, `../../Datastore/Sourcefiles/`, `sourceFile.txt`), {
+    encoding: 'utf8'
+  });
 
   return new Promise((resolve, reject) => {
     let buffer = '';
 
-    readableStream.on('data', dataChunk => {
+    readableStream.on('data', (dataChunk) => {
       buffer += dataChunk;
     });
 
     //Throw Error
-    readableStream.on('error', error => reject(error));
+    readableStream.on('error', (error) => reject(error));
 
     //Return number of lines
     readableStream.on('end', () => {
       resolve(buffer.split('\n').length);
     });
-  })
+  });
 }
-
 
 let getNumOfLinesInSourceFile = async (req, res, next) => {
   try {
     const num_of_lines = await sourceFileLines();
-    res.json({ num_of_lines })
+    res.json({ num_of_lines });
   } catch (error) {
     return next({
       status: 418,
       message: error
     });
   }
-}
-
+};
 
 module.exports = {
   getAllFiles,
@@ -353,4 +343,4 @@ module.exports = {
   getTextAtIndex,
   sourceFileLines,
   getNumOfLinesInSourceFile
-}
+};

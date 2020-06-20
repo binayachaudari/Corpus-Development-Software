@@ -1,9 +1,9 @@
-import { LOAD_USER_FILES, ERROR_LOADING_USER_FILES } from '../actions/constants'
+import { LOAD_USER_FILES, ERROR_LOADING_USER_FILES } from '../actions/constants';
 
 const initialState = {
   my_files: [],
-  loading: true,
-}
+  loading: true
+};
 
 export default (state = initialState, action) => {
   const { type, payload } = action;
@@ -25,4 +25,4 @@ export default (state = initialState, action) => {
     default:
       return state;
   }
-}
+};

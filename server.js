@@ -20,12 +20,11 @@ connectDB();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
 /**
  * Third-Party Middleware
  */
 app.use(helmet());
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 app.use(mongoSanitize());
 app.use(compression());
 
@@ -33,7 +32,6 @@ app.use(compression());
  * Routing Middleware
  */
 app.use('/api', require('./routes/api'));
-
 
 /**
  * Static Files
@@ -46,7 +44,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 app.use('/reports', express.static(path.resolve(__dirname, 'Reports')));
 
-
 /**
  * Application Middleware
  */
@@ -55,9 +52,8 @@ app.use((req, res, next) => {
   next({
     status: 404,
     message: '404 page not found'
-  })
-})
-
+  });
+});
 
 /**
  * Error Handling Middleware
@@ -69,7 +65,6 @@ app.use((err, req, res, next) => {
     message: err.message
   });
 });
-
 
 /**
  * Start Server

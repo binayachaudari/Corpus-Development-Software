@@ -46,8 +46,8 @@ exports.addReviewTask = async (req, res, next) => {
       assigned_by: assignedByDetails.name,
       start_index,
       end_index,
-      deadline,
-    }
+      deadline
+    };
 
     await notifyUser(pdfPayload);
 
@@ -61,17 +61,24 @@ exports.addReviewTask = async (req, res, next) => {
       message: error.message
     });
   }
-}
-
+};
 
 async function copyFileForReview(filenameStructure, language) {
-  const translatedFilePath = path.join(__dirname, `../../Datastore/Translated/${language}`, `${language.toUpperCase()}${filenameStructure}.txt`);
+  const translatedFilePath = path.join(
+    __dirname,
+    `../../Datastore/Translated/${language}`,
+    `${language.toUpperCase()}${filenameStructure}.txt`
+  );
 
   let fileExt = language === 'Nepali' ? 'nep' : 'taj';
 
-  const reviewFileDestination = path.join(__dirname, `../../Datastore/AssignedFiles/Review/${language}`, `${fileExt}-review${filenameStructure}.txt`)
+  const reviewFileDestination = path.join(
+    __dirname,
+    `../../Datastore/AssignedFiles/Review/${language}`,
+    `${fileExt}-review${filenameStructure}.txt`
+  );
 
-  fs.copyFileSync(translatedFilePath, reviewFileDestination)
+  fs.copyFileSync(translatedFilePath, reviewFileDestination);
 
   console.log(`File copied for review: ${fileExt}-review${filenameStructure}.txt`);
 }

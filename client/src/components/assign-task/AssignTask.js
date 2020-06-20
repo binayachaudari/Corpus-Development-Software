@@ -1,20 +1,22 @@
-import React from 'react'
-import { Container, Tab, Nav } from 'react-bootstrap'
-import AssignTranslateComponent from './AssignTranslateComponent'
-import AssignReviewComponent from './AssignReviewComponent'
-import Toast from '../alerts/ToastComponent'
+import React from 'react';
+import { Container, Tab, Nav } from 'react-bootstrap';
+import AssignTranslateComponent from './AssignTranslateComponent';
+import AssignReviewComponent from './AssignReviewComponent';
+import Toast from '../alerts/ToastComponent';
 
-const AssignTask = props => {
+const AssignTask = (props) => {
   const currentPill = localStorage.task_assign || 'translate';
   const onSelect = (pill) => {
     localStorage.setItem('task_assign', pill);
-  }
+  };
 
   return (
     <div>
       <Toast />
       <Container className="mt-3">
-        <h1 className="display-4 slidein__animation" style={{ animationDelay: '0.1s' }}>Assign Task</h1>
+        <h1 className="display-4 slidein__animation" style={{ animationDelay: '0.1s' }}>
+          Assign Task
+        </h1>
         <Tab.Container id="left-tabs-example" unmountOnExit={true} onSelect={onSelect} defaultActiveKey={currentPill}>
           <Nav variant="tabs" className="mt-5 slidein__animation" style={{ animationDelay: '0.3s' }}>
             <Nav.Item>
@@ -34,8 +36,8 @@ const AssignTask = props => {
           </Tab.Content>
         </Tab.Container>
       </Container>
-    </div >
-  )
-}
+    </div>
+  );
+};
 
-export default AssignTask
+export default AssignTask;

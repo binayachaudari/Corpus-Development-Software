@@ -15,13 +15,13 @@ module.exports = async (req, res, next) => {
       return next({
         status: 400,
         message: `Cannot assign task to ${user.role}`
-      })
+      });
 
     next();
   } catch (error) {
     next({
       status: 500,
       message: error.message
-    })
+    });
   }
-}
+};

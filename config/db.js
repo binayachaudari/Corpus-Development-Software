@@ -10,7 +10,7 @@ module.exports = async () => {
     console.log('Mongoose default connection disconnected');
   });
 
-  // If the Node process ends, close the Mongoose connection 
+  // If the Node process ends, close the Mongoose connection
   process.on('SIGINT', function () {
     mongoose.connection.close(function () {
       console.log('Mongoose default connection disconnected through app termination');
@@ -18,15 +18,17 @@ module.exports = async () => {
     });
   });
 
-  mongoose.connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true
-  }).then(() => console.log('MongoDB Connected...!'))
+  mongoose
+    .connect(DB, {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+      useUnifiedTopology: true
+    })
+    .then(() => console.log('MongoDB Connected...!'))
     .catch((err) => {
       console.log(err.message);
       //Exits process with failure;
       process.exit(1);
-    })
-}
+    });
+};

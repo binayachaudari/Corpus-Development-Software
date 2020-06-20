@@ -1,6 +1,6 @@
 import { LOGIN_SUCCESS, AUTH_ERROR, USER_LOADED, LOG_OUT } from '../actions/constants';
 
-const errorToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`
+const errorToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`;
 
 const initialState = {
   isAuthenticated: false,
@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
 
   switch (type) {
     case LOGIN_SUCCESS:
-      localStorage.setItem('corpus_development_software', payload.token)
+      localStorage.setItem('corpus_development_software', payload.token);
       return {
         ...state,
         isAuthenticated: true,
@@ -26,7 +26,7 @@ export default (state = initialState, action) => {
         isAuthenticated: true,
         loading: false,
         user: payload
-      }
+      };
 
     case AUTH_ERROR:
     case LOG_OUT:
@@ -36,8 +36,8 @@ export default (state = initialState, action) => {
         isAuthenticated: false,
         user: null,
         loading: false
-      }
+      };
     default:
       return state;
   }
-} 
+};

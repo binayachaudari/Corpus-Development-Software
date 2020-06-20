@@ -6,7 +6,6 @@ const Users = require('../../models/Users');
 const notifyUser = require('../../utils/createPDF.assign');
 const fileDetails = require('./fileDetails');
 
-
 exports.addTranslationTask = async (req, res, next) => {
   //is_translated, is_reviewed, status ignored
   try {
@@ -33,35 +32,38 @@ exports.addTranslationTask = async (req, res, next) => {
       return next({
         status: 401,
         message: `End index is greater than num of lines in sourcefile, MAX_END_INDEX: ${maxEndIndex}`
-      })
+      });
     }
 
     const newFile = new Files({
       filename: `${source_filename}-Nep__${start_index}-to-${end_index}__${numOfSentences}sentences.txt`,
       source_filename: source_filename,
       start_index,
-      end_index,
+      end_index
     });
 
     await newFile.save();
 
-    let readableStream = fs.createReadStream(path.join(__dirname, '../../Datastore/Sourcefiles', source_filename), { encoding: 'utf8' });
-    let writableStream = fs.createWriteStream(path.join(__dirname, '../../Datastore/AssignedFiles', newFile.filename), { flags: 'w' });
+    let readableStream = fs.createReadStream(path.join(__dirname, '../../Datastore/Sourcefiles', source_filename), {
+      encoding: 'utf8'
+    });
+    let writableStream = fs.createWriteStream(path.join(__dirname, '../../Datastore/AssignedFiles', newFile.filename), {
+      flags: 'w'
+    });
 
     let buffer = '';
     readableStream.on('data', (dataChunk) => {
       buffer += dataChunk;
 
-      if (buffer.split('\n').length >= numOfSentences)
-        readableStream.emit("end");
+      if (buffer.split('\n').length >= numOfSentences) readableStream.emit('end');
     });
 
     readableStream.on('end', () => {
-      let data = ''
+      let data = '';
       let arrayOfBuffer = buffer.split('\n');
 
       for (let currIndex = start_index; currIndex <= end_index; currIndex++) {
-        data += (arrayOfBuffer[currIndex] + '\n');
+        data += arrayOfBuffer[currIndex] + '\n';
       }
       writableStream.write(data);
     });
@@ -89,7 +91,7 @@ exports.addTranslationTask = async (req, res, next) => {
       start_index,
       end_index,
       deadline
-    }
+    };
 
     await notifyUser(pdfPayload);
 
@@ -100,8 +102,7 @@ exports.addTranslationTask = async (req, res, next) => {
       message: error.message
     });
   }
-
-}
+};
 
 exports.getLastTranslationIndex = async (req, res, next) => {
   try {
@@ -113,4 +114,4 @@ exports.getLastTranslationIndex = async (req, res, next) => {
       message: error.message
     });
   }
-}
+};

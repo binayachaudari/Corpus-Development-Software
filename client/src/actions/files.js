@@ -1,8 +1,8 @@
-import Axios from 'axios'
-import { LOAD_TRANSLATION_FILES, LOAD_REVIEW_FILES, FILE_ERROR, ADD_TOAST, LOAD_TRANSLATED_FILES } from './constants'
+import Axios from 'axios';
+import { LOAD_TRANSLATION_FILES, LOAD_REVIEW_FILES, FILE_ERROR, ADD_TOAST, LOAD_TRANSLATED_FILES } from './constants';
 
 let id = 0;
-export const getTranslationFiles = () => async dispatch => {
+export const getTranslationFiles = () => async (dispatch) => {
   try {
     const res = await Axios.get('/api/translation/all-files');
     dispatch({
@@ -14,23 +14,23 @@ export const getTranslationFiles = () => async dispatch => {
       type: FILE_ERROR
     });
   }
-}
+};
 
-export const getReviewFiles = () => async dispatch => {
+export const getReviewFiles = () => async (dispatch) => {
   try {
     const res = await Axios.get('/api/review/all-files');
     dispatch({
       type: LOAD_REVIEW_FILES,
       payload: res.data
-    })
+    });
   } catch (error) {
     dispatch({
       type: FILE_ERROR
     });
   }
-}
+};
 
-export const getLastAssignedEndIndex = () => async dispatch => {
+export const getLastAssignedEndIndex = () => async (dispatch) => {
   try {
     const res = await Axios.get('/api/translation/assign-task');
     return res.data.end_index;
@@ -45,9 +45,9 @@ export const getLastAssignedEndIndex = () => async dispatch => {
       }
     });
   }
-}
+};
 
-export const getTranslatedFiles = () => async dispatch => {
+export const getTranslatedFiles = () => async (dispatch) => {
   try {
     const res = await Axios.get('/api/review/assign-task');
     dispatch({
@@ -59,7 +59,7 @@ export const getTranslatedFiles = () => async dispatch => {
       type: FILE_ERROR
     });
   }
-}
+};
 
 export const getNumOfLines = async () => {
   try {
@@ -68,10 +68,11 @@ export const getNumOfLines = async () => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
-
-export const assignTranslationTask = ({ source_filename, start_index, end_index, assigned_to, date, time }) => async dispatch => {
+export const assignTranslationTask = ({ source_filename, start_index, end_index, assigned_to, date, time }) => async (
+  dispatch
+) => {
   const body = { source_filename, start_index, end_index, assigned_to, deadline: `${date} ${time}` };
   try {
     const res = await Axios.post('/api/translation/assign-task', body);
@@ -95,10 +96,9 @@ export const assignTranslationTask = ({ source_filename, start_index, end_index,
       }
     });
   }
-}
+};
 
-
-export const assignReviewTask = ({ file_id, assigned_to, date, time }) => async dispatch => {
+export const assignReviewTask = ({ file_id, assigned_to, date, time }) => async (dispatch) => {
   const body = { file_id, assigned_to, deadline: `${date} ${time}` };
   try {
     const res = await Axios.post('/api/review/assign-task', body);
@@ -110,7 +110,7 @@ export const assignReviewTask = ({ file_id, assigned_to, date, time }) => async 
         message: `Assigned task with File ID: ${res.data.task_assigned._id}`,
         toastType: `success`
       }
-    })
+    });
   } catch (error) {
     dispatch({
       type: ADD_TOAST,
@@ -122,4 +122,4 @@ export const assignReviewTask = ({ file_id, assigned_to, date, time }) => async 
       }
     });
   }
-}
+};

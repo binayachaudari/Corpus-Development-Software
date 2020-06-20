@@ -1,8 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container } from 'react-bootstrap';
-import ToastComponent from '../alerts/ToastComponent'
+import ToastComponent from '../alerts/ToastComponent';
 import AdminDashboardContents from './admin/AdminDashboardContents';
 import ReviewerDashboardContents from './reviewer/ReviewerDashboardContents';
 import LinguistDashboardContents from './linguist/LinguistDashboardContents';
@@ -12,21 +12,26 @@ const Dashboard = ({ auth: { user } }) => {
     <>
       <ToastComponent></ToastComponent>
       <Container fluid>
-        {user.role === 'Admin' || user.role === 'Developer' ? <AdminDashboardContents /> :
-          user.role === 'Reviewer' ? <ReviewerDashboardContents /> :
-            user.role === 'Linguist' ? <LinguistDashboardContents /> : <h1>{user.role}</h1>}
+        {user.role === 'Admin' || user.role === 'Developer' ? (
+          <AdminDashboardContents />
+        ) : user.role === 'Reviewer' ? (
+          <ReviewerDashboardContents />
+        ) : user.role === 'Linguist' ? (
+          <LinguistDashboardContents />
+        ) : (
+          <h1>{user.role}</h1>
+        )}
       </Container>
     </>
-  )
-}
+  );
+};
 
 Dashboard.propTypes = {
   auth: PropTypes.object.isRequired
-}
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(Dashboard)
-
+export default connect(mapStateToProps)(Dashboard);

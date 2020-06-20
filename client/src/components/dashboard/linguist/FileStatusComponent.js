@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Table, Spinner } from 'react-bootstrap'
-import { assignedTranslateFiles, completedTranslationReview } from '../admin/FileStatusComponent'
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Table, Spinner } from 'react-bootstrap';
+import { assignedTranslateFiles, completedTranslationReview } from '../admin/FileStatusComponent';
 
 const FileStatusComponent = ({ headProps, tableCaption, loadData, dataFiles, loading, showTab }) => {
   useEffect(() => {
@@ -10,18 +10,21 @@ const FileStatusComponent = ({ headProps, tableCaption, loadData, dataFiles, loa
 
   return (
     <>
-      {loading ?
+      {loading ? (
         <div className="d-flex justify-content-center">
           <Spinner animation="grow" role="status">
             <span className="sr-only">Loading...</span>
           </Spinner>
-        </div> :
+        </div>
+      ) : (
         <Table className="text-center bg-light" responsive bordered>
           <caption className="font-weight-lighter font-italic">{tableCaption}</caption>
-          <thead className="table-dark" >
+          <thead className="table-dark">
             <tr>
               {headProps.map((item, index) => (
-                <th key={index} className="align-middle">{item}</th>
+                <th key={index} className="align-middle">
+                  {item}
+                </th>
               ))}
             </tr>
           </thead>
@@ -31,10 +34,10 @@ const FileStatusComponent = ({ headProps, tableCaption, loadData, dataFiles, loa
             {showTab === 'translated' && completedTranslationReview(dataFiles, 'Translated')}
           </tbody>
         </Table>
-      }
+      )}
     </>
-  )
-}
+  );
+};
 
 FileStatusComponent.propTypes = {
   headProps: PropTypes.array.isRequired,
@@ -43,6 +46,6 @@ FileStatusComponent.propTypes = {
   dataFiles: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
   showTab: PropTypes.string.isRequired
-}
+};
 
-export default FileStatusComponent
+export default FileStatusComponent;

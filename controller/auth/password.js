@@ -18,7 +18,7 @@ exports.forgotPassword = async (req, res, next) => {
     const resetToken = crypto.randomBytes(32).toString('hex');
     userDetails.password_reset_token = crypto.createHash('sha256').update(resetToken).digest('hex');
     userDetails.password_reset_expires = Date.now() + 10 * 60 * 1000;
-    let today = new Date;
+    let today = new Date();
 
     let emailPayload = {
       name: userDetails.name,
@@ -26,11 +26,14 @@ exports.forgotPassword = async (req, res, next) => {
       role: userDetails.role,
       resetURL: `${req.protocol}://${req.hostname}:${req.port}/reset-password/${resetToken}`,
       year: today.getFullYear()
-    }
+    };
     await userDetails.save();
     notify(emailPayload);
 
-    res.json({ status: 200, message: `Password resend link has been sent to ${emailPayload.email}, valid for only 10 minutes` });
+    res.json({
+      status: 200,
+      message: `Password resend link has been sent to ${emailPayload.email}, valid for only 10 minutes`
+    });
   } catch (error) {
     userDetails.password_reset_token = undefined;
     userDetails.password_reset_expires = undefined;
@@ -41,15 +44,15 @@ exports.forgotPassword = async (req, res, next) => {
       message: 'There was an error sending the email. Try again later!'
     });
   }
-}
+};
 
 exports.resetDefaultPassword = async (req, res, next) => {
   try {
-    const { new_password } = req.body
+    const { new_password } = req.body;
     const user = await User.findById(req.user.id);
 
     user.password = await encryptPassword(new_password);
-    user.activated = true
+    user.activated = true;
 
     await user.save();
     res.json({ status: 200, message: 'Password has been changed' });
@@ -59,7 +62,7 @@ exports.resetDefaultPassword = async (req, res, next) => {
       message: error.message
     });
   }
-}
+};
 
 exports.resetPassword = async (req, res, next) => {
   try {
@@ -75,7 +78,7 @@ exports.resetPassword = async (req, res, next) => {
       return next({
         status: 500,
         message: `Invalid token or has expired!`
-      })
+      });
     }
 
     userDetails.password = await encryptPassword(req.body.password);
@@ -93,14 +96,14 @@ exports.resetPassword = async (req, res, next) => {
     };
     //Return JWT Token
     const token = await generateToken(payload);
-    res.json({ token })
+    res.json({ token });
   } catch (error) {
     next({
       status: 500,
       message: 'Invalid token or has expired!'
     });
   }
-}
+};
 
 exports.changePassword = async (req, res, next) => {
   try {
@@ -126,7 +129,7 @@ exports.changePassword = async (req, res, next) => {
       message: error.message
     });
   }
-}
+};
 
 async function encryptPassword(password) {
   const salt = await bcrypt.genSalt(10);

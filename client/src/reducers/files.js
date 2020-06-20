@@ -1,11 +1,11 @@
-import { LOAD_TRANSLATION_FILES, LOAD_REVIEW_FILES, LOAD_TRANSLATED_FILES, FILE_ERROR } from '../actions/constants'
+import { LOAD_TRANSLATION_FILES, LOAD_REVIEW_FILES, LOAD_TRANSLATED_FILES, FILE_ERROR } from '../actions/constants';
 
 const initialState = {
   translationFiles: [],
   reviewFiles: [],
   translatedFiles: [],
   loading: true
-}
+};
 
 export default (state = initialState, action) => {
   const { type, payload } = action;
@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
         ...state,
         translatedFiles: payload,
         loading: false
-      }
+      };
 
     case FILE_ERROR:
       return {
@@ -40,4 +40,4 @@ export default (state = initialState, action) => {
     default:
       return state;
   }
-}
+};

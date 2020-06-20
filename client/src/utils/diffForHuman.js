@@ -19,17 +19,23 @@ export const diffForHumans = (time) => {
 
   let remainTime = `${days > 0 ? days : ''} ${days === 0 ? '' : days === 1 ? 'day, ' : 'days, '}
   ${hours > 0 ? hours : ''} ${hours === 0 ? '' : hours === 1 ? 'hour, ' : 'hours, '} 
-  ${minutes > 0 ? minutes : ''} ${minutes === 0 ? '' : minutes === 1 ? 'minute' : 'minutes'}`
+  ${minutes > 0 ? minutes : ''} ${minutes === 0 ? '' : minutes === 1 ? 'minute' : 'minutes'}`;
 
-  return ((unixTime > d.getTime()) ? remainTime : 'Overdue')
-}
+  return unixTime > d.getTime() ? remainTime : 'Overdue';
+};
 
 export const convertDate = (date) => {
   const ISOdate = new Date(date);
-  return ISOdate.toLocaleString('en', { month: 'short', year: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-}
+  return ISOdate.toLocaleString('en', {
+    month: 'short',
+    year: 'numeric',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+};
 
-export const timeSince = date => {
+export const timeSince = (date) => {
   const timeStamp = new Date(date);
   let secondsPast = (Date.now() - timeStamp) / 1000;
   if (secondsPast < 60) {
@@ -44,4 +50,4 @@ export const timeSince = date => {
   if (secondsPast > 86400) {
     return convertDate(timeStamp);
   }
-}
+};

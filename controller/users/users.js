@@ -6,14 +6,13 @@ let allUsers = async (req, res, next) => {
 
     //Check if query string Exists
     if (Object.keys(req.query).length !== 0) {
-
       //Valid qusery role
       if (req.query.role && ['admin', 'developer', 'linguist', 'reviewer'].includes(req.query.role.toLowerCase()))
-        return res.json(listOfUsers.filter(value => value.role.toLowerCase() === req.query.role.toLowerCase()));
+        return res.json(listOfUsers.filter((value) => value.role.toLowerCase() === req.query.role.toLowerCase()));
       else
         return next({
           status: 400,
-          message: "Invalid query: role, role includes [Admin, Developer, Linguist, Reviewer]"
+          message: 'Invalid query: role, role includes [Admin, Developer, Linguist, Reviewer]'
         });
     }
 
@@ -24,7 +23,7 @@ let allUsers = async (req, res, next) => {
       message: error.message
     });
   }
-}
+};
 
 let getUser = async (req, res, next) => {
   try {
@@ -36,9 +35,9 @@ let getUser = async (req, res, next) => {
       message: 'Authentication Error'
     });
   }
-}
+};
 
 module.exports = {
   allUsers,
   getUser
-}
+};

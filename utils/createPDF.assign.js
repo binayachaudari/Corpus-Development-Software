@@ -4,10 +4,9 @@ var options = { format: 'A3', orientation: 'landscape', timeout: '100000' };
 const sendMail = require('./emailTemplate/assign.mail');
 
 module.exports = async (payload) => {
-  payload.filepath = await createPDF(assignmentPDFTemplate, options, payload)
+  payload.filepath = await createPDF(assignmentPDFTemplate, options, payload);
   sendMail(payload);
-}
-
+};
 
 function createPDF(template, options, payload) {
   let pdfPath = `./Reports/Assign/${payload.file_id}.pdf`;

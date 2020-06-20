@@ -1,9 +1,9 @@
-import { ALL_USERS_LOADED, ERROR_LOADING_ALL_USERS } from '../actions/constants'
+import { ALL_USERS_LOADED, ERROR_LOADING_ALL_USERS } from '../actions/constants';
 
 const initialState = {
   loading: true,
   all_users: null
-}
+};
 
 export default (state = initialState, action) => {
   const { type, payload } = action;
@@ -20,9 +20,9 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false
-      }
+      };
 
     default:
       return state;
   }
-}
+};

@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 const FilesSchema = mongoose.Schema({
   filename: {
     type: String,

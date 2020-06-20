@@ -17,7 +17,7 @@ const AlertComponent = ({ alertProp }) => {
       alertType: alertProp.alertType,
       dismissible: alertProp.dismissible
     });
-  }, [alertProp])
+  }, [alertProp]);
 
   if (message) {
     return (
@@ -27,10 +27,10 @@ const AlertComponent = ({ alertProp }) => {
     );
   }
   return null;
-}
+};
 
 AlertComponent.propTypes = {
-  alertProp: PropTypes.object.isRequired,
-}
+  alertProp: PropTypes.object.isRequired
+};
 
 export default AlertComponent;
